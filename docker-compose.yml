@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  hk-emergency-services:
+    build: .
+    container_name: hk-emergency-services-website
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    labels:
+      - "com.docker.compose.project=hk-emergency-services"
+      - "description=Hong Kong Emergency Services Info Website"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a development server with file watching
+  hk-emergency-services-dev:
+    image: nginx:alpine
+    container_name: hk-emergency-services-dev
+    ports:
+      - "3000:80"
+    volumes:
+      - .:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    profiles:
+      - dev
+    labels:
+      - "com.docker.compose.project=hk-emergency-services"
+      - "description=Development server with live reload"

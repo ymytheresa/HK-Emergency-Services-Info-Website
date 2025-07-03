@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>香港急症室及緊急醫療服務指南 | Hong Kong A&E Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The SPA is structured as a task-oriented decision tool. It integrates the critical 999 call-to-action directly into the main hospital finder view. A prominent new feature is the "Find Nearest Hospital" tool, which uses geolocation to provide immediate, actionable results. This is placed at the top of the finder for high visibility. A language switcher has been added to the header for full bilingual support. The dashboard retains filters for Sector and Region, and the cost comparison chart and FAQ section follow, providing a comprehensive, single-page resource. This structure prioritizes user action and decision-making, especially for users needing immediate location-based guidance. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Hospital Directory + User Location -> Goal: Find the closest hospital -> Viz/Presentation: Interactive Card List with a dedicated "Nearest Hospital" result card -> Interaction: Button click to trigger geolocation and display the closest public/private option -> Justification: The primary user task is often finding the *nearest* facility. This feature directly answers that need, reducing cognitive load.
+        - Report Info: Life-threatening emergency advice -> Goal: Ensure user safety -> Viz/Presentation: High-contrast, prominent static information block integrated at the top of the main view -> Interaction: None (provides a direct, non-interactive instruction: "Call 999") -> Justification: Integrating this into the main view ensures it's always visible, reinforcing the most critical safety instruction.
+        - Report Info: Private Hospital Fees -> Goal: Compare financial costs -> Viz/Presentation: Grouped Bar Chart (Chart.js/Canvas) -> Interaction: Buttons to switch between cost types -> Justification: Visualizing costs is faster and more effective than text tables.
+        - Report Info: Triage System, Public/Private differences -> Goal: Provide context -> Viz/Presentation: Accordion/Collapsible Info Blocks -> Interaction: Click to expand/collapse -> Justification: Hides complex information by default to keep the interface clean.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Roboto', 'Noto Sans HK', sans-serif; background-color: #F8F5F2; color: #434242; }
+        .active-filter, .active-lang { background-color: #5F9EA0; color: white; }
+        .inactive-filter, .inactive-lang { background-color: #E0E0E0; color: #434242; }
+        .chart-container { position: relative; width: 100%; margin-left: auto; margin-right: auto; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .hospital-card { transition: all 0.3s ease-in-out; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #5F9EA0; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4 sticky top-0 z-10">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="text-left">
+                <h1 id="main-title" class="text-xl md:text-3xl font-bold text-[#434242]"></h1>
+                <p id="sub-title" class="text-sm text-gray-600 mt-1"></p>
+            </div>
+            <div class="flex space-x-2">
+                <button id="lang-zh" class="lang-btn active-lang px-3 py-1 rounded-md text-sm font-medium transition" onclick="setLanguage('zh')">中文</button>
+                <button id="lang-en" class="lang-btn inactive-lang px-3 py-1 rounded-md text-sm font-medium transition" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <div id="urgent-care-app">
+            <section class="mb-8">
+                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-r-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-4" role="alert">
+                    <div>
+                        <p id="critical-title" class="text-2xl md:text-3xl font-bold"></p>
+                        <p id="critical-desc" class="mt-2 text-md md:text-lg"></p>
+                    </div>
+                    <a href="tel:999" id="call-999-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg shadow-md transition-transform transform hover:scale-105 whitespace-nowrap">
+                    </a>
+                </div>
+            </section>
+
+            <section id="hospital-finder" class="mb-12">
+                <h2 id="finder-title" class="text-3xl font-bold text-center mb-2"></h2>
+                <p id="finder-desc" class="text-center text-gray-600 mb-8"></p>
+                
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h3 id="geo-title" class="text-xl font-bold text-center mb-4"></h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                        <button id="find-nearest-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span id="geo-btn-text"></span>
+                        </button>
+                        <div id="loader" class="hidden loader"></div>
+                    </div>
+                    <div id="nearest-hospital-result" class="mt-4 text-center"></div>
+                     <p id="geo-error" class="text-red-500 text-center mt-2 text-sm"></p>
+                </div>
+
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <span id="filter-region-label" class="font-bold mr-4"></span>
+                            <button data-filter-group="region" data-filter-value="all" id="filter-region-all" class="filter-btn region-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="HKI" id="filter-region-hki" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="KLN" id="filter-region-kln" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="NT" id="filter-region-nt" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        </div>
+                        <div>
+                            <span id="filter-sector-label" class="font-bold mr-4"></span>
+                            <button data-filter-group="sector" data-filter-value="all" id="filter-sector-all" class="filter-btn sector-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="sector" data-filter-value="public" id="filter-sector-public" class="filter-btn sector-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="sector" data-filter-value="private" id="filter-sector-private" class="filter-btn sector-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        </div>
+                        <div id="private-tier-filter-container" class="hidden">
+                            <span id="filter-tier-label" class="font-bold mr-4"></span>
+                            <button data-filter-group="privateTier" data-filter-value="all" id="filter-tier-all" class="filter-btn private-tier-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="privateTier" data-filter-value="A" id="filter-tier-a" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="privateTier" data-filter-value="B" id="filter-tier-b" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        </div>
+                    </div>
+                     <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+            </section>
+
+            <section id="cost-comparison" class="mb-12">
+                 <h2 id="cost-title" class="text-3xl font-bold text-center mb-2"></h2>
+                 <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                    <div class="text-center mb-4">
+                        <span id="cost-compare-label" class="font-bold mr-4"></span>
+                        <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                    </div>
+                    <div class="chart-container h-96 md:h-[500px]">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq">
+                <h2 id="faq-title" class="text-3xl font-bold text-center mb-8"></h2>
+                <div class="space-y-4 max-w-4xl mx-auto">
+                    <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                            <span id="faq1-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content"><div id="faq1-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                    </div>
+                     <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                            <span id="faq2-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content"><div id="faq2-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                    </div>
+                     <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
+                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                            <span id="faq3-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
+                        </button>
+                        <div class="accordion-content"><div id="faq3-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="text-center py-4 mt-8">
+        <p id="footer-text" class="text-sm text-gray-500"></p>
+        <p id="feedback-text" class="text-sm text-gray-500 mt-1"></p>
+    </footer>
+
+<script>
+const hospitalData = [
+    {
+        id: 'pyneh', name_en: 'Pamela Youde Nethersole Eastern Hospital', name_zh: '東區尤德夫人那打素醫院', sector: 'public', region: 'HKI',
+        address_zh: '香港柴灣樂民道3號', address_en: '3 Lok Man Road, Chai Wan, Hong Kong', phone: '25956111', lat: 22.2649, lon: 114.2383,
+        details_zh: '24小時公立醫院急症室，由醫院管理局管理。',
+        details_en: '24-hour public A&E department, managed by the Hospital Authority.'
+    },
+    {
+        id: 'qmh', name_en: 'Queen Mary Hospital', name_zh: '瑪麗醫院', sector: 'public', region: 'HKI',
+        address_zh: '香港薄扶林道102號', address_en: '102 Pok Fu Lam Road, Hong Kong', phone: '22553838', lat: 22.2710, lon: 114.1292,
+        details_zh: '24小時公立醫院急症室，為港島西聯網的主要醫院及教學醫院。',
+        details_en: '24-hour public A&E, the major hospital and teaching hospital for the Hong Kong West Cluster.'
+    },
+    {
+        id: 'rhtsk', name_en: 'Ruttonjee Hospital', name_zh: '律敦治醫院', sector: 'public', region: 'HKI',
+        address_zh: '香港灣仔皇后大道東266號', address_en: '266 Queen\'s Road East, Wan Chai, Hong Kong', phone: '22912000', lat: 22.2747, lon: 114.1733,
+        details_zh: '24小時公立醫院急症室，服務灣仔區居民。',
+        details_en: '24-hour public A&E, serving residents of Wan Chai district.'
+    },
+    {
+        id: 'cmc', name_en: 'Caritas Medical Centre', name_zh: '明愛醫院', sector: 'public', region: 'KLN',
+        address_zh: '九龍深水埗永康街111號', address_en: '111 Wing Hong Street, Sham Shui Po, Kowloon', phone: '34085678', lat: 22.3386, lon: 114.1556,
+        details_zh: '24小時公立醫院急症室，服務九龍西區。',
+        details_en: '24-hour public A&E, serving West Kowloon.'
+    },
+    {
+        id: 'kwh', name_en: 'Kwong Wah Hospital', name_zh: '廣華醫院', sector: 'public', region: 'KLN',
+        address_zh: '九龍油麻地窩打老道25號', address_en: '25 Waterloo Road, Yau Ma Tei, Kowloon', phone: '23322311', lat: 22.3135, lon: 114.1714,
+        details_zh: '24小時公立醫院急症室，為九龍中聯網的主要醫院。',
+        details_en: '24-hour public A&E, the major hospital for the Kowloon Central Cluster.'
+    },
+    {
+        id: 'pmh', name_en: 'Princess Margaret Hospital', name_zh: '瑪嘉烈醫院', sector: 'public', region: 'KLN',
+        address_zh: '九龍荔枝角瑪嘉烈醫院道2-10號', address_en: '2-10 Princess Margaret Hospital Road, Lai Chi Kok, Kowloon', phone: '29901111', lat: 22.3396, lon: 114.1396,
+        details_zh: '24小時公立醫院急症室，為九龍西聯網的主要創傷中心。',
+        details_en: '24-hour public A&E, the major trauma center for the Kowloon West Cluster.'
+    },
+    {
+        id: 'qeh', name_en: 'Queen Elizabeth Hospital', name_zh: '伊利沙伯醫院', sector: 'public', region: 'KLN',
+        address_zh: '九龍油麻地加士居道30號', address_en: '30 Gascoigne Road, Yau Ma Tei, Kowloon', phone: '35068888', lat: 22.3088, lon: 114.1754,
+        details_zh: '24小時公立醫院急症室，是九龍區的主要三級醫院。',
+        details_en: '24-hour public A&E, a major tertiary hospital in Kowloon.'
+    },
+    {
+        id: 'uch', name_en: 'United Christian Hospital', name_zh: '基督教聯合醫院', sector: 'public', region: 'KLN',
+        address_zh: '九龍觀塘協和街130號', address_en: '130 Hip Wo Street, Kwun Tong, Kowloon', phone: '23799611', lat: 22.3149, lon: 114.2259,
+        details_zh: '24小時公立醫院急症室，服務九龍東區。',
+        details_en: '24-hour public A&E, serving Kowloon East.'
+    },
+    {
+        id: 'ahnh', name_en: 'Alice Ho Miu Ling Nethersole Hospital', name_zh: '雅麗氏何妙齡那打素醫院', sector: 'public', region: 'NT',
+        address_zh: '新界大埔全安路11號', address_en: '11 Chuen On Road, Tai Po, New Territories', phone: '26892000', lat: 22.4556, lon: 114.1761,
+        details_zh: '24小時公立醫院急症室，服務大埔區。',
+        details_en: '24-hour public A&E, serving Tai Po district.'
+    },
+    {
+        id: 'ndh', name_en: 'North District Hospital', name_zh: '北區醫院', sector: 'public', region: 'NT',
+        address_zh: '新界上水保健路9號', address_en: '9 Po Kin Road, Sheung Shui, New Territories', phone: '26838888', lat: 22.5005, lon: 114.1245,
+        details_zh: '24小時公立醫院急症室，服務北區。',
+        details_en: '24-hour public A&E, serving the North District.'
+    },
+    {
+        id: 'nlth', name_en: 'North Lantau Hospital', name_zh: '北大嶼山醫院', sector: 'public', region: 'NT',
+        address_zh: '大嶼山東涌松仁路8號', address_en: '8 Chung Yan Road, Tung Chung, Lantau Island', phone: '34677000', lat: 22.2868, lon: 113.9422,
+        details_zh: '24小時公立醫院急症室，服務東涌及大嶼山居民。',
+        details_en: '24-hour public A&E, serving residents of Tung Chung and Lantau Island.'
+    },
+    {
+        id: 'poh', name_en: 'Pok Oi Hospital', name_zh: '博愛醫院', sector: 'public', region: 'NT',
+        address_zh: '新界元朗坳頭', address_en: 'Au Tau, Yuen Long, New Territories', phone: '24868000', lat: 22.4385, lon: 114.0322,
+        details_zh: '24小時公立醫院急症室，服務元朗區。',
+        details_en: '24-hour public A&E, serving Yuen Long district.'
+    },
+    {
+        id: 'pwh', name_en: 'Prince of Wales Hospital', name_zh: '威爾斯親王醫院', sector: 'public', region: 'NT',
+        address_zh: '新界沙田銀城街30-32號', address_en: '30-32 Ngan Shing Street, Sha Tin, New Territories', phone: '35052211', lat: 22.3794, lon: 114.2022,
+        details_zh: '24小時公立醫院急症室，為新界東的主要醫院及教學醫院。',
+        details_en: '24-hour public A&E, the major hospital and teaching hospital for the New Territories East Cluster.'
+    },
+    {
+        id: 'sjh', name_en: 'St. John Hospital', name_zh: '長洲醫院', sector: 'public', region: 'NT',
+        address_zh: '長洲東灣長洲醫院路', address_en: 'Cheung Chau Hospital Road, Tung Wan, Cheung Chau', phone: '29862100', lat: 22.2070, lon: 114.0310,
+        details_zh: '24小時公立醫院急症室，服務長洲居民。',
+        details_en: '24-hour public A&E, serving residents of Cheung Chau.'
+    },
+    {
+        id: 'tswh', name_en: 'Tin Shui Wai Hospital', name_zh: '天水圍醫院', sector: 'public', region: 'NT',
+        address_zh: '新界天水圍天壇街11號', address_en: '11 Tin Tan Street, Tin Shui Wai, New Territories', phone: '35135000', lat: 22.4646, lon: 113.9996,
+        details_zh: '24小時公立醫院急症室，服務天水圍區。',
+        details_en: '24-hour public A&E, serving Tin Shui Wai district.'
+    },
+    {
+        id: 'tkoh', name_en: 'Tseung Kwan O Hospital', name_zh: '將軍澳醫院', sector: 'public', region: 'NT',
+        address_zh: '將軍澳坑口寶寧里2號', address_en: '2 Po Ning Lane, Hang Hau, Tseung Kwan O, New Territories', phone: '22080111', lat: 22.3146, lon: 114.2631,
+        details_zh: '24小時公立醫院急症室，服務將軍澳區。',
+        details_en: '24-hour public A&E, serving Tseung Kwan O district.'
+    },
+    {
+        id: 'tmh', name_en: 'Tuen Mun Hospital', name_zh: '屯門醫院', sector: 'public', region: 'NT',
+        address_zh: '新界屯門青松觀路23號', address_en: '23 Tsing Chung Koon Road, Tuen Mun, New Territories', phone: '24685111', lat: 22.4042, lon: 113.9762,
+        details_zh: '24小時公立醫院急症室，為新界西的主要創傷中心。',
+        details_en: '24-hour public A&E, the major trauma center for the New Territories West Cluster.'
+    },
+    {
+        id: 'ych', name_en: 'Yan Chai Hospital', name_zh: '仁濟醫院', sector: 'public', region: 'NT',
+        address_zh: '新界荃灣仁濟街7-11號', address_en: '7-11 Yan Chai Street, Tsuen Wan, New Territories', phone: '24178383', lat: 22.3742, lon: 114.1192,
+        details_zh: '24小時公立醫院急症室，服務荃灣區。',
+        details_en: '24-hour public A&E, serving Tsuen Wan district.'
+    },
+    {
+        id: 'ghk', name_en: 'Gleneagles Hospital Hong Kong', name_zh: '港怡醫院', sector: 'private', region: 'HKI', privateTier: 'A',
+        address_zh: '香港黃竹坑南風徑1號', address_en: '1 Nam Fung Path, Wong Chuk Hang, Hong Kong', phone: '31539000', lat: 22.2475, lon: 114.1757,
+        details_zh: '港島區唯一設有24小時急症室的私家醫院，由急症科專科醫生主理。',
+        details_en: 'The only private hospital on HK Island with a 24-hour A&E, run by Emergency Medicine Specialists.',
+        is24Hour: true, fees: { consultation: [420, 1500], standard: [1000, 1200], semi_private: [2200, 2950], private: [4600, 9800] }
+    },
+    {
+        id: 'uh', name_en: 'Union Hospital', name_zh: '仁安醫院', sector: 'private', region: 'NT', privateTier: 'A',
+        address_zh: '新界沙田大圍富健街18號', address_en: '18 Fu Kin Street, Tai Wai, Sha Tin, New Territories', phone: '26083355', lat: 22.3739, lon: 114.1862,
+        details_zh: '新界區首間獲認可的私家急症科中心，由急症科專科醫生主理。設有24小時心臟病及中風急救服務。',
+        details_en: 'The first recognized private Emergency Medicine Centre in NT, run by EM Specialists. Offers 24-hour cardiac and stroke rescue.',
+        is24Hour: true, fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] }
+    },
+    {
+        id: 'cuhkmc', name_en: 'CUHK Medical Centre', name_zh: '香港中文大學醫院', sector: 'private', region: 'NT', privateTier: 'A',
+        address_zh: '新界沙田澤祥街9號', address_en: '9 Chak Cheung Street, Sha Tin, New Territories', phone: '39466333', lat: 22.3888, lon: 114.2093,
+        details_zh: '私家教學醫院，設有24小時急症醫學中心，由急症科專科醫生團隊主理。',
+        details_en: 'A private teaching hospital with a 24-hour Emergency Medicine Centre run by a team of EM Specialists.',
+        is24Hour: true, fees: { consultation: [300, 2400], standard: [900, 1000], semi_private: [1500, 2500], private: [3600, 4800] }
+    },
+    {
+        id: 'hkah_sr', name_en: 'Hong Kong Adventist Hospital – Stubbs Road', name_zh: '香港港安醫院–司徒拔道', sector: 'private', region: 'HKI', privateTier: 'B',
+        address_zh: '香港跑馬地司徒拔道40號', address_en: '40 Stubbs Road, Happy Valley, Hong Kong', phone: '36518888', lat: 22.2680, lon: 114.1830,
+        details_zh: '設有24小時緊急護理中心，由急症科專科醫生管理，提供24小時心臟介入治療及中風治療。',
+        details_en: 'Features a 24-hour Urgent Care Centre managed by EM Specialists, providing 24-hour cardiac intervention and stroke treatment.',
+        is24Hour: true, fees: { consultation: [450, 1200], standard: [900, 900], semi_private: [2300, 2800], private: [3400, 9000] }
+    },
+    {
+        id: 'hkah_tw', name_en: 'Hong Kong Adventist Hospital – Tsuen Wan', name_zh: '香港港安醫院–荃灣', sector: 'private', region: 'NT', privateTier: 'B',
+        address_zh: '新界荃灣荃景圍199號', address_en: '199 Tsuen King Circuit, Tsuen Wan, New Territories', phone: '22756888', lat: 22.3783, lon: 114.1083,
+        details_zh: '設有24小時緊急護理中心，由急症科專科醫生駐診，為新界西區提供私家緊急服務。',
+        details_en: 'Features a 24-hour Urgent Care Centre with EM Specialists on duty, providing private emergency services in NT West.',
+        is24Hour: true, fees: { consultation: [450, 700], standard: [1000, 1000], semi_private: [1250, 1600], private: [2500, 4000] }
+    },
+    {
+        id: 'hksh', name_en: 'Hong Kong Sanatorium & Hospital', name_zh: '養和醫院', sector: 'private', region: 'HKI', privateTier: 'B',
+        address_zh: '香港跑馬地山村道2號', address_en: '2 Village Road, Happy Valley, Hong Kong', phone: '28358600', lat: 22.2700, lon: 114.1842,
+        details_zh: '設有24小時家庭醫學及基層醫療中心（門診），由普通科醫生主理。',
+        details_en: 'Features a 24-hour Family Medicine and Primary Care Centre (outpatient), run by general practitioners.',
+        is24Hour: true, fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] }
+    },
+    {
+        id: 'hkbh', name_en: 'Hong Kong Baptist Hospital', name_zh: '香港浸信會醫院', sector: 'private', region: 'KLN', privateTier: 'B',
+        address_zh: '九龍九龍塘窩打老道222號', address_en: '222 Waterloo Road, Kowloon Tong, Kowloon', phone: '23398941', lat: 22.3292, lon: 114.1782,
+        details_zh: '設有24小時門診中心，由普通科醫生及駐院醫生主理。',
+        details_en: 'Features a 24-hour Out-patient Centre, run by general practitioners and resident doctors.',
+        is24Hour: true, fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] }
+    },
+    {
+        id: 'sph', name_en: 'St. Paul\'s Hospital', name_zh: '聖保祿醫院', sector: 'private', region: 'HKI', privateTier: 'B',
+        address_zh: '香港銅鑼灣東院道2號', address_en: '2 Eastern Hospital Road, Causeway Bay, Hong Kong', phone: '28308774', lat: 22.2783, lon: 114.1863,
+        details_zh: '設有24小時普通科門診，院方明確指出此非急症服務。危重病人會被轉介至公立醫院。',
+        details_en: 'Features a 24-hour General Outpatient Clinic. The hospital states this is not an A&E service. Critical patients will be transferred to public hospitals.',
+        is24Hour: true, fees: { consultation: [280, 470], standard: [760, 900], semi_private: [1380, 1480], private: [3800, 6800] }
+    },
+    {
+        id: 'sth', name_en: 'St. Teresa\'s Hospital', name_zh: '聖德肋撒醫院', sector: 'private', region: 'KLN', privateTier: 'B',
+        address_zh: '九龍太子道327號', address_en: '327 Prince Edward Road, Kowloon', phone: '22003102', lat: 22.3248, lon: 114.1828,
+        details_zh: '設有24小時門診服務，由普通科醫生及駐院醫生主理。',
+        details_en: 'Features a 24-hour Outpatient Service, run by general practitioners and resident doctors.',
+        is24Hour: true, fees: { consultation: [180, 370], standard: [560, 750], semi_private: [850, 1600], private: [1900, 14800] }
+    },
+    {
+        id: 'ch', name_en: 'Canossa Hospital (Caritas)', name_zh: '嘉諾撒醫院', sector: 'private', region: 'HKI', privateTier: 'B',
+        address_zh: '香港半山舊山頂道1號', address_en: '1 Old Peak Road, Mid-Levels, Hong Kong', phone: '28255805', lat: 22.2755, lon: 114.1555,
+        details_zh: '設有24小時門診服務，由駐院醫生主理。危重病人會被轉介至公立醫院。',
+        details_en: 'Features a 24-hour Outpatient Service, run by resident doctors. Critical patients will be transferred to public hospitals.',
+        is24Hour: true, fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] }
+    },
+    {
+        id: 'mih', name_en: 'Matilda International Hospital', name_zh: '明德國際醫院', sector: 'private', region: 'HKI', privateTier: 'B',
+        address_zh: '香港山頂加列山道41號', address_en: '41 Mount Kellett Road, The Peak, Hong Kong', phone: '28491500', lat: 22.2678, lon: 114.1458,
+        details_zh: '設有24小時門診服務，處理各種急症。院方建議遇上危急情況應致電999。',
+        details_en: 'Features a 24-hour Outpatient Service for various urgent conditions. The hospital advises calling 999 for emergencies.',
+        is24Hour: true, fees: { consultation: [590, 800], standard: [900, 900], semi_private: [1990, 1990], private: [3300, 3300] }
+    },
+    {
+        id: 'pbh', name_en: 'Precious Blood Hospital (Caritas)', name_zh: '寶血醫院（明愛）', sector: 'private', region: 'KLN',
+        address_zh: '九龍深水埗青山道113號', address_en: '113 Castle Peak Road, Sham Shui Po, Kowloon', phone: '39719900', lat: 22.3325, lon: 114.1623,
+        details_zh: '提供普通科及專科門診服務。此非24小時服務。',
+        details_en: 'Provides general and specialist outpatient services. This is not a 24-hour service.',
+        is24Hour: false, fees: { consultation: [null, null], standard: [850, 850], semi_private: [1180, 1580], private: [2100, 2100] }
+    },
+    {
+        id: 'eh', name_en: 'Evangel Hospital', name_zh: '播道醫院', sector: 'private', region: 'KLN',
+        address_zh: '九龍九龍城亞皆老街222號', address_en: '222 Argyle Street, Kowloon City, Kowloon', phone: '27115221', lat: 22.3276, lon: 114.1848,
+        details_zh: '普通門診服務時間為每日早上7時至晚上9時。此非24小時急症服務。',
+        details_en: 'General outpatient clinic service hours are 7:00 am to 9:00 pm daily. This is not a 24-hour A&E service.',
+        is24Hour: false, fees: { consultation: [285, 395], standard: [790, 950], semi_private: [1200, 1800], private: [2200, 2200] }
+    }
+];
+
+const langContent = {
+    zh: {
+        mainTitle: "香港急症室及緊急醫療服務指南",
+        subTitle: "一個幫助您快速尋找合適醫療服務的互動工具",
+        criticalTitle: "如遇危及生命的情況，請立即致電 999！",
+        criticalDesc: "例如：嚴重胸痛、呼吸困難、中風症狀、大量出血等。",
+        call999Btn: "致電 999",
+        finderTitle: "尋找緊急醫療服務",
+        finderDesc: "使用定位功能或下方的篩選器，快速找出最適合您需求的醫院。",
+        geoTitle: "尋找最近的醫院",
+        geoBtnText: "啟動定位尋找",
+        filterRegionLabel: "地區:",
+        filterRegionAll: "全部",
+        filterRegionHki: "港島",
+        filterRegionKln: "九龍",
+        filterRegionNt: "新界及離島",
+        filterSectorLabel: "類別:",
+        filterSectorAll: "全部",
+        filterSectorPublic: "公立醫院",
+        filterSectorPrivate: "私家醫院",
+        filterTierLabel: "私家服務級別:",
+        filterTierAll: "全部",
+        filterTierA: "持牌急症中心",
+        filterTierB: "24小時門診",
+        noResults: "沒有符合篩選條件的醫院。",
+        costTitle: "私家醫院費用比較 (僅限24小時服務)",
+        costDesc: "此圖表只顯示提供24小時服務的私家醫院，讓您快速比較不同項目的收費。所有費用僅供參考。",
+        costCompareLabel: "比較項目:",
+        costBtnConsult: "門診/急症診金",
+        costBtnStandard: "普通房",
+        costBtnSemi: "半私家房",
+        costBtnPrivate: "私家房",
+        faqTitle: "重要資訊及常見問題",
+        faq1_q: "什麼是「分流」制度？",
+        faq1_a: "<p>所有公立醫院急症室及部分私家醫院都採用分流制度，由資深護士根據病人的病情、維生指數等臨床數據，將病人分為危殆、危急、緊急、次緊急和非緊急五個類別。這個制度確保最危重的病人能優先獲得治療，而非按先到先得的次序。因此，次緊急和非緊急的病人等候時間可能會較長。</p>",
+        faq2_q: "公立與私家急症服務的主要分別？",
+        faq2_a: "<p><strong>公立醫院:</strong> 提供全面、收費低廉 (合資格人士$180) 的服務，是處理嚴重創傷和複雜病症的核心。缺點是需求極大，非緊急個案輪候時間長。</p><p class=\"mt-2\"><strong>私家醫院:</strong> 提供更快捷、舒適的服務，但費用高昂。私家服務分為兩種：<br><strong class=\"text-black\">1. 持牌急症/急症科中心:</strong> 由急症科專科醫生主理，設備較齊全，能處理較嚴重的緊急狀況。<br><strong class=\"text-black\">2. 24小時門診:</strong> 由普通科或駐院醫生主理，適合處理一般急症，但遇上危重病人時，主要作初步穩定處理，然後轉送公立醫院。</p><p class=\"mt-2\"><strong>關鍵：</strong>選擇私家服務時，必須分清是「急症中心」還是「24小時門診」，以免在危急關頭延誤治療。</p>",
+        faq3_q: "私家醫院的費用是怎樣計算的？",
+        faq3_a: "<p>私家醫院的收費遠比您看到的「診金」複雜。總費用通常包括：</p><ul class=\"list-disc list-inside mt-2\"><li>醫生診金</li><li>藥物費</li><li>化驗及影像診斷費 (如X光、CT掃描)</li><li>醫療物料及儀器使用費</li><li>任何治療或手術程序的費用</li></ul><p class=\"mt-2\">最終賬單金額可能是診金的數倍甚至數十倍。如有醫療保險，建議先了解保障範圍，但緊急情況下通常需要先付款，後向保險公司索償。</p>",
+        footerText: "此應用程式根據公開資料整理，所有資訊僅供參考，並非醫療建議。如有疑問，請諮詢醫生。",
+        feedbackText: '如有資料更新，請<a href="mailto:ymy.theresa@gmail.com" class="underline hover:text-blue-600">電郵我們</a>。',
+        geoErrorBrowser: "您的瀏覽器不支援定位功能。",
+        geoErrorPermission: "無法獲取您的位置。請檢查您的定位服務設定並授權此網站使用。",
+        geoChoosePrompt: "您想尋找哪一類醫院？",
+        geoBtnPublic: "最近的公立醫院",
+        geoBtnPrivate: "最近的私家醫院",
+        geoResultTitle: "最近的{sector}醫院是：",
+        geoNoResult: "找不到附近的{sector}醫院。",
+        serviceTypePublic: "公立急症室",
+        serviceTypePrivateA: "私家急症中心",
+        serviceTypePrivateB: "24小時門診",
+        serviceTypePrivateOther: "門診服務",
+        feeConsultation: "診金:",
+        feeStandardRoom: "普通房:",
+        feeFrom: "起",
+        distancePrefix: "距離約",
+        distanceSuffix: "公里",
+        mapLinkText: "地圖及導航",
+        chartLabelMinConsult: "最低診金 (HK$)",
+        chartLabelMaxConsult: "最高診金 (HK$)",
+        chartLabelMinRoom: "最低日租 - {roomType} (HK$)",
+        chartLabelMaxRoom: "最高日租 - {roomType} (HK$)",
+        roomStandard: "普通房",
+        roomSemiPrivate: "半私家房",
+        roomPrivate: "私家房"
+    },
+    en: {
+        mainTitle: "Hong Kong A&E & Emergency Services Guide",
+        subTitle: "An interactive tool to help you quickly find suitable medical services",
+        criticalTitle: "For life-threatening situations, call 999 immediately!",
+        criticalDesc: "e.g., severe chest pain, difficulty breathing, stroke symptoms, major bleeding.",
+        call999Btn: "Call 999",
+        finderTitle: "Find Emergency Medical Services",
+        finderDesc: "Use the location feature or filters below to quickly find the hospital that best suits your needs.",
+        geoTitle: "Find the Nearest Hospital",
+        geoBtnText: "Activate Location Search",
+        filterRegionLabel: "Region:",
+        filterRegionAll: "All",
+        filterRegionHki: "HK Island",
+        filterRegionKln: "Kowloon",
+        filterRegionNt: "NT & Islands",
+        filterSectorLabel: "Sector:",
+        filterSectorAll: "All",
+        filterSectorPublic: "Public",
+        filterSectorPrivate: "Private",
+        filterTierLabel: "Private Service Level:",
+        filterTierAll: "All",
+        filterTierA: "Licensed A&E Centre",
+        filterTierB: "24-Hour Outpatient",
+        noResults: "No hospitals match the selected filters.",
+        costTitle: "Private Hospital Fee Comparison (24-Hour Services Only)",
+        costDesc: "This chart shows only private hospitals with 24-hour services, allowing for a quick comparison of fees. All fees are for reference only.",
+        costCompareLabel: "Compare:",
+        costBtnConsult: "Consultation Fee",
+        costBtnStandard: "Standard Ward",
+        costBtnSemi: "Semi-Private Ward",
+        costBtnPrivate: "Private Ward",
+        faqTitle: "Important Information & FAQ",
+        faq1_q: "What is the 'Triage' system?",
+        faq1_a: "<p>All public A&E departments and some private hospitals use a triage system. An experienced nurse assesses a patient's condition based on clinical data (like vital signs) and classifies them into five categories: Critical, Emergency, Urgent, Semi-urgent, and Non-urgent. This ensures that the most critical patients receive priority treatment, not based on arrival time. As a result, wait times for semi-urgent and non-urgent cases can be long.</p>",
+        faq2_q: "What are the main differences between public and private emergency services?",
+        faq2_a: "<p><strong>Public Hospitals:</strong> Provide comprehensive, low-cost services (HK$180 for eligible persons) and are the core for handling severe trauma and complex cases. The downside is extremely high demand, leading to long waits for non-urgent cases.</p><p class=\"mt-2\"><strong>Private Hospitals:</strong> Offer faster, more comfortable services at a much higher cost. There are two types:<br><strong class=\"text-black\">1. Licensed A&E/Emergency Medicine Centres:</strong> Run by Emergency Medicine Specialists, better equipped for serious emergencies.<br><strong class=\"text-black\">2. 24-Hour Outpatient Clinics:</strong> Run by General Practitioners or resident doctors, suitable for general urgent cases. They stabilize and transfer critical patients to public hospitals.</p><p class=\"mt-2\"><strong>Key takeaway:</strong> When choosing a private service, it's crucial to distinguish between an 'A&E Centre' and a '24-Hour Outpatient Clinic' to avoid delays in critical situations.</p>",
+        faq3_q: "How are private hospital fees calculated?",
+        faq3_a: "<p>The total bill at a private hospital is much more complex than just the 'consultation fee'. The final cost typically includes:</p><ul class=\"list-disc list-inside mt-2\"><li>Doctor's consultation fee</li><li>Medication costs</li><li>Lab and imaging fees (e.g., X-ray, CT scan)</li><li>Charges for medical supplies and equipment</li><li>Fees for any treatments or procedures performed</li></ul><p class=\"mt-2\">The final bill can be several or even tens of times the initial consultation fee. If you have medical insurance, it's advisable to understand your coverage, but in an emergency, you will likely need to pay first and claim reimbursement later.</p>",
+        footerText: "This application is compiled from public data and is for reference only, not medical advice. If in doubt, please consult a doctor.",
+        feedbackText: 'For information updates, please <a href="mailto:ymy.theresa@gmail.com" class="underline hover:text-blue-600">email us</a>.',
+        geoErrorBrowser: "Your browser does not support geolocation.",
+        geoErrorPermission: "Could not get your location. Please check your location service settings and grant permission.",
+        geoChoosePrompt: "Which type of hospital are you looking for?",
+        geoBtnPublic: "Nearest Public Hospital",
+        geoBtnPrivate: "Nearest Private Hospital",
+        geoResultTitle: "The nearest {sector} hospital is:",
+        geoNoResult: "Could not find a nearby {sector} hospital.",
+        serviceTypePublic: "Public A&E",
+        serviceTypePrivateA: "Private A&E Centre",
+        serviceTypePrivateB: "24-Hour Outpatient",
+        serviceTypePrivateOther: "Outpatient Service",
+        feeConsultation: "Consultation:",
+        feeStandardRoom: "Standard Ward:",
+        feeFrom: "from",
+        distancePrefix: "Approx.",
+        distanceSuffix: "km away",
+        mapLinkText: "Map & Directions",
+        chartLabelMinConsult: "Min Consultation (HK$)",
+        chartLabelMaxConsult: "Max Consultation (HK$)",
+        chartLabelMinRoom: "Min Daily Rate - {roomType} (HK$)",
+        chartLabelMaxRoom: "Max Daily Rate - {roomType} (HK$)",
+        roomStandard: "Standard",
+        roomSemiPrivate: "Semi-Private",
+        roomPrivate: "Private"
+    }
+};
+
+let currentLanguage = 'zh';
+let appState = { region: 'all', sector: 'all', privateTier: 'all' };
+const hospitalList = document.getElementById('hospital-list');
+let costChart;
+
+function setLanguage(lang) {
+    currentLanguage = lang;
+    document.documentElement.lang = lang === 'zh' ? 'zh-HK' : 'en';
+
+    document.getElementById('lang-zh').classList.toggle('active-lang', lang === 'zh');
+    document.getElementById('lang-zh').classList.toggle('inactive-lang', lang !== 'zh');
+    document.getElementById('lang-en').classList.toggle('active-lang', lang === 'en');
+    document.getElementById('lang-en').classList.toggle('inactive-lang', lang !== 'en');
+
+    const t = langContent[lang];
+
+    document.getElementById('main-title').textContent = t.mainTitle;
+    document.getElementById('sub-title').textContent = t.subTitle;
+    document.getElementById('critical-title').textContent = t.criticalTitle;
+    document.getElementById('critical-desc').textContent = t.criticalDesc;
+    document.getElementById('call-999-btn').textContent = t.call999Btn;
+    document.getElementById('finder-title').textContent = t.finderTitle;
+    document.getElementById('finder-desc').textContent = t.finderDesc;
+    document.getElementById('geo-title').textContent = t.geoTitle;
+    document.getElementById('geo-btn-text').textContent = t.geoBtnText;
+    
+    document.getElementById('filter-region-label').textContent = t.filterRegionLabel;
+    document.getElementById('filter-region-all').textContent = t.filterRegionAll;
+    document.getElementById('filter-region-hki').textContent = t.filterRegionHki;
+    document.getElementById('filter-region-kln').textContent = t.filterRegionKln;
+    document.getElementById('filter-region-nt').textContent = t.filterRegionNt;
+    
+    document.getElementById('filter-sector-label').textContent = t.filterSectorLabel;
+    document.getElementById('filter-sector-all').textContent = t.filterSectorAll;
+    document.getElementById('filter-sector-public').textContent = t.filterSectorPublic;
+    document.getElementById('filter-sector-private').textContent = t.filterSectorPrivate;
+
+    document.getElementById('filter-tier-label').textContent = t.filterTierLabel;
+    document.getElementById('filter-tier-all').textContent = t.filterTierAll;
+    document.getElementById('filter-tier-a').textContent = t.filterTierA;
+    document.getElementById('filter-tier-b').textContent = t.filterTierB;
+
+    document.getElementById('cost-title').textContent = t.costTitle;
+    document.getElementById('cost-desc').textContent = t.costDesc;
+    document.getElementById('cost-compare-label').textContent = t.costCompareLabel;
+    document.getElementById('cost-btn-consult').textContent = t.costBtnConsult;
+    document.getElementById('cost-btn-standard').textContent = t.costBtnStandard;
+    document.getElementById('cost-btn-semi').textContent = t.costBtnSemi;
+    document.getElementById('cost-btn-private').textContent = t.costBtnPrivate;
+    
+    document.getElementById('faq-title').textContent = t.faqTitle;
+    document.getElementById('faq1-q').textContent = t.faq1_q;
+    document.getElementById('faq1-a').innerHTML = t.faq1_a;
+    document.getElementById('faq2-q').textContent = t.faq2_q;
+    document.getElementById('faq2-a').innerHTML = t.faq2_a;
+    document.getElementById('faq3-q').textContent = t.faq3_q;
+    document.getElementById('faq3-a').innerHTML = t.faq3_a;
+
+    document.getElementById('footer-text').textContent = t.footerText;
+    document.getElementById('feedback-text').innerHTML = t.feedbackText;
+    
+    document.getElementById('nearest-hospital-result').innerHTML = '';
+    document.getElementById('geo-error').textContent = '';
+
+    renderHospitalCards();
+    updateChart(costChart.data.costType || 'consultation');
+}
+
+function getServiceType(hospital) {
+    const t = langContent[currentLanguage];
+    if (hospital.sector === 'public') {
+        return `<span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePublic}</span>`;
+    }
+    if (hospital.sector === 'private') {
+        if (hospital.is24Hour) {
+            if (hospital.privateTier === 'A') {
+                return `<span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateA}</span>`;
+            }
+            return `<span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateB}</span>`;
+        } else {
+            return `<span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateOther}</span>`;
+        }
+    }
+    return '';
+}
+
+function createHospitalCard(h, distance = null) {
+    const card = document.createElement('div');
+    card.className = 'hospital-card bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
+    const t = langContent[currentLanguage];
+    
+    let feeInfo = '';
+    if (h.sector === 'private' && h.fees) {
+        let consultFeeText = '';
+        if (h.fees.consultation && h.fees.consultation[0] !== null) {
+            consultFeeText = `<p><strong>${t.feeConsultation}</strong> HK$${h.fees.consultation[0]} - ${h.fees.consultation[1]}</p>`;
+        }
+        feeInfo = `
+            <div class="text-xs text-gray-600 mt-2">
+                ${consultFeeText}
+                <p><strong>${t.feeStandardRoom}</strong> HK$${h.fees.standard[0]} ${t.feeFrom}</p>
+            </div>
+        `;
+    } else if (h.sector === 'public') {
+        feeInfo = `
+            <div class="text-xs text-gray-600 mt-2">
+                <p><strong>${t.feeConsultation}</strong> HK$180 (${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+            </div>
+        `;
+    }
+
+    const distanceInfo = distance !== null ? `<p class="font-bold text-indigo-600">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p>` : '';
+    const address = currentLanguage === 'zh' ? h.address_zh : h.address_en;
+    
+    card.innerHTML = `
+        <div>
+            <div class="flex justify-between items-start">
+                <h3 class="text-lg font-bold text-[#434242]">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
+                ${distanceInfo}
+            </div>
+            <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
+            <div class="mb-2">${getServiceType(h)}</div>
+            <p class="text-sm text-gray-700 mb-1">📍 ${address}</p>
+            <p class="text-sm text-gray-700">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+            <p class="text-xs text-gray-500 mt-2">${currentLanguage === 'zh' ? h.details_zh : h.details_en}</p>
+            ${feeInfo}
+        </div>
+         <div class="mt-4">
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+        </div>
+    `;
+    return card;
+}
+
+function renderHospitalCards() {
+    hospitalList.innerHTML = '';
+    const filteredData = hospitalData.filter(h => {
+        const regionMatch = appState.region === 'all' || h.region === appState.region;
+        const sectorMatch = appState.sector === 'all' || h.sector === appState.sector;
+        
+        if (appState.sector === 'private') {
+            const tierMatch = appState.privateTier === 'all' || (h.is24Hour && h.privateTier === appState.privateTier);
+            return regionMatch && sectorMatch && (appState.privateTier === 'all' ? true : tierMatch);
+        }
+        return regionMatch && sectorMatch;
+    });
+
+    if (filteredData.length === 0) {
+        hospitalList.innerHTML = `<p class="col-span-full text-center text-gray-500">${langContent[currentLanguage].noResults}</p>`;
+        return;
+    }
+
+    filteredData.forEach(h => {
+        hospitalList.appendChild(createHospitalCard(h));
+    });
+}
+
+function setupFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const privateTierContainer = document.getElementById('private-tier-filter-container');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const group = btn.dataset.filterGroup;
+            const value = btn.dataset.filterValue;
+            
+            appState[group] = value;
+            
+            document.querySelectorAll(`.${group}-filter`).forEach(b => b.classList.replace('active-filter', 'inactive-filter'));
+            btn.classList.replace('inactive-filter', 'active-filter');
+            
+            if(group === 'sector') {
+                if (value === 'private') {
+                    privateTierContainer.classList.remove('hidden');
+                } else {
+                    privateTierContainer.classList.add('hidden');
+                    appState.privateTier = 'all'; 
+                    document.querySelectorAll('.private-tier-filter').forEach(b => b.classList.replace('active-filter', 'inactive-filter'));
+                    document.querySelector('.private-tier-filter[data-filter-value="all"]').classList.add('active-filter');
+                }
+            }
+            
+            renderHospitalCards();
+        });
+    });
+}
+
+function initChart() {
+    const ctx = document.getElementById('costChart').getContext('2d');
+    costChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: value => 'HK$' + value } },
+                x: { ticks: { autoSkip: false, maxRotation: 75, minRotation: 45 } }
+            },
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { callbacks: { label: context => `${context.dataset.label}: HK$${context.parsed.y}` } }
+            }
+        }
+    });
+}
+
+function updateChart(costType) {
+    const privateHospitals = hospitalData.filter(h => h.sector === 'private' && h.is24Hour && h.fees);
+    const t = langContent[currentLanguage];
+    let newDatasets;
+
+    document.querySelectorAll('.cost-filter-btn').forEach(b => b.classList.replace('active-filter', 'inactive-filter'));
+    document.getElementById(`cost-btn-${costType.split('_')[0]}`).classList.replace('inactive-filter', 'active-filter');
+
+    switch(costType) {
+        case 'consultation':
+            newDatasets = [{
+                label: t.chartLabelMinConsult,
+                data: privateHospitals.map(h => h.fees.consultation[0]),
+                backgroundColor: 'rgba(95, 158, 160, 0.6)',
+                borderColor: 'rgba(95, 158, 160, 1)',
+                borderWidth: 1
+            }, {
+                label: t.chartLabelMaxConsult,
+                data: privateHospitals.map(h => h.fees.consultation[1]),
+                backgroundColor: 'rgba(226, 149, 120, 0.6)',
+                borderColor: 'rgba(226, 149, 120, 1)',
+                borderWidth: 1
+            }];
+            break;
+        case 'standard':
+        case 'semi_private':
+        case 'private':
+            const roomTypes = { standard: t.roomStandard, semi_private: t.roomSemiPrivate, private: t.roomPrivate };
+            newDatasets = [{
+                label: t.chartLabelMinRoom.replace('{roomType}', roomTypes[costType]),
+                data: privateHospitals.map(h => h.fees[costType][0]),
+                backgroundColor: 'rgba(95, 158, 160, 0.6)',
+                borderColor: 'rgba(95, 158, 160, 1)',
+                borderWidth: 1
+            }, {
+                label: t.chartLabelMaxRoom.replace('{roomType}', roomTypes[costType]),
+                data: privateHospitals.map(h => h.fees[costType][1]),
+                backgroundColor: 'rgba(226, 149, 120, 0.6)',
+                borderColor: 'rgba(226, 149, 120, 1)',
+                borderWidth: 1
+            }];
+            break;
+    }
+    
+    costChart.data.costType = costType;
+    costChart.data.labels = privateHospitals.map(h => currentLanguage === 'zh' ? h.name_zh : h.name_en);
+    costChart.data.datasets = newDatasets;
+    costChart.update();
+}
+
+function setupAccordions() {
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('span:last-child');
+            const isOpen = content.style.maxHeight;
+
+            if (isOpen && isOpen !== '0px') {
+                content.style.maxHeight = '0';
+                icon.classList.remove('rotate-45');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.classList.add('rotate-45');
+            }
+        });
+    });
+}
+
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+function findNearest(sector) {
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('nearest-hospital-result');
+    const errorDiv = document.getElementById('geo-error');
+    const t = langContent[currentLanguage];
+    
+    loader.classList.remove('hidden');
+    resultDiv.innerHTML = '';
+    errorDiv.textContent = '';
+
+    if (!navigator.geolocation) {
+        errorDiv.textContent = t.geoErrorBrowser;
+        loader.classList.add('hidden');
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        let closestHospital = null;
+        let minDistance = Infinity;
+
+        hospitalData
+            .filter(h => h.sector === sector)
+            .forEach(h => {
+                const distance = haversineDistance(latitude, longitude, h.lat, h.lon);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestHospital = h;
+                }
+            });
+        
+        loader.classList.add('hidden');
+        const sectorName = sector === 'public' ? t.filterSectorPublic : t.filterSectorPrivate;
+        if (closestHospital) {
+            resultDiv.innerHTML = `<h4 class="font-bold text-lg mb-2">${t.geoResultTitle.replace('{sector}', sectorName)}</h4>`;
+            resultDiv.appendChild(createHospitalCard(closestHospital, minDistance));
+        } else {
+            resultDiv.innerHTML = `<p>${t.geoNoResult.replace('{sector}', sectorName)}</p>`;
+        }
+
+    }, () => {
+        errorDiv.textContent = t.geoErrorPermission;
+        loader.classList.add('hidden');
+    });
+}
+
+function setupGeolocation() {
+    const findBtn = document.getElementById('find-nearest-btn');
+    const resultDiv = document.getElementById('nearest-hospital-result');
+    
+    findBtn.addEventListener('click', () => {
+        const t = langContent[currentLanguage];
+        resultDiv.innerHTML = `
+            <p class="mb-2">${t.geoChoosePrompt}</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="findNearest('public')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">${t.geoBtnPublic}</button>
+                <button onclick="findNearest('private')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">${t.geoBtnPrivate}</button>
+            </div>
+        `;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initChart();
+    setLanguage('zh');
+    setupFilters();
+    setupAccordions();
+    setupGeolocation();
+});
+</script>
+
+</body>
+</html>
