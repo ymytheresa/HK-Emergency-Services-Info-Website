@@ -172,6 +172,8 @@ async function setLanguage(lang) {
     document.getElementById('call-999-btn').textContent = t.call999Btn;
     document.getElementById('finder-title').textContent = t.finderTitle;
     document.getElementById('finder-desc').textContent = t.finderDesc;
+    document.getElementById('browser-title').textContent = t.browserTitle;
+    document.getElementById('browser-desc').textContent = t.browserDesc;
     document.getElementById('geo-title').textContent = t.geoTitle;
     document.getElementById('geo-btn-text').textContent = t.geoBtnText;
     

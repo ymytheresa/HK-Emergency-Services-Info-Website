@@ -40,7 +40,7 @@
                 </div>
             </section>
 
-            <section id="hospital-finder" class="mb-12">
+            <section id="location-finder" class="mb-12">
                 <h2 id="finder-title" class="text-3xl font-bold text-center mb-2"></h2>
                 <p id="finder-desc" class="text-center text-gray-600 mb-8"></p>
                 
@@ -56,7 +56,50 @@
                     <div id="nearest-hospital-result" class="mt-4 text-center"></div>
                      <p id="geo-error" class="text-red-500 text-center mt-2 text-sm"></p>
                 </div>
+            </section>
 
+            <section id="cost-comparison" class="mb-12">
+                 <h2 id="cost-title" class="text-3xl font-bold text-center mb-2"></h2>
+                 <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                    <div class="text-center mb-6">
+                        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800" id="time-section-title"></h3>
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-3">
+                                <div class="flex items-center gap-2">
+                                    <label id="time-label" class="font-medium text-gray-700"></label>
+                                    <input type="time" id="time-input" class="border-2 border-blue-300 rounded-lg px-4 py-2 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+                                </div>
+                                <button onclick="setCurrentTime()" id="current-time-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                                    <span class="flex items-center gap-2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12,6 12,12 16,14"></polyline>
+                                        </svg>
+                                        <span id="current-time-btn-text"></span>
+                                    </span>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2" id="time-helper-text"></p>
+                        </div>
+                        <div>
+                            <span id="cost-compare-label" class="font-bold mr-4"></span>
+                            <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        </div>
+                    </div>
+                    <div class="chart-container h-96 md:h-[500px]">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hospital-browser" class="mb-12">
+                <h2 class="text-3xl font-bold text-center mb-2" id="browser-title"></h2>
+                <p class="text-center text-gray-600 mb-8" id="browser-desc"></p>
+                
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
                     <!-- Waiting Time Legend -->
                     <div class="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
@@ -103,44 +146,6 @@
                         </div>
                     </div>
                      <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                </div>
-            </section>
-
-            <section id="cost-comparison" class="mb-12">
-                 <h2 id="cost-title" class="text-3xl font-bold text-center mb-2"></h2>
-                 <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
-                    <div class="text-center mb-6">
-                        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                            <h3 class="text-lg font-semibold mb-3 text-gray-800" id="time-section-title"></h3>
-                            <div class="flex flex-col md:flex-row items-center justify-center gap-3">
-                                <div class="flex items-center gap-2">
-                                    <label id="time-label" class="font-medium text-gray-700"></label>
-                                    <input type="time" id="time-input" class="border-2 border-blue-300 rounded-lg px-4 py-2 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
-                                </div>
-                                <button onclick="setCurrentTime()" id="current-time-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
-                                    <span class="flex items-center gap-2">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <polyline points="12,6 12,12 16,14"></polyline>
-                                        </svg>
-                                        <span id="current-time-btn-text"></span>
-                                    </span>
-                                </button>
-                            </div>
-                            <p class="text-xs text-gray-600 mt-2" id="time-helper-text"></p>
-                        </div>
-                        <div>
-                            <span id="cost-compare-label" class="font-bold mr-4"></span>
-                            <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                        </div>
-                    </div>
-                    <div class="chart-container h-96 md:h-[500px]">
-                        <canvas id="costChart"></canvas>
-                    </div>
                 </div>
             </section>
 
