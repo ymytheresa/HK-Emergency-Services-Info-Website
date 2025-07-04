@@ -353,7 +353,7 @@ async function createHospitalCard(h, distance = null) {
     if (h.app) {
         appSection = `
             <div class="mt-3 p-2 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
-                <p class="text-xs font-semibold text-purple-700 mb-2">📱 ${currentLanguage === 'zh' ? '快速排隊應用程式' : 'Quick Queue App'}</p>
+                <p class="text-xs font-semibold text-purple-700 mb-2">📱 ${currentLanguage === 'zh' ? '快速排隊應用程式' : 'HK Hospital Emergency App'}</p>
                 <p class="text-xs text-gray-600 mb-2">${currentLanguage === 'zh' ? h.app.features_zh : h.app.features_en}</p>
                 <div class="flex gap-2 justify-center">
                     ${h.app.ios ? `<a href="${h.app.ios}" target="_blank" class="bg-black text-white px-2 py-1 rounded text-xs hover:bg-gray-800 transition flex items-center gap-1">

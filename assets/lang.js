@@ -80,7 +80,7 @@ const langContent = {
         roomPrivate: "私家房"
     },
     en: {
-        mainTitle: "Hong Kong A&E & Emergency Services Guide",
+        mainTitle: "Hong Kong Hospital Emergency Services Guide",
         subTitle: "An interactive tool to help you quickly find suitable medical services",
         criticalTitle: "For life-threatening situations, call 999 immediately!",
         criticalDesc: "e.g., severe chest pain, difficulty breathing, stroke symptoms, major bleeding.",

@@ -9,7 +9,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -22,7 +22,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -35,7 +35,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -48,7 +48,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -61,7 +61,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -74,7 +74,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -87,7 +87,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -100,7 +100,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -113,7 +113,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -126,7 +126,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -139,7 +139,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -152,7 +152,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -165,7 +165,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -178,7 +178,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -191,7 +191,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -204,7 +204,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -217,7 +217,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -230,7 +230,7 @@ const hospitalData = [
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
-            features_en: 'Check real-time A&E waiting times',
+            features_en: 'Check live Hong Kong hospital emergency wait times',
             ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
@@ -252,7 +252,7 @@ const hospitalData = [
         app: {
             name: 'My Gleneagles SmartHealth',
             features_zh: '查看急症等候時間，預約專科門診',
-            features_en: 'Check emergency waiting times, book specialist appointments',
+            features_en: 'Monitor emergency wait times, urgent care booking',
             ios: 'https://apps.apple.com/us/app/my-gleneagles-smarthealth/id1531879853',
             android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.onyourside'
         }
@@ -274,7 +274,7 @@ const hospitalData = [
         app: {
             name: 'Union Hospital 仁安醫院',
             features_zh: '🎫 遙距取籌，查看急症科排隊時間',
-            features_en: '🎫 Remote ticket collection, check emergency queue times',
+            features_en: '🎫 Skip emergency queues, real-time hospital status',
             ios: 'https://apps.apple.com/us/app/union-hospital-仁安醫院/id1290033697',
             android: 'https://play.google.com/store/apps/details?id=org.unionhospital.uh'
         }
@@ -296,7 +296,7 @@ const hospitalData = [
         app: {
             name: 'CUHKMC Patient App',
             features_zh: '預約管理，查看醫療記錄',
-            features_en: 'Appointment management, view medical records',
+            features_en: 'Emergency appointments, urgent care records',
             ios: 'https://apps.apple.com/hk/app/cuhkmc-patient-app/id1623991394',
             android: 'https://play.google.com/store/apps/details?id=hk.cuhkmc.patientapp'
         }
@@ -338,7 +338,7 @@ const hospitalData = [
         app: {
             name: 'HK Sanatorium & Hospital',
             features_zh: '預約門診，查看報告',
-            features_en: 'Book appointments, view reports',
+            features_en: 'Emergency booking, urgent test results',
             ios: 'https://apps.apple.com/hk/app/hksh-mobile/id1445234855',
             android: 'https://play.google.com/store/apps/details?id=hk.hksh.mobile'
         }
@@ -355,7 +355,7 @@ const hospitalData = [
         app: {
             name: 'HKBH Mobile',
             features_zh: '預約專科門診，查看醫療記錄',
-            features_en: 'Book specialist appointments, view medical records',
+            features_en: 'Urgent specialist care, emergency records',
             ios: 'https://apps.apple.com/hk/app/hkbh-mobile/id1510975345',
             android: 'https://play.google.com/store/apps/details?id=hk.hkbh.mobile'
         }
@@ -392,7 +392,7 @@ const hospitalData = [
         app: {
             name: 'Canossa Hospital App',
             features_zh: '預約門診，查看檢驗結果',
-            features_en: 'Book appointments, view test results',
+            features_en: 'Emergency consultations, urgent lab results',
             ios: 'https://apps.apple.com/hk/app/canossa-hospital/id1234567890',
             android: 'https://play.google.com/store/apps/details?id=hk.canossa.hospital'
         }
