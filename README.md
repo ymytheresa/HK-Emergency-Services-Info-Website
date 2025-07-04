@@ -13,7 +13,7 @@ A bilingual (中文/English) interactive web application to help users quickly f
 1. Fork this repository
 2. Go to **Settings** → **Pages**
 3. Select **Deploy from a branch** → **main** → **/ (root)**
-4. Your site will be live at: `https://[your-username].github.io/HK-Emergency-Services-Info-Website`
+4. Your site will be live at: `https://ymytheresa.github.io/HK-Emergency-Services-Info-Website`
 
 ### Option 2: Shell Script (Local Development)
 ```bash
