@@ -186,22 +186,23 @@ function createHospitalCard(h, distance = null) {
     const address = currentLanguage === 'zh' ? h.address_zh : h.address_en;
     
     card.innerHTML = `
-        <div>
-            <div class="flex justify-between items-start">
-                <div class="flex-1">
-                    <h3 class="text-lg font-bold text-[#434242]">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
-                    <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
-                </div>
-                ${distanceInfo}
-            </div>
-            <div class="mb-2">${getServiceType(h)}</div>
+        <div class="text-center relative">
+            ${distance !== null ? `<div class="absolute top-0 right-0"><p class="font-bold text-indigo-600 text-sm">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p></div>` : ''}
+            
+            <h3 class="text-lg font-bold text-[#434242] mb-1">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
+            <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
+            
+            <div class="mb-3">${getServiceType(h)}</div>
+            
             <p class="text-sm text-gray-700 mb-1">📍 ${address}</p>
-            <p class="text-sm text-gray-700">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
-            <p class="text-xs text-gray-500 mt-2">${currentLanguage === 'zh' ? h.details_zh : h.details_en}</p>
+            <p class="text-sm text-gray-700 mb-2">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+            <p class="text-xs text-gray-500 mb-3">${currentLanguage === 'zh' ? h.details_zh : h.details_en}</p>
+            
             ${feeInfo}
-        </div>
-         <div class="mt-4">
-            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+            
+            <div class="mt-4">
+                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+            </div>
         </div>
     `;
     return card;
