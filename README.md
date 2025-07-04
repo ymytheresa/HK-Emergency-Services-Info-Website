@@ -2,9 +2,19 @@
 
 A bilingual (中文/English) interactive web application to help users quickly find emergency medical services in Hong Kong.
 
+## 🌐 Live Demo
+
+**GitHub Pages**: [https://[your-username].github.io/HK-Emergency-Services-Info-Website](https://[your-username].github.io/HK-Emergency-Services-Info-Website)
+
 ## 🚀 Quick Start
 
-### Option 1: Shell Script (Recommended)
+### Option 1: GitHub Pages (Easiest)
+1. Fork this repository
+2. Go to **Settings** → **Pages**
+3. Select **Deploy from a branch** → **main** → **/ (root)**
+4. Your site will be live at: `https://[your-username].github.io/HK-Emergency-Services-Info-Website`
+
+### Option 2: Shell Script (Local Development)
 ```bash
 # Make the script executable (first time only)
 chmod +x serve.sh
@@ -52,7 +62,24 @@ docker-compose logs -f
 docker-compose down
 ```
 
-### Option 3: Manual Setup
+### Option 3: Other Hosting Platforms
+
+**Netlify**:
+1. Connect your GitHub repository
+2. Build command: (none)
+3. Publish directory: `/` (root)
+
+**Vercel**:
+1. Import your GitHub repository  
+2. Framework preset: Other
+3. Build and output settings: Default
+
+**GitHub Codespaces**:
+1. Click **Code** → **Codespaces** → **Create codespace**
+2. Run `./serve.sh` in the terminal
+3. Forward port 3030 for preview
+
+### Option 4: Manual Setup
 If you have a specific web server preference:
 
 ```bash
@@ -91,12 +118,15 @@ Once running, open your browser and navigate to:
 
 ## ✨ Features
 
-- **Bilingual Support**: Full Chinese (Traditional) and English interface
-- **Geolocation**: Find nearest hospitals based on your location
-- **Interactive Filtering**: Filter by region, sector, and service level
-- **Cost Comparison**: Visual charts comparing private hospital fees
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Emergency Information**: Quick access to 999 emergency services
+- **🕐 Time-Based Pricing**: Enter any time to see accurate pricing for that period
+- **📊 Price Sorting**: Hospitals sorted by cost (cheapest first) for quick decisions
+- **🌍 Bilingual Support**: Full Chinese (Traditional) and English interface
+- **📍 Geolocation**: Find nearest hospitals based on your location  
+- **🔍 Interactive Filtering**: Filter by region, sector, and service level
+- **📈 Dynamic Charts**: Visual pricing with color-coded cost levels
+- **📱 Responsive Design**: Works on desktop, tablet, and mobile devices
+- **🚨 Emergency Information**: Quick access to 999 emergency services
+- **⏰ Real-Time Updates**: Pricing adjusts for day/evening/night rates
 
 ## 🛠 Development
 

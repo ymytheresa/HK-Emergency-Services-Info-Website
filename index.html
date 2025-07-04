@@ -87,12 +87,19 @@
                  <h2 id="cost-title" class="text-3xl font-bold text-center mb-2"></h2>
                  <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
-                    <div class="text-center mb-4">
-                        <span id="cost-compare-label" class="font-bold mr-4"></span>
-                        <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                        <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                        <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                        <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                    <div class="text-center mb-6">
+                        <div class="mb-4">
+                            <label id="time-label" class="font-bold mr-2"></label>
+                            <input type="time" id="time-input" class="border border-gray-300 rounded px-3 py-2 text-sm" onchange="updateChart('consultation'); renderHospitalCards();">
+                            <button onclick="setCurrentTime()" id="current-time-btn" class="ml-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"></button>
+                        </div>
+                        <div>
+                            <span id="cost-compare-label" class="font-bold mr-4"></span>
+                            <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                        </div>
                     </div>
                     <div class="chart-container h-96 md:h-[500px]">
                         <canvas id="costChart"></canvas>
@@ -131,9 +138,9 @@
         <p id="feedback-text" class="text-sm text-gray-500 mt-1"></p>
     </footer>
 
-    <script src="assets/data.js"></script>
-    <script src="assets/lang.js"></script>
-    <script src="assets/app.js"></script>
+    <script src="assets/data.js?v=2025d"></script>
+    <script src="assets/lang.js?v=2025d"></script>
+    <script src="assets/app.js?v=2025d"></script>
 
 </body>
 </html>

@@ -5,6 +5,43 @@ let appState = { region: 'all', sector: 'all', privateTier: 'all' };
 const hospitalList = document.getElementById('hospital-list');
 let costChart;
 
+// Time-based pricing functions
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function setCurrentTime() {
+    document.getElementById('time-input').value = getCurrentTime();
+    updateChart('consultation');
+    renderHospitalCards(); // Update hospital cards with new time-based pricing
+}
+
+function getTimePeriod(timeString) {
+    const [hours] = timeString.split(':').map(Number);
+    if (hours >= 8 && hours < 18) return 'day';      // 08:00-17:59
+    if (hours >= 18 && hours < 22) return 'evening'; // 18:00-21:59
+    return 'night';                                   // 22:00-07:59
+}
+
+function getPriceForTime(hospital, costType, timeString) {
+    if (!hospital.timePricing) {
+        // Fallback to emergency fee or basic fees
+        if (costType === 'consultation') {
+            return hospital.emergencyFee || (hospital.fees?.consultation?.[0]) || 0;
+        }
+        return hospital.fees?.[costType]?.[0] || 0;
+    }
+    
+    const period = getTimePeriod(timeString);
+    const pricing = hospital.timePricing[period];
+    
+    if (costType === 'consultation') return pricing.emergency;
+    return pricing[costType] || 0;
+}
+
 function setLanguage(lang) {
     currentLanguage = lang;
     document.documentElement.lang = lang === 'zh' ? 'zh-HK' : 'en';
@@ -44,6 +81,8 @@ function setLanguage(lang) {
 
     document.getElementById('cost-title').textContent = t.costTitle;
     document.getElementById('cost-desc').textContent = t.costDesc;
+    document.getElementById('time-label').textContent = t.timeLabel;
+    document.getElementById('current-time-btn').textContent = t.currentTimeBtn;
     document.getElementById('cost-compare-label').textContent = t.costCompareLabel;
     document.getElementById('cost-btn-consult').textContent = t.costBtnConsult;
     document.getElementById('cost-btn-standard').textContent = t.costBtnStandard;
@@ -63,6 +102,12 @@ function setLanguage(lang) {
     
     document.getElementById('nearest-hospital-result').innerHTML = '';
     document.getElementById('geo-error').textContent = '';
+
+    // Initialize time input with current time if empty
+    const timeInput = document.getElementById('time-input');
+    if (!timeInput.value) {
+        timeInput.value = getCurrentTime();
+    }
 
     renderHospitalCards();
     updateChart(costChart.data.costType || 'consultation');
@@ -92,21 +137,47 @@ function createHospitalCard(h, distance = null) {
     const t = langContent[currentLanguage];
     
     let feeInfo = '';
-    if (h.sector === 'private' && h.fees) {
-        let consultFeeText = '';
-        if (h.fees.consultation && h.fees.consultation[0] !== null) {
-            consultFeeText = `<p><strong>${t.feeConsultation}</strong> HK$${h.fees.consultation[0]} - ${h.fees.consultation[1]}</p>`;
+    if (h.sector === 'private' && h.is24Hour) {
+        // Time-based pricing display
+        const timeInput = document.getElementById('time-input');
+        const selectedTime = timeInput?.value || getCurrentTime();
+        const currentPrice = getPriceForTime(h, 'consultation', selectedTime);
+        const period = getTimePeriod(selectedTime);
+        
+        const periodLabels = {
+            zh: { day: '日間', evening: '傍晚', night: '夜間' },
+            en: { day: 'Day', evening: 'Evening', night: 'Night' }
+        };
+        const periodLabel = periodLabels[currentLanguage][period];
+        
+        // Dynamic color based on price
+        let priceColor = 'text-green-600';
+        let priceLevel = currentLanguage === 'zh' ? '較便宜' : 'Lower Cost';
+        if (currentPrice >= 1200) {
+            priceColor = 'text-red-600';
+            priceLevel = currentLanguage === 'zh' ? '較昂貴' : 'Higher Cost';
+        } else if (currentPrice >= 600) {
+            priceColor = 'text-yellow-600';
+            priceLevel = currentLanguage === 'zh' ? '中等收費' : 'Medium Cost';
         }
+        
         feeInfo = `
-            <div class="text-xs text-gray-600 mt-2">
-                ${consultFeeText}
-                <p><strong>${t.feeStandardRoom}</strong> HK$${h.fees.standard[0]} ${t.feeFrom}</p>
+            <div class="text-xs mt-2 p-2 bg-gray-50 rounded">
+                <p class="font-bold ${priceColor}">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'} (${periodLabel}): HK$${currentPrice}</p>
+                <p class="text-gray-500 text-xs">${priceLevel}</p>
             </div>
         `;
     } else if (h.sector === 'public') {
         feeInfo = `
-            <div class="text-xs text-gray-600 mt-2">
-                <p><strong>${t.feeConsultation}</strong> HK$180 (${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+            <div class="text-xs mt-2 p-2 bg-blue-50 rounded">
+                <p class="font-bold text-blue-600">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'}: HK$180</p>
+                <p class="text-gray-500 text-xs">(${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+            </div>
+        `;
+    } else if (h.sector === 'private' && !h.is24Hour) {
+        feeInfo = `
+            <div class="text-xs mt-2 p-2 bg-gray-50 rounded">
+                <p class="text-gray-500">${currentLanguage === 'zh' ? '非24小時服務' : 'Not 24-hour service'}</p>
             </div>
         `;
     }
@@ -117,10 +188,12 @@ function createHospitalCard(h, distance = null) {
     card.innerHTML = `
         <div>
             <div class="flex justify-between items-start">
-                <h3 class="text-lg font-bold text-[#434242]">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold text-[#434242]">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
+                    <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
+                </div>
                 ${distanceInfo}
             </div>
-            <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
             <div class="mb-2">${getServiceType(h)}</div>
             <p class="text-sm text-gray-700 mb-1">📍 ${address}</p>
             <p class="text-sm text-gray-700">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
@@ -211,51 +284,83 @@ function initChart() {
 }
 
 function updateChart(costType) {
-    const privateHospitals = hospitalData.filter(h => h.sector === 'private' && h.is24Hour && h.fees);
+    const timeInput = document.getElementById('time-input');
+    const selectedTime = timeInput.value || getCurrentTime();
+    const privateHospitals = hospitalData.filter(h => h.sector === 'private' && h.is24Hour);
     const t = langContent[currentLanguage];
-    let newDatasets;
+
+    // Get prices for the selected time and create hospital-price pairs
+    const hospitalPrices = privateHospitals.map(h => ({
+        hospital: h,
+        price: getPriceForTime(h, costType, selectedTime)
+    })).filter(hp => hp.price > 0);
+
+    // Sort by price ascending (cheapest first)
+    hospitalPrices.sort((a, b) => a.price - b.price);
+
+    console.log(`Time: ${selectedTime}, Period: ${getTimePeriod(selectedTime)}`);
+    console.log('Hospitals sorted by price:', hospitalPrices.map(hp => ({ name: hp.hospital.name_en, price: hp.price })));
 
     document.querySelectorAll('.cost-filter-btn').forEach(b => b.classList.replace('active-filter', 'inactive-filter'));
-    document.getElementById(`cost-btn-${costType.split('_')[0]}`).classList.replace('inactive-filter', 'active-filter');
+    
+    // Map cost types to button IDs
+    const buttonIdMap = {
+        'consultation': 'cost-btn-consult',
+        'standard': 'cost-btn-standard', 
+        'semi_private': 'cost-btn-semi',
+        'private': 'cost-btn-private'
+    };
+    
+    const buttonId = buttonIdMap[costType];
+    if (buttonId) {
+        document.getElementById(buttonId).classList.replace('inactive-filter', 'active-filter');
+    }
 
+    const period = getTimePeriod(selectedTime);
+    const periodLabels = {
+        zh: { day: '日間', evening: '傍晚', night: '夜間' },
+        en: { day: 'Day', evening: 'Evening', night: 'Night' }
+    };
+    const periodLabel = periodLabels[currentLanguage][period];
+
+    let chartLabel;
+    const roomTypes = { standard: t.roomStandard, semi_private: t.roomSemiPrivate, private: t.roomPrivate };
     switch(costType) {
         case 'consultation':
-            newDatasets = [{
-                label: t.chartLabelMinConsult,
-                data: privateHospitals.map(h => h.fees.consultation[0]),
-                backgroundColor: 'rgba(95, 158, 160, 0.6)',
-                borderColor: 'rgba(95, 158, 160, 1)',
-                borderWidth: 1
-            }, {
-                label: t.chartLabelMaxConsult,
-                data: privateHospitals.map(h => h.fees.consultation[1]),
-                backgroundColor: 'rgba(226, 149, 120, 0.6)',
-                borderColor: 'rgba(226, 149, 120, 1)',
-                borderWidth: 1
-            }];
+            chartLabel = currentLanguage === 'zh' ? `急症收費 - ${periodLabel} (HK$)` : `Emergency Fee - ${periodLabel} (HK$)`;
             break;
         case 'standard':
         case 'semi_private':
         case 'private':
-            const roomTypes = { standard: t.roomStandard, semi_private: t.roomSemiPrivate, private: t.roomPrivate };
-            newDatasets = [{
-                label: t.chartLabelMinRoom.replace('{roomType}', roomTypes[costType]),
-                data: privateHospitals.map(h => h.fees[costType][0]),
-                backgroundColor: 'rgba(95, 158, 160, 0.6)',
-                borderColor: 'rgba(95, 158, 160, 1)',
-                borderWidth: 1
-            }, {
-                label: t.chartLabelMaxRoom.replace('{roomType}', roomTypes[costType]),
-                data: privateHospitals.map(h => h.fees[costType][1]),
-                backgroundColor: 'rgba(226, 149, 120, 0.6)',
-                borderColor: 'rgba(226, 149, 120, 1)',
-                borderWidth: 1
-            }];
+            chartLabel = `${roomTypes[costType]} - ${periodLabel} (HK$)`;
+            break;
+        default:
+            chartLabel = `${costType} - ${periodLabel} (HK$)`;
             break;
     }
-    
+
+    const newDatasets = [{
+        label: chartLabel,
+        data: hospitalPrices.map(hp => hp.price),
+        backgroundColor: hospitalPrices.map(hp => {
+            const price = hp.price;
+            // Dynamic color based on price range
+            if (price < 600) return 'rgba(34, 197, 94, 0.6)';      // Green - cheap
+            if (price < 1200) return 'rgba(234, 179, 8, 0.6)';    // Yellow - medium  
+            return 'rgba(239, 68, 68, 0.6)';                      // Red - expensive
+        }),
+        borderColor: hospitalPrices.map(hp => {
+            const price = hp.price;
+            if (price < 600) return 'rgba(34, 197, 94, 1)';
+            if (price < 1200) return 'rgba(234, 179, 8, 1)';
+            return 'rgba(239, 68, 68, 1)';
+        }),
+        borderWidth: 1
+    }];
+
+    // Set chart labels and data
     costChart.data.costType = costType;
-    costChart.data.labels = privateHospitals.map(h => currentLanguage === 'zh' ? h.name_zh : h.name_en);
+    costChart.data.labels = hospitalPrices.map(hp => currentLanguage === 'zh' ? hp.hospital.name_zh : hp.hospital.name_en);
     costChart.data.datasets = newDatasets;
     costChart.update();
 }

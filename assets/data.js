@@ -114,77 +114,130 @@ const hospitalData = [
         address_zh: '香港黃竹坑南風徑1號', address_en: '1 Nam Fung Path, Wong Chuk Hang, Hong Kong', phone: '31539000', lat: 22.2475, lon: 114.1757,
         details_zh: '港島區唯一設有24小時急症室的私家醫院，由急症科專科醫生主理。',
         details_en: 'The only private hospital on HK Island with a 24-hour A&E, run by Emergency Medicine Specialists.',
-        is24Hour: true, fees: { consultation: [420, 1500], standard: [1000, 1200], semi_private: [2200, 2950], private: [4600, 9800] }
+        is24Hour: true,
+        emergencyFee: 950,
+        costCategory: 'high',
+        timePricing: {
+            day: { emergency: 950, standard: 1000, semi_private: 2200, private: 4600 },     // 08:00-17:59
+            evening: { emergency: 1140, standard: 1200, semi_private: 2640, private: 5520 }, // 18:00-21:59 (+20%)
+            night: { emergency: 1425, standard: 1500, semi_private: 3300, private: 6900 }   // 22:00-07:59 (+50%)
+        },
+        fees: { consultation: [420, 1500], standard: [1000, 1200], semi_private: [2200, 2950], private: [4600, 9800] }
     },
     {
         id: 'uh', name_en: 'Union Hospital', name_zh: '仁安醫院', sector: 'private', region: 'NT', privateTier: 'A',
         address_zh: '新界沙田大圍富健街18號', address_en: '18 Fu Kin Street, Tai Wai, Sha Tin, New Territories', phone: '26083355', lat: 22.3739, lon: 114.1862,
         details_zh: '新界區首間獲認可的私家急症科中心，由急症科專科醫生主理。設有24小時心臟病及中風急救服務。',
         details_en: 'The first recognized private Emergency Medicine Centre in NT, run by EM Specialists. Offers 24-hour cardiac and stroke rescue.',
-        is24Hour: true, fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] }
+        is24Hour: true,
+        emergencyFee: 785,
+        costCategory: 'medium',
+        timePricing: {
+            day: { emergency: 785, standard: 500, semi_private: 900, private: 2500 },      // 08:00-17:59
+            evening: { emergency: 942, standard: 600, semi_private: 1080, private: 3000 }, // 18:00-21:59 (+20%)
+            night: { emergency: 1178, standard: 750, semi_private: 1350, private: 3750 }   // 22:00-07:59 (+50%)
+        },
+        fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] }
     },
     {
         id: 'cuhkmc', name_en: 'CUHK Medical Centre', name_zh: '香港中文大學醫院', sector: 'private', region: 'NT', privateTier: 'A',
         address_zh: '新界沙田澤祥街9號', address_en: '9 Chak Cheung Street, Sha Tin, New Territories', phone: '39466333', lat: 22.3888, lon: 114.2093,
         details_zh: '私家教學醫院，設有24小時急症醫學中心，由急症科專科醫生團隊主理。',
         details_en: 'A private teaching hospital with a 24-hour Emergency Medicine Centre run by a team of EM Specialists.',
-        is24Hour: true, fees: { consultation: [300, 2400], standard: [900, 1000], semi_private: [1500, 2500], private: [3600, 4800] }
+        is24Hour: true,
+        emergencyFee: 1350,
+        costCategory: 'high',
+        timePricing: {
+            day: { emergency: 1350, standard: 900, semi_private: 1500, private: 3600 },      // 08:00-17:59
+            evening: { emergency: 1620, standard: 1080, semi_private: 1800, private: 4320 }, // 18:00-21:59 (+20%)
+            night: { emergency: 2025, standard: 1350, semi_private: 2250, private: 5400 }    // 22:00-07:59 (+50%)
+        },
+        fees: { consultation: [300, 2400], standard: [900, 1000], semi_private: [1500, 2500], private: [3600, 4800] }
     },
     {
         id: 'hkah_sr', name_en: 'Hong Kong Adventist Hospital – Stubbs Road', name_zh: '香港港安醫院–司徒拔道', sector: 'private', region: 'HKI', privateTier: 'B',
-        address_zh: '香港跑馬地司徒拔道40號', address_en: '40 Stubbs Road, Happy Valley, Hong Kong', phone: '36518888', lat: 22.2680, lon: 114.1830,
-        details_zh: '設有24小時緊急護理中心，由急症科專科醫生管理，提供24小時心臟介入治療及中風治療。',
-        details_en: 'Features a 24-hour Urgent Care Centre managed by EM Specialists, providing 24-hour cardiac intervention and stroke treatment.',
-        is24Hour: true, fees: { consultation: [450, 1200], standard: [900, 900], semi_private: [2300, 2800], private: [3400, 9000] }
+        address_zh: '香港跑馬地司徒拔道40號', address_en: '40 Stubbs Road, Happy Valley, Hong Kong', phone: '36518888', whatsapp: '36518808', lat: 22.2680, lon: 114.1830,
+        details_zh: '設有24小時緊急護理中心，由急症科專科醫生管理，提供24小時心臟介入治療及中風治療。設有先進診斷設備包括超聲波、CT及MRI。',
+        details_en: 'Features a 24-hour Urgent Care Centre managed by EM Specialists. Advanced diagnostics including ultrasound, CT, and MRI. Cardiac intervention and stroke treatment available.',
+        is24Hour: true, 
+        emergencyFee: 1200,
+        costCategory: 'high',
+        timePricing: {
+            day: { emergency: 1200, standard: 900, semi_private: 2300, private: 3400 },      // 08:00-17:59
+            evening: { emergency: 1440, standard: 1080, semi_private: 2760, private: 4080 }, // 18:00-21:59 (+20%)
+            night: { emergency: 1800, standard: 1350, semi_private: 3450, private: 5100 }    // 22:00-07:59 (+50%)
+        },
+        fees: { consultation: [1200, 1200], standard: [900, 900], semi_private: [2300, 2800], private: [3400, 9000] }
     },
     {
         id: 'hkah_tw', name_en: 'Hong Kong Adventist Hospital – Tsuen Wan', name_zh: '香港港安醫院–荃灣', sector: 'private', region: 'NT', privateTier: 'B',
         address_zh: '新界荃灣荃景圍199號', address_en: '199 Tsuen King Circuit, Tsuen Wan, New Territories', phone: '22756888', lat: 22.3783, lon: 114.1083,
         details_zh: '設有24小時緊急護理中心，由急症科專科醫生駐診，為新界西區提供私家緊急服務。',
         details_en: 'Features a 24-hour Urgent Care Centre with EM Specialists on duty, providing private emergency services in NT West.',
-        is24Hour: true, fees: { consultation: [450, 700], standard: [1000, 1000], semi_private: [1250, 1600], private: [2500, 4000] }
+        is24Hour: true,
+        emergencyFee: 575,
+        costCategory: 'medium',
+        fees: { consultation: [450, 700], standard: [1000, 1000], semi_private: [1250, 1600], private: [2500, 4000] }
     },
     {
         id: 'hksh', name_en: 'Hong Kong Sanatorium & Hospital', name_zh: '養和醫院', sector: 'private', region: 'HKI', privateTier: 'B',
         address_zh: '香港跑馬地山村道2號', address_en: '2 Village Road, Happy Valley, Hong Kong', phone: '28358600', lat: 22.2700, lon: 114.1842,
         details_zh: '設有24小時家庭醫學及基層醫療中心（門診），由普通科醫生主理。',
         details_en: 'Features a 24-hour Family Medicine and Primary Care Centre (outpatient), run by general practitioners.',
-        is24Hour: true, fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] }
+        is24Hour: true,
+        emergencyFee: 550,
+        costCategory: 'medium',
+        fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] }
     },
     {
         id: 'hkbh', name_en: 'Hong Kong Baptist Hospital', name_zh: '香港浸信會醫院', sector: 'private', region: 'KLN', privateTier: 'B',
         address_zh: '九龍九龍塘窩打老道222號', address_en: '222 Waterloo Road, Kowloon Tong, Kowloon', phone: '23398941', lat: 22.3292, lon: 114.1782,
         details_zh: '設有24小時門診中心，由普通科醫生及駐院醫生主理。',
         details_en: 'Features a 24-hour Out-patient Centre, run by general practitioners and resident doctors.',
-        is24Hour: true, fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] }
+        is24Hour: true,
+        emergencyFee: 625,
+        costCategory: 'medium',
+        fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] }
     },
     {
         id: 'sph', name_en: 'St. Paul\'s Hospital', name_zh: '聖保祿醫院', sector: 'private', region: 'HKI', privateTier: 'B',
         address_zh: '香港銅鑼灣東院道2號', address_en: '2 Eastern Hospital Road, Causeway Bay, Hong Kong', phone: '28308774', lat: 22.2783, lon: 114.1863,
         details_zh: '設有24小時普通科門診，院方明確指出此非急症服務。危重病人會被轉介至公立醫院。',
         details_en: 'Features a 24-hour General Outpatient Clinic. The hospital states this is not an A&E service. Critical patients will be transferred to public hospitals.',
-        is24Hour: true, fees: { consultation: [280, 470], standard: [760, 900], semi_private: [1380, 1480], private: [3800, 6800] }
+        is24Hour: true,
+        emergencyFee: 375,
+        costCategory: 'low',
+        fees: { consultation: [280, 470], standard: [760, 900], semi_private: [1380, 1480], private: [3800, 6800] }
     },
     {
         id: 'sth', name_en: 'St. Teresa\'s Hospital', name_zh: '聖德肋撒醫院', sector: 'private', region: 'KLN', privateTier: 'B',
         address_zh: '九龍太子道327號', address_en: '327 Prince Edward Road, Kowloon', phone: '22003102', lat: 22.3248, lon: 114.1828,
         details_zh: '設有24小時門診服務，由普通科醫生及駐院醫生主理。',
         details_en: 'Features a 24-hour Outpatient Service, run by general practitioners and resident doctors.',
-        is24Hour: true, fees: { consultation: [180, 370], standard: [560, 750], semi_private: [850, 1600], private: [1900, 14800] }
+        is24Hour: true,
+        emergencyFee: 275,
+        costCategory: 'low',
+        fees: { consultation: [180, 370], standard: [560, 750], semi_private: [850, 1600], private: [1900, 14800] }
     },
     {
         id: 'ch', name_en: 'Canossa Hospital (Caritas)', name_zh: '嘉諾撒醫院', sector: 'private', region: 'HKI', privateTier: 'B',
         address_zh: '香港半山舊山頂道1號', address_en: '1 Old Peak Road, Mid-Levels, Hong Kong', phone: '28255805', lat: 22.2755, lon: 114.1555,
         details_zh: '設有24小時門診服務，由駐院醫生主理。危重病人會被轉介至公立醫院。',
         details_en: 'Features a 24-hour Outpatient Service, run by resident doctors. Critical patients will be transferred to public hospitals.',
-        is24Hour: true, fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] }
+        is24Hour: true,
+        emergencyFee: 544,
+        costCategory: 'medium',
+        fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] }
     },
     {
         id: 'mih', name_en: 'Matilda International Hospital', name_zh: '明德國際醫院', sector: 'private', region: 'HKI', privateTier: 'B',
         address_zh: '香港山頂加列山道41號', address_en: '41 Mount Kellett Road, The Peak, Hong Kong', phone: '28491500', lat: 22.2678, lon: 114.1458,
         details_zh: '設有24小時門診服務，處理各種急症。院方建議遇上危急情況應致電999。',
         details_en: 'Features a 24-hour Outpatient Service for various urgent conditions. The hospital advises calling 999 for emergencies.',
-        is24Hour: true, fees: { consultation: [590, 800], standard: [900, 900], semi_private: [1990, 1990], private: [3300, 3300] }
+        is24Hour: true,
+        emergencyFee: 695,
+        costCategory: 'medium',
+        fees: { consultation: [590, 800], standard: [900, 900], semi_private: [1990, 1990], private: [3300, 3300] }
     },
     {
         id: 'pbh', name_en: 'Precious Blood Hospital (Caritas)', name_zh: '寶血醫院（明愛）', sector: 'private', region: 'KLN',

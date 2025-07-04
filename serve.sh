@@ -3,7 +3,7 @@
 # Hong Kong Emergency Services Info Website - Local Development Server
 # This script starts a local web server to serve the website
 
-PORT=${PORT:-8080}
+PORT=${PORT:-3030}
 HOST=${HOST:-localhost}
 
 echo "🏥 Hong Kong Emergency Services Info Website"
@@ -36,16 +36,16 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Options:"
             echo "  --help, -h     Show this help message"
-            echo "  --port PORT    Set server port (default: 8080)"
+            echo "  --port PORT    Set server port (default: 3030)"
             echo "  --host HOST    Set server host (default: localhost)"
             echo ""
             echo "Environment variables:"
-            echo "  PORT           Server port (default: 8080)"
+            echo "  PORT           Server port (default: 3030)"
             echo "  HOST           Server host (default: localhost)"
             echo ""
             echo "Examples:"
-            echo "  $0                    # Start server on localhost:8080"
-            echo "  $0 --port 3000       # Start server on localhost:3000"
+            echo "  $0                    # Start server on localhost:3030"
+            echo "  $0 --port 8080       # Start server on localhost:8080"
             echo "  PORT=9000 $0         # Start server on localhost:9000"
             exit 0
             ;;
@@ -85,7 +85,7 @@ fi
 # Check if port is available and suggest alternative
 if ! is_port_free $PORT; then
     echo "⚠️  Port $PORT appears to be in use"
-    echo "💡 Try a different port with: $0 --port 3000"
+    echo "💡 Try a different port with: $0 --port 8080"
     echo "Or kill the process using port $PORT"
     echo ""
 fi
@@ -172,6 +172,6 @@ else
     echo ""
     echo "Quick alternatives:"
     echo "  • Use Docker: docker run -p 8080:80 -v \$(pwd):/usr/share/nginx/html:ro nginx"
-    echo "  • Use Python directly: python3 -m http.server 8080"
+    echo "  • Use Python directly: python3 -m http.server 3030"
     exit 1
 fi
