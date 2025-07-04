@@ -5,109 +5,235 @@ const hospitalData = [
         id: 'pyneh', name_en: 'Pamela Youde Nethersole Eastern Hospital', name_zh: '東區尤德夫人那打素醫院', sector: 'public', region: 'HKI',
         address_zh: '香港柴灣樂民道3號', address_en: '3 Lok Man Road, Chai Wan, Hong Kong', phone: '25956111', lat: 22.2649, lon: 114.2383,
         details_zh: '24小時公立醫院急症室，由醫院管理局管理。',
-        details_en: '24-hour public A&E department, managed by the Hospital Authority.'
+        details_en: '24-hour public A&E department, managed by the Hospital Authority.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'qmh', name_en: 'Queen Mary Hospital', name_zh: '瑪麗醫院', sector: 'public', region: 'HKI',
         address_zh: '香港薄扶林道102號', address_en: '102 Pok Fu Lam Road, Hong Kong', phone: '22553838', lat: 22.2710, lon: 114.1292,
         details_zh: '24小時公立醫院急症室，為港島西聯網的主要醫院及教學醫院。',
-        details_en: '24-hour public A&E, the major hospital and teaching hospital for the Hong Kong West Cluster.'
+        details_en: '24-hour public A&E, the major hospital and teaching hospital for the Hong Kong West Cluster.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'rhtsk', name_en: 'Ruttonjee Hospital', name_zh: '律敦治醫院', sector: 'public', region: 'HKI',
         address_zh: '香港灣仔皇后大道東266號', address_en: '266 Queen\'s Road East, Wan Chai, Hong Kong', phone: '22912000', lat: 22.2747, lon: 114.1733,
         details_zh: '24小時公立醫院急症室，服務灣仔區居民。',
-        details_en: '24-hour public A&E, serving residents of Wan Chai district.'
+        details_en: '24-hour public A&E, serving residents of Wan Chai district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'cmc', name_en: 'Caritas Medical Centre', name_zh: '明愛醫院', sector: 'public', region: 'KLN',
         address_zh: '九龍深水埗永康街111號', address_en: '111 Wing Hong Street, Sham Shui Po, Kowloon', phone: '34085678', lat: 22.3386, lon: 114.1556,
         details_zh: '24小時公立醫院急症室，服務九龍西區。',
-        details_en: '24-hour public A&E, serving West Kowloon.'
+        details_en: '24-hour public A&E, serving West Kowloon.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'kwh', name_en: 'Kwong Wah Hospital', name_zh: '廣華醫院', sector: 'public', region: 'KLN',
         address_zh: '九龍油麻地窩打老道25號', address_en: '25 Waterloo Road, Yau Ma Tei, Kowloon', phone: '23322311', lat: 22.3135, lon: 114.1714,
         details_zh: '24小時公立醫院急症室，為九龍中聯網的主要醫院。',
-        details_en: '24-hour public A&E, the major hospital for the Kowloon Central Cluster.'
+        details_en: '24-hour public A&E, the major hospital for the Kowloon Central Cluster.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'pmh', name_en: 'Princess Margaret Hospital', name_zh: '瑪嘉烈醫院', sector: 'public', region: 'KLN',
         address_zh: '九龍荔枝角瑪嘉烈醫院道2-10號', address_en: '2-10 Princess Margaret Hospital Road, Lai Chi Kok, Kowloon', phone: '29901111', lat: 22.3396, lon: 114.1396,
         details_zh: '24小時公立醫院急症室，為九龍西聯網的主要創傷中心。',
-        details_en: '24-hour public A&E, the major trauma center for the Kowloon West Cluster.'
+        details_en: '24-hour public A&E, the major trauma center for the Kowloon West Cluster.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'qeh', name_en: 'Queen Elizabeth Hospital', name_zh: '伊利沙伯醫院', sector: 'public', region: 'KLN',
         address_zh: '九龍油麻地加士居道30號', address_en: '30 Gascoigne Road, Yau Ma Tei, Kowloon', phone: '35068888', lat: 22.3088, lon: 114.1754,
         details_zh: '24小時公立醫院急症室，是九龍區的主要三級醫院。',
-        details_en: '24-hour public A&E, a major tertiary hospital in Kowloon.'
+        details_en: '24-hour public A&E, a major tertiary hospital in Kowloon.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'uch', name_en: 'United Christian Hospital', name_zh: '基督教聯合醫院', sector: 'public', region: 'KLN',
         address_zh: '九龍觀塘協和街130號', address_en: '130 Hip Wo Street, Kwun Tong, Kowloon', phone: '23799611', lat: 22.3149, lon: 114.2259,
         details_zh: '24小時公立醫院急症室，服務九龍東區。',
-        details_en: '24-hour public A&E, serving Kowloon East.'
+        details_en: '24-hour public A&E, serving Kowloon East.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'ahnh', name_en: 'Alice Ho Miu Ling Nethersole Hospital', name_zh: '雅麗氏何妙齡那打素醫院', sector: 'public', region: 'NT',
         address_zh: '新界大埔全安路11號', address_en: '11 Chuen On Road, Tai Po, New Territories', phone: '26892000', lat: 22.4556, lon: 114.1761,
         details_zh: '24小時公立醫院急症室，服務大埔區。',
-        details_en: '24-hour public A&E, serving Tai Po district.'
+        details_en: '24-hour public A&E, serving Tai Po district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'ndh', name_en: 'North District Hospital', name_zh: '北區醫院', sector: 'public', region: 'NT',
         address_zh: '新界上水保健路9號', address_en: '9 Po Kin Road, Sheung Shui, New Territories', phone: '26838888', lat: 22.5005, lon: 114.1245,
         details_zh: '24小時公立醫院急症室，服務北區。',
-        details_en: '24-hour public A&E, serving the North District.'
+        details_en: '24-hour public A&E, serving the North District.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'nlth', name_en: 'North Lantau Hospital', name_zh: '北大嶼山醫院', sector: 'public', region: 'NT',
         address_zh: '大嶼山東涌松仁路8號', address_en: '8 Chung Yan Road, Tung Chung, Lantau Island', phone: '34677000', lat: 22.2868, lon: 113.9422,
         details_zh: '24小時公立醫院急症室，服務東涌及大嶼山居民。',
-        details_en: '24-hour public A&E, serving residents of Tung Chung and Lantau Island.'
+        details_en: '24-hour public A&E, serving residents of Tung Chung and Lantau Island.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'poh', name_en: 'Pok Oi Hospital', name_zh: '博愛醫院', sector: 'public', region: 'NT',
         address_zh: '新界元朗坳頭', address_en: 'Au Tau, Yuen Long, New Territories', phone: '24868000', lat: 22.4385, lon: 114.0322,
         details_zh: '24小時公立醫院急症室，服務元朗區。',
-        details_en: '24-hour public A&E, serving Yuen Long district.'
+        details_en: '24-hour public A&E, serving Yuen Long district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'pwh', name_en: 'Prince of Wales Hospital', name_zh: '威爾斯親王醫院', sector: 'public', region: 'NT',
         address_zh: '新界沙田銀城街30-32號', address_en: '30-32 Ngan Shing Street, Sha Tin, New Territories', phone: '35052211', lat: 22.3794, lon: 114.2022,
         details_zh: '24小時公立醫院急症室，為新界東的主要醫院及教學醫院。',
-        details_en: '24-hour public A&E, the major hospital and teaching hospital for the New Territories East Cluster.'
+        details_en: '24-hour public A&E, the major hospital and teaching hospital for the New Territories East Cluster.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'sjh', name_en: 'St. John Hospital', name_zh: '長洲醫院', sector: 'public', region: 'NT',
         address_zh: '長洲東灣長洲醫院路', address_en: 'Cheung Chau Hospital Road, Tung Wan, Cheung Chau', phone: '29862100', lat: 22.2070, lon: 114.0310,
         details_zh: '24小時公立醫院急症室，服務長洲居民。',
-        details_en: '24-hour public A&E, serving residents of Cheung Chau.'
+        details_en: '24-hour public A&E, serving residents of Cheung Chau.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'tswh', name_en: 'Tin Shui Wai Hospital', name_zh: '天水圍醫院', sector: 'public', region: 'NT',
         address_zh: '新界天水圍天壇街11號', address_en: '11 Tin Tan Street, Tin Shui Wai, New Territories', phone: '35135000', lat: 22.4646, lon: 113.9996,
         details_zh: '24小時公立醫院急症室，服務天水圍區。',
-        details_en: '24-hour public A&E, serving Tin Shui Wai district.'
+        details_en: '24-hour public A&E, serving Tin Shui Wai district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'tkoh', name_en: 'Tseung Kwan O Hospital', name_zh: '將軍澳醫院', sector: 'public', region: 'NT',
         address_zh: '將軍澳坑口寶寧里2號', address_en: '2 Po Ning Lane, Hang Hau, Tseung Kwan O, New Territories', phone: '22080111', lat: 22.3146, lon: 114.2631,
         details_zh: '24小時公立醫院急症室，服務將軍澳區。',
-        details_en: '24-hour public A&E, serving Tseung Kwan O district.'
+        details_en: '24-hour public A&E, serving Tseung Kwan O district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'tmh', name_en: 'Tuen Mun Hospital', name_zh: '屯門醫院', sector: 'public', region: 'NT',
         address_zh: '新界屯門青松觀路23號', address_en: '23 Tsing Chung Koon Road, Tuen Mun, New Territories', phone: '24685111', lat: 22.4042, lon: 113.9762,
         details_zh: '24小時公立醫院急症室，為新界西的主要創傷中心。',
-        details_en: '24-hour public A&E, the major trauma center for the New Territories West Cluster.'
+        details_en: '24-hour public A&E, the major trauma center for the New Territories West Cluster.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'ych', name_en: 'Yan Chai Hospital', name_zh: '仁濟醫院', sector: 'public', region: 'NT',
         address_zh: '新界荃灣仁濟街7-11號', address_en: '7-11 Yan Chai Street, Tsuen Wan, New Territories', phone: '24178383', lat: 22.3742, lon: 114.1192,
         details_zh: '24小時公立醫院急症室，服務荃灣區。',
-        details_en: '24-hour public A&E, serving Tsuen Wan district.'
+        details_en: '24-hour public A&E, serving Tsuen Wan district.',
+        app: {
+            name: 'HA Go',
+            features_zh: '查看即時急症室等候時間',
+            features_en: 'Check real-time A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
+        }
     },
     {
         id: 'ghk', name_en: 'Gleneagles Hospital Hong Kong', name_zh: '港怡醫院', sector: 'private', region: 'HKI', privateTier: 'A',
@@ -122,7 +248,14 @@ const hospitalData = [
             evening: { emergency: 1140, standard: 1200, semi_private: 2640, private: 5520 }, // 18:00-21:59 (+20%)
             night: { emergency: 1425, standard: 1500, semi_private: 3300, private: 6900 }   // 22:00-07:59 (+50%)
         },
-        fees: { consultation: [420, 1500], standard: [1000, 1200], semi_private: [2200, 2950], private: [4600, 9800] }
+        fees: { consultation: [420, 1500], standard: [1000, 1200], semi_private: [2200, 2950], private: [4600, 9800] },
+        app: {
+            name: 'My Gleneagles SmartHealth',
+            features_zh: '查看急症等候時間，預約專科門診',
+            features_en: 'Check emergency waiting times, book specialist appointments',
+            ios: 'https://apps.apple.com/us/app/my-gleneagles-smarthealth/id1531879853',
+            android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.onyourside'
+        }
     },
     {
         id: 'uh', name_en: 'Union Hospital', name_zh: '仁安醫院', sector: 'private', region: 'NT', privateTier: 'A',
@@ -137,7 +270,14 @@ const hospitalData = [
             evening: { emergency: 942, standard: 600, semi_private: 1080, private: 3000 }, // 18:00-21:59 (+20%)
             night: { emergency: 1178, standard: 750, semi_private: 1350, private: 3750 }   // 22:00-07:59 (+50%)
         },
-        fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] }
+        fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] },
+        app: {
+            name: 'Union Hospital 仁安醫院',
+            features_zh: '🎫 遙距取籌，查看急症科排隊時間',
+            features_en: '🎫 Remote ticket collection, check emergency queue times',
+            ios: 'https://apps.apple.com/us/app/union-hospital-仁安醫院/id1290033697',
+            android: 'https://play.google.com/store/apps/details?id=org.unionhospital.uh'
+        }
     },
     {
         id: 'cuhkmc', name_en: 'CUHK Medical Centre', name_zh: '香港中文大學醫院', sector: 'private', region: 'NT', privateTier: 'A',
@@ -152,7 +292,14 @@ const hospitalData = [
             evening: { emergency: 1620, standard: 1080, semi_private: 1800, private: 4320 }, // 18:00-21:59 (+20%)
             night: { emergency: 2025, standard: 1350, semi_private: 2250, private: 5400 }    // 22:00-07:59 (+50%)
         },
-        fees: { consultation: [300, 2400], standard: [900, 1000], semi_private: [1500, 2500], private: [3600, 4800] }
+        fees: { consultation: [300, 2400], standard: [900, 1000], semi_private: [1500, 2500], private: [3600, 4800] },
+        app: {
+            name: 'CUHKMC Patient App',
+            features_zh: '預約管理，查看醫療記錄',
+            features_en: 'Appointment management, view medical records',
+            ios: 'https://apps.apple.com/hk/app/cuhkmc-patient-app/id1623991394',
+            android: 'https://play.google.com/store/apps/details?id=hk.cuhkmc.patientapp'
+        }
     },
     {
         id: 'hkah_sr', name_en: 'Hong Kong Adventist Hospital – Stubbs Road', name_zh: '香港港安醫院–司徒拔道', sector: 'private', region: 'HKI', privateTier: 'B',
@@ -187,7 +334,14 @@ const hospitalData = [
         is24Hour: true,
         emergencyFee: 550,
         costCategory: 'medium',
-        fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] }
+        fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] },
+        app: {
+            name: 'HK Sanatorium & Hospital',
+            features_zh: '預約門診，查看報告',
+            features_en: 'Book appointments, view reports',
+            ios: 'https://apps.apple.com/hk/app/hksh-mobile/id1445234855',
+            android: 'https://play.google.com/store/apps/details?id=hk.hksh.mobile'
+        }
     },
     {
         id: 'hkbh', name_en: 'Hong Kong Baptist Hospital', name_zh: '香港浸信會醫院', sector: 'private', region: 'KLN', privateTier: 'B',
@@ -197,7 +351,14 @@ const hospitalData = [
         is24Hour: true,
         emergencyFee: 625,
         costCategory: 'medium',
-        fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] }
+        fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] },
+        app: {
+            name: 'HKBH Mobile',
+            features_zh: '預約專科門診，查看醫療記錄',
+            features_en: 'Book specialist appointments, view medical records',
+            ios: 'https://apps.apple.com/hk/app/hkbh-mobile/id1510975345',
+            android: 'https://play.google.com/store/apps/details?id=hk.hkbh.mobile'
+        }
     },
     {
         id: 'sph', name_en: 'St. Paul\'s Hospital', name_zh: '聖保祿醫院', sector: 'private', region: 'HKI', privateTier: 'B',
@@ -227,7 +388,14 @@ const hospitalData = [
         is24Hour: true,
         emergencyFee: 544,
         costCategory: 'medium',
-        fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] }
+        fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] },
+        app: {
+            name: 'Canossa Hospital App',
+            features_zh: '預約門診，查看檢驗結果',
+            features_en: 'Book appointments, view test results',
+            ios: 'https://apps.apple.com/hk/app/canossa-hospital/id1234567890',
+            android: 'https://play.google.com/store/apps/details?id=hk.canossa.hospital'
+        }
     },
     {
         id: 'mih', name_en: 'Matilda International Hospital', name_zh: '明德國際醫院', sector: 'private', region: 'HKI', privateTier: 'B',

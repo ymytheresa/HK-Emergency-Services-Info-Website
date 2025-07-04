@@ -348,6 +348,31 @@ async function createHospitalCard(h, distance = null) {
     const distanceInfo = distance !== null ? `<p class="font-bold text-indigo-600">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p>` : '';
     const address = currentLanguage === 'zh' ? h.address_zh : h.address_en;
     
+    // App download section for hospitals with apps
+    let appSection = '';
+    if (h.app) {
+        appSection = `
+            <div class="mt-3 p-2 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                <p class="text-xs font-semibold text-purple-700 mb-2">📱 ${currentLanguage === 'zh' ? '快速排隊應用程式' : 'Quick Queue App'}</p>
+                <p class="text-xs text-gray-600 mb-2">${currentLanguage === 'zh' ? h.app.features_zh : h.app.features_en}</p>
+                <div class="flex gap-2 justify-center">
+                    ${h.app.ios ? `<a href="${h.app.ios}" target="_blank" class="bg-black text-white px-2 py-1 rounded text-xs hover:bg-gray-800 transition flex items-center gap-1">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        iOS
+                    </a>` : ''}
+                    ${h.app.android ? `<a href="${h.app.android}" target="_blank" class="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700 transition flex items-center gap-1">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1518-.5972.416.416 0 00-.5972.1518l-2.0223 3.5046C15.5889 8.6039 13.8952 8.2652 12 8.2652s-3.5889.3387-5.1851.7897L4.7926 5.4503a.4161.4161 0 00-.5972-.1518.4161.4161 0 00-.1518.5972L6.0409 9.3214C2.9847 10.8064.9999 13.6829.9999 17.0015c0 .5557.4477 1.0034 1.0034 1.0034h19.9932c.5557 0 1.0034-.4477 1.0034-1.0034 0-3.3186-1.9848-6.1951-5.0409-7.6801"/>
+                        </svg>
+                        Android
+                    </a>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
     card.innerHTML = `
         <div class="text-center relative">
             ${distance !== null ? `<div class="absolute top-0 right-0"><p class="font-bold text-indigo-600 text-sm">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p></div>` : ''}
@@ -363,6 +388,7 @@ async function createHospitalCard(h, distance = null) {
             
             ${waitingTimeInfo}
             ${feeInfo}
+            ${appSection}
             
             <div class="mt-4">
                 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
