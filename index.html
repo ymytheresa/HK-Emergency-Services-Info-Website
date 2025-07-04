@@ -36,25 +36,25 @@
     <main class="container mx-auto p-4 md:p-8">
         
         <div id="urgent-care-app">
-            <section class="mb-8">
-                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-6 rounded-r-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-4" role="alert">
+            <section class="mb-4 md:mb-8">
+                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 md:p-6 rounded-r-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4" role="alert">
                     <div>
-                        <p id="critical-title" class="text-2xl md:text-3xl font-bold"></p>
-                        <p id="critical-desc" class="mt-2 text-md md:text-lg"></p>
+                        <p id="critical-title" class="text-lg md:text-3xl font-bold leading-tight"></p>
+                        <p id="critical-desc" class="mt-1 md:mt-2 text-sm md:text-lg"></p>
                     </div>
-                    <a href="tel:999" id="call-999-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg shadow-md transition-transform transform hover:scale-105 whitespace-nowrap">
+                    <a href="tel:999" id="call-999-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 md:py-4 md:px-8 rounded-lg shadow-md transition-transform transform hover:scale-105 whitespace-nowrap text-sm md:text-base">
                     </a>
                 </div>
             </section>
 
-            <section id="location-finder" class="mb-12">
-                <h2 id="finder-title" class="text-3xl font-bold text-center mb-2"></h2>
-                <p id="finder-desc" class="text-center text-gray-600 mb-8"></p>
+            <section id="location-finder" class="mb-8 md:mb-12">
+                <h2 id="finder-title" class="text-2xl md:text-3xl font-bold text-center mb-2"></h2>
+                <p id="finder-desc" class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base"></p>
                 
-                <div class="bg-white p-6 rounded-xl shadow-lg mb-8">
-                    <h3 id="geo-title" class="text-xl font-bold text-center mb-4"></h3>
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-4">
-                        <button id="find-nearest-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2">
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg mb-4 md:mb-8">
+                    <h3 id="geo-title" class="text-lg md:text-xl font-bold text-center mb-3 md:mb-4"></h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-4">
+                        <button id="find-nearest-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 flex items-center gap-2 text-sm md:text-base">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                             <span id="geo-btn-text"></span>
                         </button>
@@ -65,9 +65,9 @@
                 </div>
             </section>
 
-            <section id="cost-comparison" class="mb-12">
-                 <h2 id="cost-title" class="text-3xl font-bold text-center mb-2"></h2>
-                 <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
+            <section id="cost-comparison" class="mb-8 md:mb-12">
+                 <h2 id="cost-title" class="text-2xl md:text-3xl font-bold text-center mb-2"></h2>
+                 <p id="cost-desc" class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base"></p>
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
                     <div class="text-center mb-6">
                         <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
@@ -103,9 +103,9 @@
                 </div>
             </section>
 
-            <section id="hospital-browser" class="mb-12">
-                <h2 class="text-3xl font-bold text-center mb-2" id="browser-title"></h2>
-                <p class="text-center text-gray-600 mb-8" id="browser-desc"></p>
+            <section id="hospital-browser" class="mb-8 md:mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-2" id="browser-title"></h2>
+                <p class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base" id="browser-desc"></p>
                 
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
                     <!-- Waiting Time Legend -->
@@ -130,6 +130,7 @@
                             </div>
                         </div>
                         <p class="text-xs text-gray-600 mt-2 text-center" id="legend-update-info"></p>
+                        <p class="text-xs text-blue-600 mt-1 text-center font-medium" id="sorted-info">⬇️ <span id="sorted-by-waiting-time"></span></p>
                     </div>
                     <div class="space-y-4 mb-6">
                         <div>

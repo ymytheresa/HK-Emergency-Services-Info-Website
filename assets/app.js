@@ -183,6 +183,7 @@ async function setLanguage(lang) {
     document.getElementById('legend-slow').textContent = t.legendSlow;
     document.getElementById('legend-private').textContent = t.legendPrivate;
     document.getElementById('legend-update-info').textContent = t.legendUpdateInfo;
+    document.getElementById('sorted-by-waiting-time').textContent = t.sortedByWaitingTime;
     
     document.getElementById('filter-region-label').textContent = t.filterRegionLabel;
     document.getElementById('filter-region-all').textContent = t.filterRegionAll;
@@ -416,8 +417,34 @@ async function renderHospitalCards() {
         return;
     }
 
+    // Get waiting times for sorting
+    const waitingTimes = await fetchWaitingTimes();
+    
+    // Sort hospitals by waiting time (public hospitals first by waiting time, then private hospitals)
+    const sortedData = filteredData.sort((a, b) => {
+        // Public hospitals: sort by waiting time level (lower = better)
+        if (a.sector === 'public' && b.sector === 'public') {
+            const aWaitLevel = getWaitingTimeLevel(waitingTimes[a.id]?.waitTime);
+            const bWaitLevel = getWaitingTimeLevel(waitingTimes[b.id]?.waitTime);
+            return aWaitLevel - bWaitLevel; // Lower wait time level comes first
+        }
+        
+        // Private hospitals: sort by emergency fee (lower = better)
+        if (a.sector === 'private' && b.sector === 'private') {
+            const aFee = a.emergencyFee || 9999;
+            const bFee = b.emergencyFee || 9999;
+            return aFee - bFee;
+        }
+        
+        // Mixed: public hospitals first (they have waiting time data), then private
+        if (a.sector === 'public' && b.sector === 'private') return -1;
+        if (a.sector === 'private' && b.sector === 'public') return 1;
+        
+        return 0;
+    });
+
     // Create cards one by one to avoid blocking
-    for (const h of filteredData) {
+    for (const h of sortedData) {
         try {
             const card = await createHospitalCard(h);
             hospitalList.appendChild(card);
