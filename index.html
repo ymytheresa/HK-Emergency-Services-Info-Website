@@ -208,6 +208,86 @@
                             <button data-filter-group="privateTier" data-filter-value="A" id="filter-tier-a" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
                             <button data-filter-group="privateTier" data-filter-value="B" id="filter-tier-b" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
                         </div>
+                        <div id="specialist-filter-container">
+                            <span id="filter-specialist-label" class="font-bold mr-4"></span>
+                            <button data-filter-group="specialist" data-filter-value="all" id="filter-specialist-all" class="filter-btn specialist-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <button data-filter-group="specialist" data-filter-value="cardiology" id="filter-specialist-cardiology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                    <span id="filter-cardiology-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="orthopedics" id="filter-specialist-orthopedics" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+                                        <path d="M9 9h1v1h-1z"/>
+                                        <path d="M14 9h1v1h-1z"/>
+                                        <path d="M9 14h6"/>
+                                    </svg>
+                                    <span id="filter-orthopedics-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="neurology" id="filter-specialist-neurology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6"/>
+                                        <path d="m15.5 4.5-3 3-3-3"/>
+                                        <path d="m15.5 19.5-3-3-3 3"/>
+                                    </svg>
+                                    <span id="filter-neurology-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="pediatrics" id="filter-specialist-pediatrics" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <span id="filter-pediatrics-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="gynecology" id="filter-specialist-gynecology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="8" r="7"/>
+                                        <polyline points="8.21,13.89 7,23 17,23 15.79,13.88"/>
+                                    </svg>
+                                    <span id="filter-gynecology-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="urology" id="filter-specialist-urology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 3h12l4 6-10 13L2 9l4-6z"/>
+                                    </svg>
+                                    <span id="filter-urology-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="gastroenterology" id="filter-specialist-gastroenterology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9.9 9a3 3 0 0 1 5.9-2.2"/>
+                                        <path d="M20.6 16.7a1 1 0 0 0-1.4-1.4L12 22l-7.2-6.7a1 1 0 0 0-1.4 1.4L12 24l8.6-7.3z"/>
+                                        <path d="M12 11v9"/>
+                                    </svg>
+                                    <span id="filter-gastroenterology-text"></span>
+                                </span>
+                            </button>
+                            <button data-filter-group="specialist" data-filter-value="psychiatry" id="filter-specialist-psychiatry" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                                <span class="flex items-center gap-1">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                        <path d="M12 17h.01"/>
+                                    </svg>
+                                    <span id="filter-psychiatry-text"></span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                      <div id="hospital-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>

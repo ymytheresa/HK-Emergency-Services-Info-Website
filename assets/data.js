@@ -10,7 +10,11 @@ const hospitalData = [
             emergency: '24/7',
             cardiology: 'on-call',
             orthopedics: 'on-call',
-            neurology: 'on-call'
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            gynecology: 'on-call',
+            urology: 'on-call',
+            gastroenterology: 'on-call'
         },
         app: {
             name: 'HA Go',
@@ -29,7 +33,11 @@ const hospitalData = [
             emergency: '24/7',
             cardiology: 'on-call',
             orthopedics: 'on-call',
-            neurology: 'on-call'
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            gynecology: 'on-call',
+            urology: 'on-call',
+            gastroenterology: 'on-call'
         },
         app: {
             name: 'HA Go',
@@ -44,6 +52,12 @@ const hospitalData = [
         address_zh: '香港灣仔皇后大道東266號', address_en: '266 Queen\'s Road East, Wan Chai, Hong Kong', phone: '22912000', lat: 22.2747, lon: 114.1733,
         details_zh: '24小時公立醫院急症室，服務灣仔區居民。',
         details_en: '24-hour public A&E, serving residents of Wan Chai district.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            gastroenterology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -57,6 +71,13 @@ const hospitalData = [
         address_zh: '九龍深水埗永康街111號', address_en: '111 Wing Hong Street, Sham Shui Po, Kowloon', phone: '34085678', lat: 22.3386, lon: 114.1556,
         details_zh: '24小時公立醫院急症室，服務九龍西區。',
         details_en: '24-hour public A&E, serving West Kowloon.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            pediatrics: 'on-call',
+            gastroenterology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -70,6 +91,14 @@ const hospitalData = [
         address_zh: '九龍油麻地窩打老道25號', address_en: '25 Waterloo Road, Yau Ma Tei, Kowloon', phone: '23322311', lat: 22.3135, lon: 114.1714,
         details_zh: '24小時公立醫院急症室，為九龍中聯網的主要醫院。',
         details_en: '24-hour public A&E, the major hospital for the Kowloon Central Cluster.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            gynecology: 'on-call',
+            pediatrics: 'on-call',
+            gastroenterology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -83,6 +112,14 @@ const hospitalData = [
         address_zh: '九龍荔枝角瑪嘉烈醫院道2-10號', address_en: '2-10 Princess Margaret Hospital Road, Lai Chi Kok, Kowloon', phone: '29901111', lat: 22.3396, lon: 114.1396,
         details_zh: '24小時公立醫院急症室，為九龍西聯網的主要創傷中心。',
         details_en: '24-hour public A&E, the major trauma center for the Kowloon West Cluster.',
+        specialists: {
+            emergency: '24/7',
+            orthopedics: '24/7',
+            cardiology: 'on-call',
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            urology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -100,7 +137,11 @@ const hospitalData = [
             emergency: '24/7',
             cardiology: 'on-call',
             orthopedics: 'on-call',
-            neurology: 'on-call'
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            gynecology: 'on-call',
+            urology: 'on-call',
+            gastroenterology: 'on-call'
         },
         app: {
             name: 'HA Go',
@@ -115,6 +156,13 @@ const hospitalData = [
         address_zh: '九龍觀塘協和街130號', address_en: '130 Hip Wo Street, Kwun Tong, Kowloon', phone: '23799611', lat: 22.3149, lon: 114.2259,
         details_zh: '24小時公立醫院急症室，服務九龍東區。',
         details_en: '24-hour public A&E, serving Kowloon East.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            pediatrics: 'on-call',
+            gastroenterology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -180,6 +228,17 @@ const hospitalData = [
         address_zh: '新界沙田銀城街30-32號', address_en: '30-32 Ngan Shing Street, Sha Tin, New Territories', phone: '35052211', lat: 22.3794, lon: 114.2022,
         details_zh: '24小時公立醫院急症室，為新界東的主要醫院及教學醫院。',
         details_en: '24-hour public A&E, the major hospital and teaching hospital for the New Territories East Cluster.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: '24/7',
+            orthopedics: 'on-call',
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            gynecology: 'on-call',
+            urology: 'on-call',
+            gastroenterology: 'on-call',
+            psychiatry: 'referral'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -232,6 +291,15 @@ const hospitalData = [
         address_zh: '新界屯門青松觀路23號', address_en: '23 Tsing Chung Koon Road, Tuen Mun, New Territories', phone: '24685111', lat: 22.4042, lon: 113.9762,
         details_zh: '24小時公立醫院急症室，為新界西的主要創傷中心。',
         details_en: '24-hour public A&E, the major trauma center for the New Territories West Cluster.',
+        specialists: {
+            emergency: '24/7',
+            orthopedics: '24/7',
+            cardiology: 'on-call',
+            neurology: 'on-call',
+            pediatrics: 'on-call',
+            urology: 'on-call',
+            psychiatry: 'referral'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -262,7 +330,11 @@ const hospitalData = [
             emergency: '24/7',
             cardiology: '24/7',
             orthopedics: '24/7',
-            neurology: 'referral'
+            neurology: 'referral',
+            pediatrics: 'on-call',
+            gynecology: 'on-call',
+            urology: 'on-call',
+            gastroenterology: 'on-call'
         },
         is24Hour: true,
         emergencyFee: 950,
@@ -290,7 +362,11 @@ const hospitalData = [
             emergency: '24/7',
             cardiology: '24/7',
             orthopedics: 'on-call',
-            neurology: '24/7'
+            neurology: '24/7',
+            pediatrics: 'on-call',
+            gynecology: 'referral',
+            urology: 'on-call',
+            gastroenterology: 'on-call'
         },
         is24Hour: true,
         emergencyFee: 785,

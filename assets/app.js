@@ -1,7 +1,7 @@
 /* Main application logic for HK Emergency Services Info Website */
 
 let currentLanguage = 'zh';
-let appState = { region: 'all', sector: 'all', privateTier: 'all' };
+let appState = { region: 'all', sector: 'all', privateTier: 'all', specialist: 'all' };
 const hospitalList = document.getElementById('hospital-list');
 let costChart;
 
@@ -274,6 +274,17 @@ async function setLanguage(lang) {
     document.getElementById('filter-tier-a').textContent = t.filterTierA;
     document.getElementById('filter-tier-b').textContent = t.filterTierB;
 
+    document.getElementById('filter-specialist-label').textContent = t.filterSpecialistLabel;
+    document.getElementById('filter-specialist-all').textContent = t.filterSpecialistAll;
+    document.getElementById('filter-cardiology-text').textContent = t.filterCardiologyText;
+    document.getElementById('filter-orthopedics-text').textContent = t.filterOrthopedicsText;
+    document.getElementById('filter-neurology-text').textContent = t.filterNeurologyText;
+    document.getElementById('filter-pediatrics-text').textContent = t.filterPediatricsText;
+    document.getElementById('filter-gynecology-text').textContent = t.filterGynecologyText;
+    document.getElementById('filter-urology-text').textContent = t.filterUrologyText;
+    document.getElementById('filter-gastroenterology-text').textContent = t.filterGastroenterologyText;
+    document.getElementById('filter-psychiatry-text').textContent = t.filterPsychiatryText;
+
     document.getElementById('cost-title').textContent = t.costTitle;
     document.getElementById('cost-desc').textContent = t.costDesc;
     document.getElementById('time-section-title').textContent = t.timeSectionTitle;
@@ -507,11 +518,15 @@ async function renderHospitalCards() {
         const regionMatch = appState.region === 'all' || h.region === appState.region;
         const sectorMatch = appState.sector === 'all' || h.sector === appState.sector;
         
+        // Specialist filtering
+        const specialistMatch = appState.specialist === 'all' || 
+            (h.specialists && h.specialists[appState.specialist]);
+        
         if (appState.sector === 'private') {
             const tierMatch = appState.privateTier === 'all' || (h.is24Hour && h.privateTier === appState.privateTier);
-            return regionMatch && sectorMatch && (appState.privateTier === 'all' ? true : tierMatch);
+            return regionMatch && sectorMatch && specialistMatch && (appState.privateTier === 'all' ? true : tierMatch);
         }
-        return regionMatch && sectorMatch;
+        return regionMatch && sectorMatch && specialistMatch;
     });
 
     if (filteredData.length === 0) {
