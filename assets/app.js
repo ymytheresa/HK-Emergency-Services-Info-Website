@@ -164,6 +164,7 @@ async function setLanguage(lang) {
     document.getElementById('lang-en').classList.toggle('inactive-lang', lang !== 'en');
 
     const t = langContent[lang];
+    console.log('Language content loaded:', !!t, t?.mainTitle);
 
     document.getElementById('main-title').textContent = t.mainTitle;
     document.getElementById('sub-title').textContent = t.subTitle;
@@ -175,7 +176,6 @@ async function setLanguage(lang) {
     document.getElementById('browser-title').textContent = t.browserTitle;
     document.getElementById('browser-desc').textContent = t.browserDesc;
     document.getElementById('geo-title').textContent = t.geoTitle;
-    document.getElementById('geo-btn-text').textContent = t.geoBtnText;
     
     document.getElementById('waiting-legend-title').textContent = t.waitingLegendTitle;
     document.getElementById('legend-fast').textContent = t.legendFast;
@@ -184,6 +184,29 @@ async function setLanguage(lang) {
     document.getElementById('legend-private').textContent = t.legendPrivate;
     document.getElementById('legend-update-info').textContent = t.legendUpdateInfo;
     document.getElementById('sorted-by-waiting-time').textContent = t.sortedByWaitingTime;
+    
+    // Location finder new UI elements - with error handling
+    const safeSetText = (id, text) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = text;
+    };
+    
+    const safeSetPlaceholder = (id, text) => {
+        const element = document.getElementById(id);
+        if (element) element.placeholder = text;
+    };
+    
+    safeSetText('gps-btn-text', t.gpsButtonText);
+    safeSetText('address-btn-text', t.addressButtonText);
+    safeSetPlaceholder('address-input', t.addressPlaceholder);
+    safeSetText('search-btn-text', t.searchButtonText);
+    safeSetText('address-helper-text', t.addressHelperText);
+    safeSetText('public-options-label', t.publicOptionsLabel);
+    safeSetText('private-options-label', t.privateOptionsLabel);
+    safeSetText('closest-distance-text', t.closestDistanceText);
+    safeSetText('shortest-wait-text', t.shortestWaitText);
+    safeSetText('nearest-private-text', t.nearestPrivateText);
+    safeSetText('geo-choose-prompt', t.geoChoosePrompt);
     
     document.getElementById('filter-region-label').textContent = t.filterRegionLabel;
     document.getElementById('filter-region-all').textContent = t.filterRegionAll;
@@ -748,35 +771,389 @@ async function findNearest(sector, criteria = 'distance') {
     });
 }
 
+// Global variable to store current location coordinates
+let currentLocationCoords = null;
+
 function setupGeolocation() {
-    const findBtn = document.getElementById('find-nearest-btn');
+    const gpsBtn = document.getElementById('use-gps-btn');
+    const addressBtn = document.getElementById('use-address-btn');
+    const addressSection = document.getElementById('address-input-section');
+    const hospitalSelection = document.getElementById('hospital-type-selection');
+    const searchBtn = document.getElementById('search-address-btn');
+    const addressInput = document.getElementById('address-input');
     const resultDiv = document.getElementById('nearest-hospital-result');
+    const errorDiv = document.getElementById('geo-error');
     
-    findBtn.addEventListener('click', () => {
-        const t = langContent[currentLanguage];
-        resultDiv.innerHTML = `
-            <p class="mb-3 font-semibold">${t.geoChoosePrompt}</p>
-            <div class="space-y-3">
-                <div class="text-center">
-                    <p class="text-sm text-gray-600 mb-2">${currentLanguage === 'zh' ? '公立醫院選項' : 'Public Hospital Options'}</p>
-                    <div class="flex justify-center gap-2 flex-wrap">
-                        <button onclick="findNearest('public', 'distance')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded text-sm">
-                            ${currentLanguage === 'zh' ? '最近距離' : 'Closest Distance'}
-                        </button>
-                        <button onclick="findNearest('public', 'waiting')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded text-sm">
-                            ${currentLanguage === 'zh' ? '最短等候' : 'Shortest Wait'}
-                        </button>
+    // GPS Location Button
+    gpsBtn.addEventListener('click', () => {
+        useGPSLocation();
+    });
+    
+    // Address Input Toggle Button
+    addressBtn.addEventListener('click', () => {
+        toggleAddressInput();
+    });
+    
+    // Search Address Button
+    searchBtn.addEventListener('click', () => {
+        searchByAddress();
+    });
+    
+    // Enter key on address input
+    addressInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const suggestions = document.getElementById('address-suggestions');
+            const firstSuggestion = suggestions.querySelector('.suggestion-item.highlighted');
+            if (firstSuggestion && !suggestions.classList.contains('hidden')) {
+                selectSuggestion(firstSuggestion.textContent);
+            } else {
+                searchByAddress();
+            }
+        }
+    });
+    
+    // Autocomplete functionality
+    addressInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        if (query.length >= 1) {
+            showAddressSuggestions(query);
+        } else {
+            hideAddressSuggestions();
+        }
+    });
+    
+    // Handle keyboard navigation in suggestions
+    addressInput.addEventListener('keydown', (e) => {
+        const suggestions = document.getElementById('address-suggestions');
+        const items = suggestions.querySelectorAll('.suggestion-item');
+        let highlighted = suggestions.querySelector('.suggestion-item.highlighted');
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (!highlighted) {
+                items[0]?.classList.add('highlighted');
+            } else {
+                highlighted.classList.remove('highlighted');
+                const next = highlighted.nextElementSibling || items[0];
+                next.classList.add('highlighted');
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (!highlighted) {
+                items[items.length - 1]?.classList.add('highlighted');
+            } else {
+                highlighted.classList.remove('highlighted');
+                const prev = highlighted.previousElementSibling || items[items.length - 1];
+                prev.classList.add('highlighted');
+            }
+        } else if (e.key === 'Escape') {
+            hideAddressSuggestions();
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        const addressSection = document.getElementById('address-input-section');
+        if (!addressSection.contains(e.target)) {
+            hideAddressSuggestions();
+        }
+    });
+    
+    // Hospital type selection buttons
+    document.getElementById('find-public-distance').addEventListener('click', () => {
+        findNearestWithLocation('public', 'distance');
+    });
+    
+    document.getElementById('find-public-waiting').addEventListener('click', () => {
+        findNearestWithLocation('public', 'waiting');
+    });
+    
+    document.getElementById('find-private-distance').addEventListener('click', () => {
+        findNearestWithLocation('private', 'distance');
+    });
+}
+
+function toggleAddressInput() {
+    const addressSection = document.getElementById('address-input-section');
+    const hospitalSelection = document.getElementById('hospital-type-selection');
+    const gpsBtn = document.getElementById('use-gps-btn');
+    const addressBtn = document.getElementById('use-address-btn');
+    
+    // Toggle address input visibility
+    addressSection.classList.toggle('hidden');
+    
+    // Update button states
+    if (addressSection.classList.contains('hidden')) {
+        gpsBtn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
+        gpsBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+        addressBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+        addressBtn.classList.add('bg-gray-600', 'hover:bg-gray-700');
+        hospitalSelection.classList.add('hidden');
+    } else {
+        addressBtn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
+        addressBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+        gpsBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+        gpsBtn.classList.add('bg-gray-600', 'hover:bg-gray-700');
+        document.getElementById('address-input').focus();
+    }
+    
+    // Clear results
+    document.getElementById('nearest-hospital-result').innerHTML = '';
+    document.getElementById('geo-error').textContent = '';
+    currentLocationCoords = null;
+}
+
+function useGPSLocation() {
+    const loader = document.getElementById('loader');
+    const errorDiv = document.getElementById('geo-error');
+    const hospitalSelection = document.getElementById('hospital-type-selection');
+    const t = langContent[currentLanguage];
+    
+    loader.classList.remove('hidden');
+    errorDiv.textContent = '';
+    document.getElementById('nearest-hospital-result').innerHTML = '';
+    
+    if (!navigator.geolocation) {
+        errorDiv.textContent = t.geoErrorBrowser;
+        loader.classList.add('hidden');
+        return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            currentLocationCoords = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+            loader.classList.add('hidden');
+            hospitalSelection.classList.remove('hidden');
+        },
+        (error) => {
+            loader.classList.add('hidden');
+            errorDiv.textContent = t.geoErrorPermission;
+        }
+    );
+}
+
+async function searchByAddress() {
+    const addressInput = document.getElementById('address-input');
+    const loader = document.getElementById('loader');
+    const errorDiv = document.getElementById('geo-error');
+    const hospitalSelection = document.getElementById('hospital-type-selection');
+    const address = addressInput.value.trim();
+    
+    if (!address) {
+        errorDiv.textContent = currentLanguage === 'zh' ? '請輸入地址' : 'Please enter an address';
+        return;
+    }
+    
+    loader.classList.remove('hidden');
+    errorDiv.textContent = '';
+    document.getElementById('nearest-hospital-result').innerHTML = '';
+    
+    try {
+        // Use a geocoding service - for now, we'll use a simple Hong Kong district mapping
+        const coords = await geocodeHongKongAddress(address);
+        
+        if (coords) {
+            currentLocationCoords = coords;
+            loader.classList.add('hidden');
+            hospitalSelection.classList.remove('hidden');
+        } else {
+            throw new Error('Address not found');
+        }
+    } catch (error) {
+        loader.classList.add('hidden');
+        errorDiv.textContent = currentLanguage === 'zh' ? '找不到該地址，請嘗試輸入香港地區名稱' : 'Address not found, please try a Hong Kong district name';
+    }
+}
+
+// Comprehensive Hong Kong locations database
+const hkLocationsDB = [
+    // Hong Kong Island
+    { zh: '中環', en: 'Central', coords: { latitude: 22.2783, longitude: 114.1747 }, keywords: ['central', 'admiralty', '中環', '金鐘'] },
+    { zh: '銅鑼灣', en: 'Causeway Bay', coords: { latitude: 22.2800, longitude: 114.1860 }, keywords: ['causeway bay', 'cwb', '銅鑼灣', '時代廣場'] },
+    { zh: '灣仔', en: 'Wan Chai', coords: { latitude: 22.2747, longitude: 114.1733 }, keywords: ['wan chai', 'wanchai', '灣仔', '會展'] },
+    { zh: '北角', en: 'North Point', coords: { latitude: 22.2925, longitude: 114.2000 }, keywords: ['north point', '北角', '炮台山'] },
+    { zh: '太古', en: 'Taikoo', coords: { latitude: 22.2850, longitude: 114.2200 }, keywords: ['taikoo', 'tai koo', '太古', '康怡'] },
+    { zh: '西環', en: 'Sai Ying Pun', coords: { latitude: 22.2850, longitude: 114.1450 }, keywords: ['sai ying pun', 'syp', '西環', '上環'] },
+    { zh: '薄扶林', en: 'Pok Fu Lam', coords: { latitude: 22.2710, longitude: 114.1292 }, keywords: ['pok fu lam', '薄扶林', '港大'] },
+    { zh: '香港仔', en: 'Aberdeen', coords: { latitude: 22.2480, longitude: 114.1550 }, keywords: ['aberdeen', '香港仔', '黃竹坑'] },
+    
+    // Kowloon
+    { zh: '旺角', en: 'Mong Kok', coords: { latitude: 22.3193, longitude: 114.1694 }, keywords: ['mong kok', 'mongkok', '旺角', '花園街'] },
+    { zh: '尖沙咀', en: 'Tsim Sha Tsui', coords: { latitude: 22.2976, longitude: 114.1722 }, keywords: ['tsim sha tsui', 'tst', '尖沙咀', '海港城'] },
+    { zh: '油麻地', en: 'Yau Ma Tei', coords: { latitude: 22.3088, longitude: 114.1700 }, keywords: ['yau ma tei', 'ymt', '油麻地', '廟街'] },
+    { zh: '深水埗', en: 'Sham Shui Po', coords: { latitude: 22.3320, longitude: 114.1620 }, keywords: ['sham shui po', 'ssp', '深水埗', '長沙灣'] },
+    { zh: '九龍城', en: 'Kowloon City', coords: { latitude: 22.3276, longitude: 114.1848 }, keywords: ['kowloon city', '九龍城', '土瓜灣'] },
+    { zh: '觀塘', en: 'Kwun Tong', coords: { latitude: 22.3149, longitude: 114.2259 }, keywords: ['kwun tong', '觀塘', '牛頭角', '藍田'] },
+    { zh: '黃大仙', en: 'Wong Tai Sin', coords: { latitude: 22.3420, longitude: 114.1950 }, keywords: ['wong tai sin', 'wts', '黃大仙', '彩虹'] },
+    { zh: '九龍塘', en: 'Kowloon Tong', coords: { latitude: 22.3370, longitude: 114.1760 }, keywords: ['kowloon tong', '九龍塘', 'festival walk'] },
+    
+    // New Territories
+    { zh: '荃灣', en: 'Tsuen Wan', coords: { latitude: 22.3742, longitude: 114.1192 }, keywords: ['tsuen wan', '荃灣', '葵涌', '青衣'] },
+    { zh: '沙田', en: 'Sha Tin', coords: { latitude: 22.3794, longitude: 114.2022 }, keywords: ['sha tin', 'shatin', '沙田', '大圍', '火炭'] },
+    { zh: '大埔', en: 'Tai Po', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po', '大埔', '大埔墟'] },
+    { zh: '上水', en: 'Sheung Shui', coords: { latitude: 22.5005, longitude: 114.1245 }, keywords: ['sheung shui', '上水', '粉嶺'] },
+    { zh: '元朗', en: 'Yuen Long', coords: { latitude: 22.4385, longitude: 114.0322 }, keywords: ['yuen long', '元朗', '天水圍'] },
+    { zh: '屯門', en: 'Tuen Mun', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['tuen mun', '屯門', '兆康'] },
+    { zh: '將軍澳', en: 'Tseung Kwan O', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['tseung kwan o', 'tko', '將軍澳', '坑口'] },
+    { zh: '馬鞍山', en: 'Ma On Shan', coords: { latitude: 22.4250, longitude: 114.2350 }, keywords: ['ma on shan', 'mos', '馬鞍山'] },
+    { zh: '東涌', en: 'Tung Chung', coords: { latitude: 22.2868, longitude: 113.9422 }, keywords: ['tung chung', '東涌', '機場'] }
+];
+
+function showAddressSuggestions(query) {
+    const suggestions = document.getElementById('address-suggestions');
+    const normalizedQuery = query.toLowerCase().trim();
+    
+    // Find matching locations
+    const matches = hkLocationsDB.filter(location => {
+        return location.keywords.some(keyword => 
+            keyword.toLowerCase().includes(normalizedQuery) ||
+            normalizedQuery.includes(keyword.toLowerCase())
+        );
+    }).slice(0, 8); // Limit to 8 suggestions
+    
+    if (matches.length > 0) {
+        suggestions.innerHTML = matches.map((location, index) => `
+            <div class="suggestion-item px-3 py-2 cursor-pointer hover:bg-indigo-50 border-b border-gray-100 last:border-b-0 ${index === 0 ? 'highlighted bg-indigo-50' : ''}" 
+                 onclick="selectSuggestion('${location.zh}')">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="font-medium text-gray-800">${location.zh}</span>
+                        <span class="text-gray-500 text-sm ml-2">${location.en}</span>
                     </div>
-                </div>
-                <div class="text-center">
-                    <p class="text-sm text-gray-600 mb-2">${currentLanguage === 'zh' ? '私家醫院' : 'Private Hospitals'}</p>
-                    <button onclick="findNearest('private', 'distance')" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">
-                        ${currentLanguage === 'zh' ? '最近的私家醫院' : 'Nearest Private'}
-                    </button>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
                 </div>
             </div>
-        `;
-    });
+        `).join('');
+        suggestions.classList.remove('hidden');
+    } else {
+        hideAddressSuggestions();
+    }
+}
+
+function hideAddressSuggestions() {
+    const suggestions = document.getElementById('address-suggestions');
+    suggestions.classList.add('hidden');
+    suggestions.innerHTML = '';
+}
+
+function selectSuggestion(locationName) {
+    const addressInput = document.getElementById('address-input');
+    addressInput.value = locationName;
+    hideAddressSuggestions();
+    searchByAddress();
+}
+
+// Simple Hong Kong address geocoding (approximate coordinates)
+async function geocodeHongKongAddress(address) {
+    const searchTerm = address.toLowerCase().trim();
+    
+    // Find exact match in comprehensive database
+    const location = hkLocationsDB.find(loc => 
+        loc.zh === address || 
+        loc.en.toLowerCase() === searchTerm ||
+        loc.keywords.some(keyword => keyword.toLowerCase() === searchTerm)
+    );
+    
+    if (location) {
+        return location.coords;
+    }
+    
+    // Fallback: partial match
+    const partialMatch = hkLocationsDB.find(loc =>
+        loc.keywords.some(keyword => 
+            searchTerm.includes(keyword.toLowerCase()) || 
+            keyword.toLowerCase().includes(searchTerm)
+        )
+    );
+    
+    return partialMatch ? partialMatch.coords : null;
+}
+
+function findNearestWithLocation(sector, criteria = 'distance') {
+    if (!currentLocationCoords) {
+        document.getElementById('geo-error').textContent = currentLanguage === 'zh' ? '請先設定位置' : 'Please set location first';
+        return;
+    }
+    
+    findNearestFromCoords(currentLocationCoords.latitude, currentLocationCoords.longitude, sector, criteria);
+}
+
+async function findNearestFromCoords(latitude, longitude, sector, criteria = 'distance') {
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('nearest-hospital-result');
+    const errorDiv = document.getElementById('geo-error');
+    const t = langContent[currentLanguage];
+    
+    loader.classList.remove('hidden');
+    resultDiv.innerHTML = '';
+    errorDiv.textContent = '';
+
+    try {
+        let bestHospital = null;
+        let bestValue = Infinity;
+        let bestDistance = null;
+        
+        const hospitals = hospitalData.filter(h => h.sector === sector);
+        
+        if (criteria === 'waiting' && sector === 'public') {
+            // Find hospital with shortest waiting time, considering distance as tiebreaker
+            const waitingTimes = await fetchWaitingTimes();
+            
+            hospitals.forEach(h => {
+                const distance = haversineDistance(latitude, longitude, h.lat, h.lon);
+                const waitTime = waitingTimes[h.id]?.waitTime;
+                const waitLevel = getWaitingTimeLevel(waitTime);
+                
+                // Score: waiting time level + distance penalty (1km = 0.1 level)
+                const score = waitLevel + (distance * 0.1);
+                
+                if (score < bestValue) {
+                    bestValue = score;
+                    bestHospital = h;
+                    bestDistance = distance;
+                }
+            });
+        } else {
+            // Find by distance
+            hospitals.forEach(h => {
+                const distance = haversineDistance(latitude, longitude, h.lat, h.lon);
+                if (distance < bestValue) {
+                    bestValue = distance;
+                    bestHospital = h;
+                    bestDistance = distance;
+                }
+            });
+        }
+
+        loader.classList.add('hidden');
+
+        if (bestHospital) {
+            const card = await createHospitalCard(bestHospital, bestDistance);
+            const sectorText = sector === 'public' ? t.serviceTypePublic : (currentLanguage === 'zh' ? '私家醫院' : 'Private Hospital');
+            resultDiv.innerHTML = `
+                <h4 class="font-bold text-lg mb-3">${t.geoResultTitle.replace('{sector}', sectorText)}</h4>
+                <div class="flex justify-center">
+                    <div class="max-w-sm w-full">
+                        ${card.outerHTML}
+                    </div>
+                </div>
+            `;
+        } else {
+            const sectorText = sector === 'public' ? t.serviceTypePublic : (currentLanguage === 'zh' ? '私家醫院' : 'Private Hospital');
+            resultDiv.innerHTML = `<p class="text-gray-500">${t.geoNoResult.replace('{sector}', sectorText)}</p>`;
+        }
+    } catch (error) {
+        loader.classList.add('hidden');
+        errorDiv.textContent = currentLanguage === 'zh' ? '搜尋時發生錯誤' : 'Error occurred during search';
+        console.error('Find nearest error:', error);
+    }
 }
 
 // Auto-refresh waiting times every minute
@@ -799,23 +1176,38 @@ function startWaitingTimeUpdates() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize chart first
-    initChart();
+    console.log('DOM loaded, starting initialization...');
+    console.log('langContent available:', typeof langContent !== 'undefined');
+    console.log('hospitalData available:', typeof hospitalData !== 'undefined');
     
-    // Set language and load content
-    await setLanguage('zh');
-    
-    // Setup other components
-    setupFilters();
-    setupAccordions();
-    setupGeolocation();
-    
-    // Start waiting time updates
-    startWaitingTimeUpdates();
-    
-    // Initialize chart with data after language is set
-    if (costChart) {
-        updateChart('consultation');
+    try {
+        // Initialize chart first
+        console.log('Initializing chart...');
+        initChart();
+        
+        // Set language and load content
+        console.log('Setting language...');
+        await setLanguage('zh');
+        
+        // Setup other components
+        console.log('Setting up components...');
+        setupFilters();
+        setupAccordions();
+        setupGeolocation();
+        
+        // Start waiting time updates
+        console.log('Starting waiting time updates...');
+        startWaitingTimeUpdates();
+        
+        // Initialize chart with data after language is set
+        if (costChart) {
+            console.log('Updating chart...');
+            updateChart('consultation');
+        }
+        
+        console.log('Initialization completed successfully!');
+    } catch (error) {
+        console.error('Initialization error:', error);
     }
     
     // Setup time input event listener
