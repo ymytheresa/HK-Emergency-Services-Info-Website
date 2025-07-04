@@ -6,6 +6,12 @@ const hospitalData = [
         address_zh: '香港柴灣樂民道3號', address_en: '3 Lok Man Road, Chai Wan, Hong Kong', phone: '25956111', lat: 22.2649, lon: 114.2383,
         details_zh: '24小時公立醫院急症室，由醫院管理局管理。',
         details_en: '24-hour public A&E department, managed by the Hospital Authority.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            neurology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -19,6 +25,12 @@ const hospitalData = [
         address_zh: '香港薄扶林道102號', address_en: '102 Pok Fu Lam Road, Hong Kong', phone: '22553838', lat: 22.2710, lon: 114.1292,
         details_zh: '24小時公立醫院急症室，為港島西聯網的主要醫院及教學醫院。',
         details_en: '24-hour public A&E, the major hospital and teaching hospital for the Hong Kong West Cluster.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            neurology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -84,6 +96,12 @@ const hospitalData = [
         address_zh: '九龍油麻地加士居道30號', address_en: '30 Gascoigne Road, Yau Ma Tei, Kowloon', phone: '35068888', lat: 22.3088, lon: 114.1754,
         details_zh: '24小時公立醫院急症室，是九龍區的主要三級醫院。',
         details_en: '24-hour public A&E, a major tertiary hospital in Kowloon.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            neurology: 'on-call'
+        },
         app: {
             name: 'HA Go',
             features_zh: '查看即時急症室等候時間',
@@ -240,6 +258,12 @@ const hospitalData = [
         address_zh: '香港黃竹坑南風徑1號', address_en: '1 Nam Fung Path, Wong Chuk Hang, Hong Kong', phone: '31539000', lat: 22.2475, lon: 114.1757,
         details_zh: '港島區唯一設有24小時急症室的私家醫院，由急症科專科醫生主理。',
         details_en: 'The only private hospital on HK Island with a 24-hour A&E, run by Emergency Medicine Specialists.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: '24/7',
+            orthopedics: '24/7',
+            neurology: 'referral'
+        },
         is24Hour: true,
         emergencyFee: 950,
         costCategory: 'high',
@@ -262,6 +286,12 @@ const hospitalData = [
         address_zh: '新界沙田大圍富健街18號', address_en: '18 Fu Kin Street, Tai Wai, Sha Tin, New Territories', phone: '26083355', lat: 22.3739, lon: 114.1862,
         details_zh: '新界區首間獲認可的私家急症科中心，由急症科專科醫生主理。設有24小時心臟病及中風急救服務。',
         details_en: 'The first recognized private Emergency Medicine Centre in NT, run by EM Specialists. Offers 24-hour cardiac and stroke rescue.',
+        specialists: {
+            emergency: '24/7',
+            cardiology: '24/7',
+            orthopedics: 'on-call',
+            neurology: '24/7'
+        },
         is24Hour: true,
         emergencyFee: 785,
         costCategory: 'medium',
@@ -331,6 +361,12 @@ const hospitalData = [
         address_zh: '香港跑馬地山村道2號', address_en: '2 Village Road, Happy Valley, Hong Kong', phone: '28358600', lat: 22.2700, lon: 114.1842,
         details_zh: '設有24小時家庭醫學及基層醫療中心（門診），由普通科醫生主理。',
         details_en: 'Features a 24-hour Family Medicine and Primary Care Centre (outpatient), run by general practitioners.',
+        specialists: {
+            emergency: 'gp',
+            cardiology: 'on-call',
+            orthopedics: 'on-call',
+            neurology: 'referral'
+        },
         is24Hour: true,
         emergencyFee: 550,
         costCategory: 'medium',
@@ -348,6 +384,11 @@ const hospitalData = [
         address_zh: '九龍九龍塘窩打老道222號', address_en: '222 Waterloo Road, Kowloon Tong, Kowloon', phone: '23398941', lat: 22.3292, lon: 114.1782,
         details_zh: '設有24小時門診中心，由普通科醫生及駐院醫生主理。',
         details_en: 'Features a 24-hour Out-patient Centre, run by general practitioners and resident doctors.',
+        specialists: {
+            emergency: 'gp',
+            cardiology: 'referral',
+            orthopedics: 'referral'
+        },
         is24Hour: true,
         emergencyFee: 625,
         costCategory: 'medium',

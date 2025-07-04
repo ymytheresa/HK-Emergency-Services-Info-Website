@@ -117,6 +117,56 @@ function formatWaitingTime(waitTime, lang) {
     return translations[waitTime] || waitTime;
 }
 
+// Specialist helper functions
+function getSpecialtyName(specialty) {
+    const t = langContent[currentLanguage];
+    const specialtyMap = {
+        emergency: t.specialistEmergency,
+        cardiology: t.specialistCardiology,
+        orthopedics: t.specialistOrthopedics,
+        neurology: t.specialistNeurology
+    };
+    return specialtyMap[specialty] || specialty;
+}
+
+function getAvailabilityText(availability) {
+    const t = langContent[currentLanguage];
+    const availabilityMap = {
+        '24/7': t.specialist24h,
+        'on-call': t.specialistOnCall,
+        'referral': t.specialistReferral,
+        'gp': t.specialistGP
+    };
+    return availabilityMap[availability] || availability;
+}
+
+function getAvailabilityColor(availability) {
+    const colorMap = {
+        '24/7': 'bg-green-100 text-green-800',      // Excellent - always available
+        'on-call': 'bg-orange-100 text-orange-800', // Good - available when needed  
+        'referral': 'bg-gray-100 text-gray-800',    // Basic - referral required
+        'gp': 'bg-blue-100 text-blue-800'          // General practitioner level
+    };
+    return colorMap[availability] || 'bg-gray-100 text-gray-800';
+}
+
+function toggleSpecialists(cardId) {
+    const content = document.getElementById(cardId);
+    const button = content.previousElementSibling;
+    const toggleText = button.querySelector('.specialist-toggle-text');
+    const arrow = button.querySelector('.specialist-arrow');
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        toggleText.textContent = currentLanguage === 'zh' ? '收起' : 'Hide';
+        arrow.textContent = '▲';
+    } else {
+        content.classList.add('hidden');
+        toggleText.textContent = currentLanguage === 'zh' ? '查看專科' : 'View Specialists';
+        arrow.textContent = '▼';
+    }
+}
+
 // Time-based pricing functions
 function getCurrentTime() {
     const now = new Date();
@@ -372,6 +422,34 @@ async function createHospitalCard(h, distance = null) {
     const distanceInfo = distance !== null ? `<p class="font-bold text-indigo-600">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p>` : '';
     const address = currentLanguage === 'zh' ? h.address_zh : h.address_en;
     
+    // Specialist services section
+    let specialistSection = '';
+    if (h.specialists) {
+        const specialistsList = Object.entries(h.specialists).map(([specialty, availability]) => {
+            const specialtyName = getSpecialtyName(specialty);
+            const availabilityText = getAvailabilityText(availability);
+            const colorClass = getAvailabilityColor(availability);
+            
+            return `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${colorClass} mr-1 mb-1">
+                ${specialtyName}: ${availabilityText}
+            </span>`;
+        }).join('');
+        
+        const cardId = `specialist-${h.id}`;
+        specialistSection = `
+            <div class="mt-3">
+                <button onclick="toggleSpecialists('${cardId}')" class="w-full text-center text-xs text-indigo-600 hover:text-indigo-800 font-medium py-1 border border-indigo-300 rounded-lg hover:bg-indigo-50 transition-all">
+                    <span class="specialist-toggle-text">${currentLanguage === 'zh' ? '查看專科' : 'View Specialists'}</span>
+                    <span class="specialist-arrow ml-1">▼</span>
+                </button>
+                <div id="${cardId}" class="specialist-content hidden mt-2">
+                    <div class="text-xs mb-1 font-medium text-gray-700">${currentLanguage === 'zh' ? '專科服務' : 'Specialists'}:</div>
+                    <div class="flex flex-wrap">${specialistsList}</div>
+                </div>
+            </div>
+        `;
+    }
+
     // App download section for hospitals with apps
     let appSection = '';
     if (h.app) {
@@ -412,6 +490,7 @@ async function createHospitalCard(h, distance = null) {
             
             ${waitingTimeInfo}
             ${feeInfo}
+            ${specialistSection}
             ${appSection}
             
             <div class="mt-4">

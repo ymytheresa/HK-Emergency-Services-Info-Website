@@ -88,7 +88,18 @@ const langContent = {
         chartLabelMaxRoom: "最高日租 - {roomType} (HK$)",
         roomStandard: "普通房",
         roomSemiPrivate: "半私家房",
-        roomPrivate: "私家房"
+        roomPrivate: "私家房",
+        specialistsTitle: "專科服務",
+        specialistEmergency: "急症科",
+        specialistCardiology: "心臟科", 
+        specialistOrthopedics: "骨科",
+        specialistNeurology: "腦神經科",
+        specialist24h: "24小時",
+        specialistOnCall: "隨時候命",
+        specialistReferral: "轉介",
+        specialistGP: "普通科",
+        specialistsViewMore: "查看專科",
+        specialistsViewLess: "收起"
     },
     en: {
         mainTitle: "Hong Kong Hospital Emergency Services Guide",
@@ -176,7 +187,18 @@ const langContent = {
         chartLabelMinRoom: "Min Daily Rate - {roomType} (HK$)",
         chartLabelMaxRoom: "Max Daily Rate - {roomType} (HK$)",
         roomStandard: "Standard",
-        roomSemiPrivate: "Semi-Private",
-        roomPrivate: "Private"
+        roomSemiPrivate: "Semi-Private", 
+        roomPrivate: "Private",
+        specialistsTitle: "Specialists",
+        specialistEmergency: "Emergency",
+        specialistCardiology: "Cardiology",
+        specialistOrthopedics: "Orthopedics", 
+        specialistNeurology: "Neurology",
+        specialist24h: "24/7",
+        specialistOnCall: "On-call",
+        specialistReferral: "Referral",
+        specialistGP: "GP",
+        specialistsViewMore: "View Specialists",
+        specialistsViewLess: "Hide"
     }
 };
