@@ -4,7 +4,8 @@ A bilingual (中文/English) interactive web application to help users quickly f
 
 ## 🌐 Live Demo
 
-**GitHub Pages**: [https://[your-username].github.io/HK-Emergency-Services-Info-Website](https://[your-username].github.io/HK-Emergency-Services-Info-Website)
+**GitHub Pages**: [https://ymytheresa.github.io/HK-Emergency-Services-Info-Website](https://ymytheresa.github.io/HK-Emergency-Services-Info-Website)
+**Custom Domain**: [https://hkemergencyservices.help](https://hkemergencyservices.help)
 
 ## 🚀 Quick Start
 
