@@ -58,6 +58,29 @@
                 </div>
 
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                    <!-- Waiting Time Legend -->
+                    <div class="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800" id="waiting-legend-title"></h3>
+                        <div class="flex flex-wrap justify-center gap-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                                <span id="legend-fast"></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                                <span id="legend-medium"></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                                <span id="legend-slow"></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 rounded-full bg-gray-400"></div>
+                                <span id="legend-private"></span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2 text-center" id="legend-update-info"></p>
+                    </div>
                     <div class="space-y-4 mb-6">
                         <div>
                             <span id="filter-region-label" class="font-bold mr-4"></span>
@@ -88,10 +111,24 @@
                  <p id="cost-desc" class="text-center text-gray-600 mb-8"></p>
                 <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
                     <div class="text-center mb-6">
-                        <div class="mb-4">
-                            <label id="time-label" class="font-bold mr-2"></label>
-                            <input type="time" id="time-input" class="border border-gray-300 rounded px-3 py-2 text-sm">
-                            <button onclick="setCurrentTime()" id="current-time-btn" class="ml-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded text-sm transition"></button>
+                        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800" id="time-section-title"></h3>
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-3">
+                                <div class="flex items-center gap-2">
+                                    <label id="time-label" class="font-medium text-gray-700"></label>
+                                    <input type="time" id="time-input" class="border-2 border-blue-300 rounded-lg px-4 py-2 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+                                </div>
+                                <button onclick="setCurrentTime()" id="current-time-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                                    <span class="flex items-center gap-2">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12,6 12,12 16,14"></polyline>
+                                        </svg>
+                                        <span id="current-time-btn-text"></span>
+                                    </span>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-2" id="time-helper-text"></p>
                         </div>
                         <div>
                             <span id="cost-compare-label" class="font-bold mr-4"></span>

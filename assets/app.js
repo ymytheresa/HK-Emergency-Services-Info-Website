@@ -175,6 +175,13 @@ async function setLanguage(lang) {
     document.getElementById('geo-title').textContent = t.geoTitle;
     document.getElementById('geo-btn-text').textContent = t.geoBtnText;
     
+    document.getElementById('waiting-legend-title').textContent = t.waitingLegendTitle;
+    document.getElementById('legend-fast').textContent = t.legendFast;
+    document.getElementById('legend-medium').textContent = t.legendMedium;
+    document.getElementById('legend-slow').textContent = t.legendSlow;
+    document.getElementById('legend-private').textContent = t.legendPrivate;
+    document.getElementById('legend-update-info').textContent = t.legendUpdateInfo;
+    
     document.getElementById('filter-region-label').textContent = t.filterRegionLabel;
     document.getElementById('filter-region-all').textContent = t.filterRegionAll;
     document.getElementById('filter-region-hki').textContent = t.filterRegionHki;
@@ -193,8 +200,10 @@ async function setLanguage(lang) {
 
     document.getElementById('cost-title').textContent = t.costTitle;
     document.getElementById('cost-desc').textContent = t.costDesc;
+    document.getElementById('time-section-title').textContent = t.timeSectionTitle;
     document.getElementById('time-label').textContent = t.timeLabel;
-    document.getElementById('current-time-btn').textContent = t.currentTimeBtn;
+    document.getElementById('current-time-btn-text').textContent = t.currentTimeBtnText;
+    document.getElementById('time-helper-text').textContent = t.timeHelperText;
     document.getElementById('cost-compare-label').textContent = t.costCompareLabel;
     document.getElementById('cost-btn-consult').textContent = t.costBtnConsult;
     document.getElementById('cost-btn-standard').textContent = t.costBtnStandard;
@@ -234,12 +243,17 @@ async function getServiceType(hospital) {
         serviceTag = `<span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePublic}</span>`;
         
         // Add waiting time indicator for public hospitals
-        const waitingTimes = await fetchWaitingTimes();
-        const waitTime = waitingTimes[hospital.id]?.waitTime;
-        if (waitTime) {
-            const color = getWaitingTimeColor(waitTime);
-            const formattedTime = formatWaitingTime(waitTime, currentLanguage);
-            waitingTag = `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full mr-2" style="background-color: ${color}20; color: ${color};">${formattedTime}</span>`;
+        try {
+            const waitingTimes = await fetchWaitingTimes();
+            const waitTime = waitingTimes[hospital.id]?.waitTime;
+            if (waitTime) {
+                const color = getWaitingTimeColor(waitTime);
+                const formattedTime = formatWaitingTime(waitTime, currentLanguage);
+                waitingTag = `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full mr-2" style="background-color: ${color}20; color: ${color};">${formattedTime}</span>`;
+            }
+        } catch (error) {
+            console.log('Waiting time fetch failed for service type:', error);
+            // Continue without waiting time indicator
         }
     }
     if (hospital.sector === 'private') {
@@ -374,13 +388,70 @@ async function renderHospitalCards() {
         return;
     }
 
-    // Create cards asynchronously
-    const cardPromises = filteredData.map(h => createHospitalCard(h));
-    const cards = await Promise.all(cardPromises);
+    // Create cards one by one to avoid blocking
+    for (const h of filteredData) {
+        try {
+            const card = await createHospitalCard(h);
+            hospitalList.appendChild(card);
+        } catch (error) {
+            console.error('Error creating card for hospital:', h.id, error);
+            // Fallback: create basic card without waiting times
+            const basicCard = createBasicHospitalCard(h);
+            hospitalList.appendChild(basicCard);
+        }
+    }
+}
+
+// Fallback function for basic cards without waiting times
+function createBasicHospitalCard(h) {
+    const card = document.createElement('div');
+    card.className = 'hospital-card bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
+    const t = langContent[currentLanguage];
     
-    cards.forEach(card => {
-        hospitalList.appendChild(card);
-    });
+    let serviceTag = '';
+    if (h.sector === 'public') {
+        serviceTag = `<span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePublic}</span>`;
+    } else if (h.sector === 'private' && h.is24Hour) {
+        if (h.privateTier === 'A') {
+            serviceTag = `<span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateA}</span>`;
+        } else {
+            serviceTag = `<span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateB}</span>`;
+        }
+    } else {
+        serviceTag = `<span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">${t.serviceTypePrivateOther}</span>`;
+    }
+    
+    let feeInfo = '';
+    if (h.sector === 'public') {
+        feeInfo = `
+            <div class="text-xs mt-2 p-2 bg-blue-50 rounded">
+                <p class="font-bold text-blue-600">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'}: HK$180</p>
+                <p class="text-gray-500 text-xs">(${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+            </div>
+        `;
+    }
+    
+    const address = currentLanguage === 'zh' ? h.address_zh : h.address_en;
+    
+    card.innerHTML = `
+        <div class="text-center relative">
+            <h3 class="text-lg font-bold text-[#434242] mb-1">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
+            <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
+            
+            <div class="mb-3">${serviceTag}</div>
+            
+            <p class="text-sm text-gray-700 mb-1">📍 ${address}</p>
+            <p class="text-sm text-gray-700 mb-2">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+            <p class="text-xs text-gray-500 mb-3">${currentLanguage === 'zh' ? h.details_zh : h.details_en}</p>
+            
+            ${feeInfo}
+            
+            <div class="mt-4">
+                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+            </div>
+        </div>
+    `;
+    return card;
 }
 
 function setupFilters() {
@@ -673,12 +744,24 @@ function startWaitingTimeUpdates() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize chart first
     initChart();
+    
+    // Set language and load content
     await setLanguage('zh');
+    
+    // Setup other components
     setupFilters();
     setupAccordions();
     setupGeolocation();
+    
+    // Start waiting time updates
     startWaitingTimeUpdates();
+    
+    // Initialize chart with data after language is set
+    if (costChart) {
+        updateChart('consultation');
+    }
     
     // Setup time input event listener
     const timeInput = document.getElementById('time-input');
