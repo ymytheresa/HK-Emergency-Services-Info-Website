@@ -88,7 +88,7 @@ async function fetchWaitingTimes() {
 }
 
 function getWaitingTimeColor(waitTime) {
-    if (!waitTime) return '#6B7280'; // Gray for no data
+    if (!waitTime) return '#3B82F6'; // Blue for no data (private hospitals)
     
     switch(waitTime) {
         case 'Around 1 hour':
@@ -96,9 +96,10 @@ function getWaitingTimeColor(waitTime) {
         case 'Over 1 hour':
             return '#F59E0B'; // Yellow/Orange
         case 'Over 2 hours':
-            return '#EF4444'; // Red
+        case 'Over 3 hours':
+        case 'Over 4 hours':
         default:
-            return '#6B7280'; // Gray
+            return '#EF4444'; // Red for long waits
     }
 }
 
@@ -408,6 +409,8 @@ async function createHospitalCard(h, distance = null) {
                 cardBgColor = 'bg-yellow-50 border-yellow-300 hover:bg-yellow-100';
                 break;
             case 'Over 2 hours':
+            case 'Over 3 hours':
+            case 'Over 4 hours':
                 cardBgColor = 'bg-red-50 border-red-300 hover:bg-red-100';
                 break;
             default:
@@ -415,7 +418,7 @@ async function createHospitalCard(h, distance = null) {
         }
     } else {
         // No waiting time data (private hospitals)
-        cardBgColor = 'bg-gray-50 border-gray-300 hover:bg-gray-100';
+        cardBgColor = 'bg-blue-50 border-blue-300 hover:bg-blue-100';
     }
     
     card.className = `hospital-card ${cardBgColor} rounded-lg shadow-md p-2 md:p-3 flex flex-col justify-between border hover:shadow-xl transition-all duration-200`;
