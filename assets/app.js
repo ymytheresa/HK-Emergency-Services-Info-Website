@@ -327,6 +327,8 @@ async function setLanguage(lang) {
     document.getElementById('cost-btn-private').textContent = t.costBtnPrivate;
     
     document.getElementById('faq-title').textContent = t.faqTitle;
+    document.getElementById('faq0-q').textContent = t.faq0_q;
+    document.getElementById('faq0-a').innerHTML = t.faq0_a;
     document.getElementById('faq1-q').textContent = t.faq1_q;
     document.getElementById('faq1-a').innerHTML = t.faq1_a;
     document.getElementById('faq2-q').textContent = t.faq2_q;
@@ -477,7 +479,10 @@ async function createHospitalCard(h, distance = null) {
         
         feeInfo = `
             <div class="text-xs mt-1 inline-block">
-                <span class="font-semibold text-gray-700">HK$180</span>
+                <div class="text-gray-700">
+                    <span class="font-semibold">${t.feeEligible}: HK$180</span>
+                    <span class="text-gray-500 block">${t.feeOthers}: HK$1,230</span>
+                </div>
             </div>
         `;
     } else if (h.sector === 'private' && !h.is24Hour) {
@@ -671,8 +676,9 @@ function createBasicHospitalCard(h) {
     if (h.sector === 'public') {
         feeInfo = `
             <div class="text-xs mt-2 p-2 bg-blue-50 rounded">
-                <p class="font-bold text-blue-600">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'}: HK$180</p>
-                <p class="text-gray-500 text-xs">(${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+                <p class="font-bold text-blue-600 mb-1">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'}:</p>
+                <p class="text-gray-700"><span class="font-semibold">${t.feeEligible}: HK$180</span></p>
+                <p class="text-gray-500">${t.feeOthers}: HK$1,230</p>
             </div>
         `;
     }
