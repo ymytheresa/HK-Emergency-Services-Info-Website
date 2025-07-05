@@ -249,7 +249,7 @@ async function setLanguage(lang) {
     document.getElementById('critical-title').textContent = t.criticalTitle;
     document.getElementById('critical-desc').textContent = t.criticalDesc;
     document.getElementById('call-999-btn').textContent = t.call999Btn;
-    document.getElementById('finder-title').textContent = t.finderTitle;
+    // Removed finder-title element
     document.getElementById('finder-desc').textContent = t.finderDesc;
     document.getElementById('browser-title').textContent = t.browserTitle;
     document.getElementById('browser-desc').textContent = t.browserDesc;
@@ -276,6 +276,7 @@ async function setLanguage(lang) {
     
     safeSetText('gps-btn-text', t.gpsButtonText);
     safeSetText('address-btn-text', t.addressButtonText);
+    safeSetText('use-location-text', t.useLocationText);
     safeSetPlaceholder('address-input', t.addressPlaceholder);
     safeSetText('search-btn-text', t.searchButtonText);
     safeSetText('address-helper-text', t.addressHelperText);
@@ -942,23 +943,53 @@ async function findNearest(sector, criteria = 'distance') {
 let currentLocationCoords = null;
 
 function setupGeolocation() {
+    const gpsTab = document.getElementById('gps-tab');
+    const addressTab = document.getElementById('address-tab');
+    const gpsContent = document.getElementById('gps-content');
+    const addressContent = document.getElementById('address-content');
     const gpsBtn = document.getElementById('use-gps-btn');
-    const addressBtn = document.getElementById('use-address-btn');
-    const addressSection = document.getElementById('address-input-section');
-    const hospitalSelection = document.getElementById('hospital-type-selection');
     const searchBtn = document.getElementById('search-address-btn');
     const addressInput = document.getElementById('address-input');
     const resultDiv = document.getElementById('nearest-hospital-result');
     const errorDiv = document.getElementById('geo-error');
     
+    // Tab switching
+    gpsTab.addEventListener('click', () => {
+        gpsTab.classList.add('bg-white', 'shadow-sm', 'text-gray-700');
+        gpsTab.classList.remove('text-gray-500');
+        addressTab.classList.remove('bg-white', 'shadow-sm', 'text-gray-700');
+        addressTab.classList.add('text-gray-500');
+        gpsContent.classList.remove('hidden');
+        addressContent.classList.add('hidden');
+        
+        // Clear any existing results when switching tabs
+        document.getElementById('hospital-type-selection').classList.add('hidden');
+        resultDiv.innerHTML = '';
+        errorDiv.textContent = '';
+        currentLocationCoords = null;
+    });
+    
+    addressTab.addEventListener('click', () => {
+        addressTab.classList.add('bg-white', 'shadow-sm', 'text-gray-700');
+        addressTab.classList.remove('text-gray-500');
+        gpsTab.classList.remove('bg-white', 'shadow-sm', 'text-gray-700');
+        gpsTab.classList.add('text-gray-500');
+        addressContent.classList.remove('hidden');
+        gpsContent.classList.add('hidden');
+        
+        // Clear any existing results when switching tabs
+        document.getElementById('hospital-type-selection').classList.add('hidden');
+        resultDiv.innerHTML = '';
+        errorDiv.textContent = '';
+        currentLocationCoords = null;
+        
+        // Focus on address input
+        addressInput.focus();
+    });
+    
     // GPS Location Button
     gpsBtn.addEventListener('click', () => {
         useGPSLocation();
-    });
-    
-    // Address Input Toggle Button
-    addressBtn.addEventListener('click', () => {
-        toggleAddressInput();
     });
     
     // Search Address Button
@@ -1021,8 +1052,8 @@ function setupGeolocation() {
     
     // Hide suggestions when clicking outside
     document.addEventListener('click', (e) => {
-        const addressSection = document.getElementById('address-input-section');
-        if (!addressSection.contains(e.target)) {
+        const addressContent = document.getElementById('address-content');
+        if (addressContent && !addressContent.contains(e.target)) {
             hideAddressSuggestions();
         }
     });
@@ -1041,35 +1072,6 @@ function setupGeolocation() {
     });
 }
 
-function toggleAddressInput() {
-    const addressSection = document.getElementById('address-input-section');
-    const hospitalSelection = document.getElementById('hospital-type-selection');
-    const gpsBtn = document.getElementById('use-gps-btn');
-    const addressBtn = document.getElementById('use-address-btn');
-    
-    // Toggle address input visibility
-    addressSection.classList.toggle('hidden');
-    
-    // Update button states
-    if (addressSection.classList.contains('hidden')) {
-        gpsBtn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
-        gpsBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-        addressBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-        addressBtn.classList.add('bg-gray-600', 'hover:bg-gray-700');
-        hospitalSelection.classList.add('hidden');
-    } else {
-        addressBtn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
-        addressBtn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-        gpsBtn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-        gpsBtn.classList.add('bg-gray-600', 'hover:bg-gray-700');
-        document.getElementById('address-input').focus();
-    }
-    
-    // Clear results
-    document.getElementById('nearest-hospital-result').innerHTML = '';
-    document.getElementById('geo-error').textContent = '';
-    currentLocationCoords = null;
-}
 
 function useGPSLocation() {
     const loader = document.getElementById('loader');
