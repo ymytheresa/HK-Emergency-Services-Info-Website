@@ -367,7 +367,8 @@ async function getServiceType(hospital) {
             if (waitTime) {
                 const color = getWaitingTimeColor(waitTime);
                 const formattedTime = formatWaitingTime(waitTime, currentLanguage);
-                waitingTag = `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full mr-2" style="background-color: ${color}20; color: ${color};">${formattedTime}</span>`;
+                const prefix = currentLanguage === 'zh' ? '排隊: ' : 'Wait: ';
+                waitingTag = `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full mr-2" style="background-color: ${color}20; color: ${color};">${prefix}${formattedTime}</span>`;
             }
         } catch (error) {
             console.log('Waiting time fetch failed for service type:', error);
@@ -561,15 +562,18 @@ async function createHospitalCard(h, distance = null) {
             
             <div class="my-1">${serviceTypeHTML}</div>
             
-            <div class="text-xs text-gray-600 space-y-0.5">
-                <p>📍 ${address}</p>
-                <p>📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+            <div class="text-xs text-gray-600">
+                <div class="flex justify-between items-center">
+                    <p>📍 ${address}</p>
+                    <p>📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+                </div>
             </div>
             
             ${feeInfo}
-            ${waitingTimeInfo}
-            ${specialistSection}
-            ${appSection}
+            ${(specialistSection || appSection) ? `<div class="flex gap-1 mt-2">
+                ${specialistSection ? specialistSection.replace('<div class="mt-2">', '<div class="flex-1">').replace('class="w-full', 'class="w-full') : ''}
+                ${appSection ? appSection.replace('<div class="mt-2">', '<div class="flex-1">').replace('class="w-full', 'class="w-full') : ''}
+            </div>` : ''}
             
             <div class="mt-2">
                 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-2 py-1 rounded text-xs font-semibold hover:bg-[#4A8284] shadow-sm transition">${t.mapLinkText}</a>
