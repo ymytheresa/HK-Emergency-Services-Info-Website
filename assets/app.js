@@ -387,8 +387,38 @@ async function getServiceType(hospital) {
 
 async function createHospitalCard(h, distance = null) {
     const card = document.createElement('div');
-    card.className = 'hospital-card bg-white rounded-lg shadow-md p-2 md:p-3 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
     const t = langContent[currentLanguage];
+    
+    // Get waiting time data first to determine card color
+    const waitingTimes = await fetchWaitingTimes();
+    const waitTime = waitingTimes[h.id]?.waitTime;
+    const waitingColor = getWaitingTimeColor(waitTime);
+    
+    // Set card background based on waiting time
+    let cardBgColor = '';
+    let textColorClass = '';
+    
+    if (waitTime) {
+        // Apply colored background based on waiting time
+        switch(waitTime) {
+            case 'Around 1 hour':
+                cardBgColor = 'bg-green-50 border-green-300 hover:bg-green-100';
+                break;
+            case 'Over 1 hour':
+                cardBgColor = 'bg-yellow-50 border-yellow-300 hover:bg-yellow-100';
+                break;
+            case 'Over 2 hours':
+                cardBgColor = 'bg-red-50 border-red-300 hover:bg-red-100';
+                break;
+            default:
+                cardBgColor = 'bg-gray-50 border-gray-300 hover:bg-gray-100';
+        }
+    } else {
+        // No waiting time data (private hospitals)
+        cardBgColor = 'bg-gray-50 border-gray-300 hover:bg-gray-100';
+    }
+    
+    card.className = `hospital-card ${cardBgColor} rounded-lg shadow-md p-2 md:p-3 flex flex-col justify-between border hover:shadow-xl transition-all duration-200`;
     
     // Get service type with waiting time
     const serviceTypeHTML = await getServiceType(h);
@@ -421,22 +451,19 @@ async function createHospitalCard(h, distance = null) {
         }
         
         feeInfo = `
-            <div class="text-xs mt-1 p-1 bg-gray-50 rounded">
+            <div class="text-xs mt-1">
                 <p class="font-semibold ${priceColor}">${currentLanguage === 'zh' ? '收費' : 'Fee'}: HK$${currentPrice}</p>
             </div>
         `;
     } else if (h.sector === 'public') {
-        // Add waiting time info for public hospitals
-        const waitingTimes = await fetchWaitingTimes();
-        const waitTime = waitingTimes[h.id]?.waitTime;
+        // Add waiting time info for public hospitals (reuse already fetched data)
         const updateTime = waitingTimes[h.id]?.updateTime;
         
         if (waitTime) {
-            const color = getWaitingTimeColor(waitTime);
             const formattedTime = formatWaitingTime(waitTime, currentLanguage);
             waitingTimeInfo = `
                 <div class="text-xs mt-2">
-                    <p class="inline-block font-semibold px-2 py-1 rounded" style="background-color: ${color}; color: white;">
+                    <p class="font-semibold text-gray-700">
                         🕐 ${currentLanguage === 'zh' ? '等候時間' : 'Waiting Time'}: ${formattedTime}
                     </p>
                     ${updateTime ? `<p class="text-gray-500 text-xs mt-1">${currentLanguage === 'zh' ? '更新' : 'Updated'}: ${updateTime}</p>` : ''}
@@ -445,14 +472,14 @@ async function createHospitalCard(h, distance = null) {
         }
         
         feeInfo = `
-            <div class="text-xs mt-1 p-1 bg-blue-50 rounded inline-block">
-                <span class="font-semibold text-blue-600">HK$180</span>
+            <div class="text-xs mt-1 inline-block">
+                <span class="font-semibold text-gray-700">HK$180</span>
             </div>
         `;
     } else if (h.sector === 'private' && !h.is24Hour) {
         feeInfo = `
-            <div class="text-xs mt-2 p-2 bg-gray-50 rounded">
-                <p class="text-gray-500">${currentLanguage === 'zh' ? '非24小時服務' : 'Not 24-hour service'}</p>
+            <div class="text-xs mt-2">
+                <p class="text-gray-600">${currentLanguage === 'zh' ? '非24小時服務' : 'Not 24-hour service'}</p>
             </div>
         `;
     }
@@ -536,7 +563,7 @@ async function createHospitalCard(h, distance = null) {
             ${appSection}
             
             <div class="mt-2">
-                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-2 py-1 rounded text-xs font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-2 py-1 rounded text-xs font-semibold hover:bg-[#4A8284] shadow-sm transition">${t.mapLinkText}</a>
             </div>
         </div>
     `;
@@ -620,7 +647,7 @@ async function renderHospitalCards() {
 // Fallback function for basic cards without waiting times
 function createBasicHospitalCard(h) {
     const card = document.createElement('div');
-    card.className = 'hospital-card bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
+    card.className = 'hospital-card bg-gray-50 border-gray-300 hover:bg-gray-100 rounded-lg shadow-md p-2 md:p-3 flex flex-col justify-between border hover:shadow-xl transition-all duration-200';
     const t = langContent[currentLanguage];
     
     let serviceTag = '';
