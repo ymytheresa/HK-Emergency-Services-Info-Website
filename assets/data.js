@@ -349,8 +349,8 @@ const hospitalData = [
             name: 'My Gleneagles SmartHealth',
             features_zh: '查看急症等候時間，預約專科門診',
             features_en: 'Check A&E wait times, book specialist appointments',
-            ios: 'https://apps.apple.com/hk/app/my-gleneagles-smarthealth/id1531879853',
-            android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.onyourside'
+            ios: 'https://apps.apple.com/hk/app/my-gleneagles-smarthealth/id1524317135',
+            android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.patientapp'
         }
     },
     {
@@ -379,9 +379,9 @@ const hospitalData = [
         fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] },
         app: {
             name: 'Union Hospital',
-            features_zh: '🎫 遙距取籌，查看急症科排隊時間',
-            features_en: '🎫 Remote queuing, check A&E waiting times',
-            ios: 'https://apps.apple.com/hk/app/union-hospital-仁安醫院/id1290033697',
+            features_zh: '🎫 候診易 - 遙距取籌，查看急症科排隊時間及藥物資訊',
+            features_en: '🎫 Advance Ticket Collection, check A&E waiting times & MedCheck features',
+            ios: 'https://apps.apple.com/hk/app/union-hospital-%E4%BB%81%E5%AE%89%E9%86%AB%E9%99%A2/id1454528189',
             android: 'https://play.google.com/store/apps/details?id=org.unionhospital.uh'
         }
     },
@@ -420,7 +420,14 @@ const hospitalData = [
             evening: { emergency: 1440, standard: 1080, semi_private: 2760, private: 4080 }, // 18:00-21:59 (+20%)
             night: { emergency: 1800, standard: 1350, semi_private: 3450, private: 5100 }    // 22:00-07:59 (+50%)
         },
-        fees: { consultation: [1200, 1200], standard: [900, 900], semi_private: [2300, 2800], private: [3400, 9000] }
+        fees: { consultation: [1200, 1200], standard: [900, 900], semi_private: [2300, 2800], private: [3400, 9000] },
+        app: {
+            name: '香港港安醫院',
+            features_zh: '預約掛號、排隊管理、自助辦理入院手續',
+            features_en: 'Booking, queuing, and self check-in features',
+            ios: 'https://apps.apple.com/tw/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998?l=en-GB',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.hkah.hkah'
+        }
     },
     {
         id: 'hkah_tw', name_en: 'Hong Kong Adventist Hospital – Tsuen Wan', name_zh: '香港港安醫院–荃灣', sector: 'private', region: 'NT', privateTier: 'B',
@@ -430,7 +437,14 @@ const hospitalData = [
         is24Hour: true,
         emergencyFee: 575,
         costCategory: 'medium',
-        fees: { consultation: [450, 700], standard: [1000, 1000], semi_private: [1250, 1600], private: [2500, 4000] }
+        fees: { consultation: [450, 700], standard: [1000, 1000], semi_private: [1250, 1600], private: [2500, 4000] },
+        app: {
+            name: '香港港安醫院',
+            features_zh: '預約掛號、排隊管理、自助辦理入院手續',
+            features_en: 'Booking, queuing, and self check-in features',
+            ios: 'https://apps.apple.com/tw/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998?l=en-GB',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.hkah.hkah'
+        }
     },
     {
         id: 'hksh', name_en: 'Hong Kong Sanatorium & Hospital', name_zh: '養和醫院', sector: 'private', region: 'HKI', privateTier: 'B',
@@ -470,11 +484,11 @@ const hospitalData = [
         costCategory: 'medium',
         fees: { consultation: [350, 900], standard: [850, 1020], semi_private: [1900, 2320], private: [3800, 4680] },
         app: {
-            name: 'HKBH Mobile',
+            name: 'BH e-Connect Mobile App',
             features_zh: '預約專科門診，查看醫療記錄',
             features_en: 'Book specialist appointments, view medical records',
-            ios: 'https://apps.apple.com/hk/app/hkbh-mobile/id1510975345',
-            android: 'https://play.google.com/store/apps/details?id=hk.hkbh.mobile'
+            ios: 'https://apps.apple.com/hk/app/bh-e-connect/id1527010469',
+            android: 'https://play.google.com/store/apps/details?id=hk.org.hkbh.smartapp'
         }
     },
     {
