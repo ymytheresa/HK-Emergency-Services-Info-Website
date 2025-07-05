@@ -63,11 +63,21 @@ async function fetchWaitingTimes() {
             }
         });
         
+        // Check if data has actually changed
+        const dataChanged = JSON.stringify(waitingTimeCache.data) !== JSON.stringify(waitingTimes);
+        
         waitingTimeCache.data = waitingTimes;
         waitingTimeCache.lastUpdated = now;
         waitingTimeCache.isLoading = false;
         
         console.log('Updated waiting times:', waitingTimes);
+        
+        // If data changed and we're on the hospital browser view, refresh the display
+        if (dataChanged && document.getElementById('hospital-list').children.length > 0) {
+            console.log('Waiting time data changed, refreshing hospital list...');
+            renderHospitalCards();
+        }
+        
         return waitingTimes;
         
     } catch (error) {
@@ -93,13 +103,13 @@ function getWaitingTimeColor(waitTime) {
 }
 
 function getWaitingTimeLevel(waitTime) {
-    if (!waitTime) return 3;
+    if (!waitTime) return 4; // No data should come last
     
     switch(waitTime) {
         case 'Around 1 hour': return 1;
         case 'Over 1 hour': return 2; 
         case 'Over 2 hours': return 3;
-        default: return 3;
+        default: return 4;
     }
 }
 
@@ -163,6 +173,23 @@ function toggleSpecialists(cardId) {
     } else {
         content.classList.add('hidden');
         toggleText.textContent = currentLanguage === 'zh' ? '查看專科' : 'View Specialists';
+        arrow.textContent = '▼';
+    }
+}
+
+function toggleApp(appId) {
+    const content = document.getElementById(appId);
+    const button = content.previousElementSibling;
+    const toggleText = button.querySelector('.app-toggle-text');
+    const arrow = button.querySelector('.app-arrow');
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        toggleText.textContent = currentLanguage === 'zh' ? '📱 收起應用程式' : '📱 Hide App';
+        arrow.textContent = '▲';
+    } else {
+        content.classList.add('hidden');
+        toggleText.textContent = currentLanguage === 'zh' ? '📱 排隊應用程式' : '📱 Queue App';
         arrow.textContent = '▼';
     }
 }
@@ -360,7 +387,7 @@ async function getServiceType(hospital) {
 
 async function createHospitalCard(h, distance = null) {
     const card = document.createElement('div');
-    card.className = 'hospital-card bg-white rounded-lg shadow-md p-4 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
+    card.className = 'hospital-card bg-white rounded-lg shadow-md p-2 md:p-3 flex flex-col justify-between border border-gray-200 hover:shadow-xl hover:border-[#5F9EA0]';
     const t = langContent[currentLanguage];
     
     // Get service type with waiting time
@@ -394,9 +421,8 @@ async function createHospitalCard(h, distance = null) {
         }
         
         feeInfo = `
-            <div class="text-xs mt-2 p-2 bg-gray-50 rounded">
-                <p class="font-bold ${priceColor}">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'} (${periodLabel}): HK$${currentPrice}</p>
-                <p class="text-gray-500 text-xs">${priceLevel}</p>
+            <div class="text-xs mt-1 p-1 bg-gray-50 rounded">
+                <p class="font-semibold ${priceColor}">${currentLanguage === 'zh' ? '收費' : 'Fee'}: HK$${currentPrice}</p>
             </div>
         `;
     } else if (h.sector === 'public') {
@@ -409,17 +435,18 @@ async function createHospitalCard(h, distance = null) {
             const color = getWaitingTimeColor(waitTime);
             const formattedTime = formatWaitingTime(waitTime, currentLanguage);
             waitingTimeInfo = `
-                <div class="text-xs mt-2 p-2 rounded border-l-4" style="border-color: ${color}; background-color: ${color}10;">
-                    <p class="font-bold" style="color: ${color};">${currentLanguage === 'zh' ? '等候時間' : 'Waiting Time'}: ${formattedTime}</p>
-                    ${updateTime ? `<p class="text-gray-500 text-xs">${currentLanguage === 'zh' ? '更新時間' : 'Updated'}: ${updateTime}</p>` : ''}
+                <div class="text-xs mt-2">
+                    <p class="inline-block font-semibold px-2 py-1 rounded" style="background-color: ${color}; color: white;">
+                        🕐 ${currentLanguage === 'zh' ? '等候時間' : 'Waiting Time'}: ${formattedTime}
+                    </p>
+                    ${updateTime ? `<p class="text-gray-500 text-xs mt-1">${currentLanguage === 'zh' ? '更新' : 'Updated'}: ${updateTime}</p>` : ''}
                 </div>
             `;
         }
         
         feeInfo = `
-            <div class="text-xs mt-2 p-2 bg-blue-50 rounded">
-                <p class="font-bold text-blue-600">${currentLanguage === 'zh' ? '急症收費' : 'Emergency Fee'}: HK$180</p>
-                <p class="text-gray-500 text-xs">(${currentLanguage === 'zh' ? '合資格人士' : 'Eligible Persons'})</p>
+            <div class="text-xs mt-1 p-1 bg-blue-50 rounded inline-block">
+                <span class="font-semibold text-blue-600">HK$180</span>
             </div>
         `;
     } else if (h.sector === 'private' && !h.is24Hour) {
@@ -448,12 +475,12 @@ async function createHospitalCard(h, distance = null) {
         
         const cardId = `specialist-${h.id}`;
         specialistSection = `
-            <div class="mt-3">
-                <button onclick="toggleSpecialists('${cardId}')" class="w-full text-center text-xs text-indigo-600 hover:text-indigo-800 font-medium py-1 border border-indigo-300 rounded-lg hover:bg-indigo-50 transition-all">
+            <div class="mt-2">
+                <button onclick="toggleSpecialists('${cardId}')" class="w-full text-center text-xs text-indigo-600 hover:text-indigo-800 font-medium py-1 border border-indigo-300 rounded hover:bg-indigo-50 transition-all">
                     <span class="specialist-toggle-text">${currentLanguage === 'zh' ? '查看專科' : 'View Specialists'}</span>
                     <span class="specialist-arrow ml-1">▼</span>
                 </button>
-                <div id="${cardId}" class="specialist-content hidden mt-2">
+                <div id="${cardId}" class="specialist-content hidden mt-1">
                     <div class="text-xs mb-1 font-medium text-gray-700">${currentLanguage === 'zh' ? '專科服務' : 'Specialists'}:</div>
                     <div class="flex flex-wrap">${specialistsList}</div>
                 </div>
@@ -461,26 +488,32 @@ async function createHospitalCard(h, distance = null) {
         `;
     }
 
-    // App download section for hospitals with apps
+    // App download section for hospitals with apps - collapsible
     let appSection = '';
     if (h.app) {
+        const appId = `app-${h.id}`;
         appSection = `
-            <div class="mt-3 p-2 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
-                <p class="text-xs font-semibold text-purple-700 mb-2">📱 ${currentLanguage === 'zh' ? '快速排隊應用程式' : 'HK Hospital Emergency App'}</p>
-                <p class="text-xs text-gray-600 mb-2">${currentLanguage === 'zh' ? h.app.features_zh : h.app.features_en}</p>
-                <div class="flex gap-2 justify-center">
-                    ${h.app.ios ? `<a href="${h.app.ios}" target="_blank" class="bg-black text-white px-2 py-1 rounded text-xs hover:bg-gray-800 transition flex items-center gap-1">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                        </svg>
-                        iOS
-                    </a>` : ''}
-                    ${h.app.android ? `<a href="${h.app.android}" target="_blank" class="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700 transition flex items-center gap-1">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1518-.5972.416.416 0 00-.5972.1518l-2.0223 3.5046C15.5889 8.6039 13.8952 8.2652 12 8.2652s-3.5889.3387-5.1851.7897L4.7926 5.4503a.4161.4161 0 00-.5972-.1518.4161.4161 0 00-.1518.5972L6.0409 9.3214C2.9847 10.8064.9999 13.6829.9999 17.0015c0 .5557.4477 1.0034 1.0034 1.0034h19.9932c.5557 0 1.0034-.4477 1.0034-1.0034 0-3.3186-1.9848-6.1951-5.0409-7.6801"/>
-                        </svg>
-                        Android
-                    </a>` : ''}
+            <div class="mt-2">
+                <button onclick="toggleApp('${appId}')" class="w-full text-center text-xs text-purple-600 hover:text-purple-800 font-medium py-1 border border-purple-300 rounded hover:bg-purple-50 transition-all">
+                    <span class="app-toggle-text">📱 ${currentLanguage === 'zh' ? '排隊應用程式' : 'Queue App'}</span>
+                    <span class="app-arrow ml-1">▼</span>
+                </button>
+                <div id="${appId}" class="app-content hidden mt-1 p-2 bg-gradient-to-r from-purple-50 to-pink-50 rounded border border-purple-200">
+                    <p class="text-xs text-gray-600 mb-2">${currentLanguage === 'zh' ? h.app.features_zh : h.app.features_en}</p>
+                    <div class="flex gap-2 justify-center">
+                        ${h.app.ios ? `<a href="${h.app.ios}" target="_blank" class="bg-black text-white px-2 py-1 rounded text-xs hover:bg-gray-800 transition flex items-center gap-1">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                            iOS
+                        </a>` : ''}
+                        ${h.app.android ? `<a href="${h.app.android}" target="_blank" class="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700 transition flex items-center gap-1">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1518-.5972.416.416 0 00-.5972.1518l-2.0223 3.5046C15.5889 8.6039 13.8952 8.2652 12 8.2652s-3.5889.3387-5.1851.7897L4.7926 5.4503a.4161.4161 0 00-.5972-.1518.4161.4161 0 00-.1518.5972L6.0409 9.3214C2.9847 10.8064.9999 13.6829.9999 17.0015c0 .5557.4477 1.0034 1.0034 1.0034h19.9932c.5557 0 1.0034-.4477 1.0034-1.0034 0-3.3186-1.9848-6.1951-5.0409-7.6801"/>
+                            </svg>
+                            Android
+                        </a>` : ''}
+                    </div>
                 </div>
             </div>
         `;
@@ -488,24 +521,22 @@ async function createHospitalCard(h, distance = null) {
 
     card.innerHTML = `
         <div class="text-center relative">
-            ${distance !== null ? `<div class="absolute top-0 right-0"><p class="font-bold text-indigo-600 text-sm">${t.distancePrefix} ${distance.toFixed(2)} ${t.distanceSuffix}</p></div>` : ''}
+            <h3 class="text-sm md:text-base font-bold text-[#434242] mt-1">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
             
-            <h3 class="text-lg font-bold text-[#434242] mb-1">${currentLanguage === 'zh' ? h.name_zh : h.name_en}</h3>
-            <p class="text-sm text-gray-500 mb-2">${currentLanguage === 'zh' ? h.name_en : h.name_zh}</p>
+            <div class="my-1">${serviceTypeHTML}</div>
             
-            <div class="mb-3">${serviceTypeHTML}</div>
+            <div class="text-xs text-gray-600 space-y-0.5">
+                <p>📍 ${address}</p>
+                <p>📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
+            </div>
             
-            <p class="text-sm text-gray-700 mb-1">📍 ${address}</p>
-            <p class="text-sm text-gray-700 mb-2">📞 <a href="tel:${h.phone}" class="text-blue-600 hover:underline">${h.phone}</a></p>
-            <p class="text-xs text-gray-500 mb-3">${currentLanguage === 'zh' ? h.details_zh : h.details_en}</p>
-            
-            ${waitingTimeInfo}
             ${feeInfo}
+            ${waitingTimeInfo}
             ${specialistSection}
             ${appSection}
             
-            <div class="mt-4">
-                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
+            <div class="mt-2">
+                <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name_en + ' ' + h.address_en)}" target="_blank" class="w-full text-center inline-block bg-[#5F9EA0] text-white px-2 py-1 rounded text-xs font-semibold hover:bg-opacity-90 transition">${t.mapLinkText}</a>
             </div>
         </div>
     `;
@@ -537,28 +568,40 @@ async function renderHospitalCards() {
     // Get waiting times for sorting
     const waitingTimes = await fetchWaitingTimes();
     
-    // Sort hospitals by waiting time (public hospitals first by waiting time, then private hospitals)
-    const sortedData = filteredData.sort((a, b) => {
-        // Public hospitals: sort by waiting time level (lower = better)
-        if (a.sector === 'public' && b.sector === 'public') {
-            const aWaitLevel = getWaitingTimeLevel(waitingTimes[a.id]?.waitTime);
-            const bWaitLevel = getWaitingTimeLevel(waitingTimes[b.id]?.waitTime);
-            return aWaitLevel - bWaitLevel; // Lower wait time level comes first
+    console.log('Sorting hospitals by waiting time...');
+    
+    // Sort ALL hospitals by waiting time (regardless of sector)
+    const sortedData = [...filteredData].sort((a, b) => {
+        const aWaitLevel = getWaitingTimeLevel(waitingTimes[a.id]?.waitTime);
+        const bWaitLevel = getWaitingTimeLevel(waitingTimes[b.id]?.waitTime);
+        
+        // If both have waiting time data, sort by wait level
+        if (aWaitLevel !== 4 && bWaitLevel !== 4) {
+            return aWaitLevel - bWaitLevel;
         }
         
-        // Private hospitals: sort by emergency fee (lower = better)
+        // If only one has waiting time data, it comes first
+        if (aWaitLevel !== 4 && bWaitLevel === 4) return -1;
+        if (aWaitLevel === 4 && bWaitLevel !== 4) return 1;
+        
+        // If neither has waiting time data (both private), sort by emergency fee
         if (a.sector === 'private' && b.sector === 'private') {
             const aFee = a.emergencyFee || 9999;
             const bFee = b.emergencyFee || 9999;
             return aFee - bFee;
         }
         
-        // Mixed: public hospitals first (they have waiting time data), then private
-        if (a.sector === 'public' && b.sector === 'private') return -1;
-        if (a.sector === 'private' && b.sector === 'public') return 1;
-        
+        // Default: maintain original order
         return 0;
     });
+
+    // Log first few sorted hospitals for debugging
+    console.log('First 5 sorted hospitals:', sortedData.slice(0, 5).map(h => ({
+        name: h.name_en,
+        waitTime: waitingTimes[h.id]?.waitTime || 'No data',
+        level: getWaitingTimeLevel(waitingTimes[h.id]?.waitTime),
+        sector: h.sector
+    })));
 
     // Create cards one by one to avoid blocking
     for (const h of sortedData) {

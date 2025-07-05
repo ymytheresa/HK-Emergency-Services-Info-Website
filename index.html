@@ -20,51 +20,51 @@
 </head>
 <body class="antialiased">
 
-    <header class="bg-white shadow-md py-4 sticky top-0 z-10">
+    <header class="bg-white shadow-md py-2 md:py-4 md:sticky md:top-0 z-10">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="text-left">
-                <h1 id="main-title" class="text-xl md:text-3xl font-bold text-[#434242]"></h1>
-                <p id="sub-title" class="text-sm text-gray-600 mt-1"></p>
+                <h1 id="main-title" class="text-lg md:text-3xl font-bold text-[#434242]"></h1>
+                <p id="sub-title" class="text-xs md:text-sm text-gray-600 mt-1"></p>
             </div>
             <div class="flex space-x-2">
-                <button id="lang-zh" class="lang-btn active-lang px-3 py-1 rounded-md text-sm font-medium transition" onclick="setLanguage('zh')">中文</button>
-                <button id="lang-en" class="lang-btn inactive-lang px-3 py-1 rounded-md text-sm font-medium transition" onclick="setLanguage('en')">EN</button>
+                <button id="lang-zh" class="lang-btn active-lang px-2 py-1 rounded-md text-xs md:text-sm font-medium transition" onclick="setLanguage('zh')">中文</button>
+                <button id="lang-en" class="lang-btn inactive-lang px-2 py-1 rounded-md text-xs md:text-sm font-medium transition" onclick="setLanguage('en')">EN</button>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8">
+    <main class="container mx-auto p-2 md:p-8">
         
         <div id="urgent-care-app">
             <section class="mb-4 md:mb-8">
-                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 md:p-6 rounded-r-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4" role="alert">
+                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 md:p-6 rounded-r-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4" role="alert">
                     <div>
-                        <p id="critical-title" class="text-lg md:text-3xl font-bold leading-tight"></p>
-                        <p id="critical-desc" class="mt-1 md:mt-2 text-sm md:text-lg"></p>
+                        <p id="critical-title" class="text-base md:text-3xl font-bold leading-tight"></p>
+                        <p id="critical-desc" class="mt-1 md:mt-2 text-xs md:text-lg"></p>
                     </div>
-                    <a href="tel:999" id="call-999-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 md:py-4 md:px-8 rounded-lg shadow-md transition-transform transform hover:scale-105 whitespace-nowrap text-sm md:text-base">
+                    <a href="tel:999" id="call-999-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 md:py-4 md:px-8 rounded-lg shadow-md transition-transform transform hover:scale-105 whitespace-nowrap text-xs md:text-base">
                     </a>
                 </div>
             </section>
 
-            <section id="location-finder" class="mb-8 md:mb-12">
-                <h2 id="finder-title" class="text-2xl md:text-3xl font-bold text-center mb-2"></h2>
-                <p id="finder-desc" class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base"></p>
+            <section id="location-finder" class="mb-6 md:mb-12">
+                <h2 id="finder-title" class="text-xl md:text-3xl font-bold text-center mb-2"></h2>
+                <p id="finder-desc" class="text-center text-gray-600 mb-3 md:mb-8 text-xs md:text-base"></p>
                 
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg mb-4 md:mb-8">
-                    <h3 id="geo-title" class="text-lg md:text-xl font-bold text-center mb-3 md:mb-4"></h3>
+                <div class="bg-white p-3 md:p-6 rounded-xl shadow-lg mb-3 md:mb-8">
+                    <h3 id="geo-title" class="text-base md:text-xl font-bold text-center mb-2 md:mb-4"></h3>
                     
                     <!-- Location Input Options -->
                     <div class="mb-4">
                         <div class="flex flex-col sm:flex-row gap-3 mb-3">
                             <!-- GPS Location Button -->
-                            <button id="use-gps-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all flex items-center justify-center gap-2 text-sm">
+                            <button id="use-gps-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-3 rounded-lg shadow-md transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m12 2 4 4-4 4-4-4z"></path></svg>
                                 <span id="gps-btn-text"></span>
                             </button>
                             
                             <!-- Address Input Toggle -->
-                            <button id="use-address-btn" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all flex items-center justify-center gap-2 text-sm">
+                            <button id="use-address-btn" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-3 rounded-lg shadow-md transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                                 <span id="address-btn-text"></span>
                             </button>
@@ -74,13 +74,13 @@
                         <div id="address-input-section" class="hidden">
                             <div class="flex flex-col sm:flex-row gap-2 relative">
                                 <div class="flex-1 relative">
-                                    <input type="text" id="address-input" placeholder="" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all" autocomplete="off">
+                                    <input type="text" id="address-input" placeholder="" class="w-full border-2 border-gray-300 rounded-lg px-2 py-2 text-xs md:text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all" autocomplete="off">
                                     <!-- Autocomplete Dropdown -->
                                     <div id="address-suggestions" class="absolute top-full left-0 right-0 bg-white border-2 border-gray-200 rounded-lg mt-1 shadow-lg z-50 max-h-48 overflow-y-auto hidden">
                                         <!-- Suggestions will be populated here -->
                                     </div>
                                 </div>
-                                <button id="search-address-btn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-all text-sm whitespace-nowrap">
+                                <button id="search-address-btn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-3 rounded-lg shadow-md transition-all text-xs md:text-sm whitespace-nowrap">
                                     <span id="search-btn-text"></span>
                                 </button>
                             </div>
@@ -90,22 +90,22 @@
                     
                     <!-- Hospital Type Selection (Shows after location is set) -->
                     <div id="hospital-type-selection" class="hidden">
-                        <p class="text-sm font-medium text-gray-700 mb-3 text-center" id="geo-choose-prompt"></p>
+                        <p class="text-xs md:text-sm font-medium text-gray-700 mb-2 md:mb-3 text-center" id="geo-choose-prompt"></p>
                         <div class="space-y-3">
                             <div class="text-center">
-                                <p class="text-xs text-gray-600 mb-2" id="public-options-label"></p>
+                                <p class="text-xs text-gray-600 mb-1 md:mb-2" id="public-options-label"></p>
                                 <div class="flex justify-center gap-2 flex-wrap">
-                                    <button id="find-public-distance" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-3 rounded text-xs transition-all">
+                                    <button id="find-public-distance" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 md:py-2 md:px-3 rounded text-xs transition-all">
                                         <span id="closest-distance-text"></span>
                                     </button>
-                                    <button id="find-public-waiting" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-3 rounded text-xs transition-all">
+                                    <button id="find-public-waiting" class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-2 md:py-2 md:px-3 rounded text-xs transition-all">
                                         <span id="shortest-wait-text"></span>
                                     </button>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <p class="text-xs text-gray-600 mb-2" id="private-options-label"></p>
-                                <button id="find-private-distance" class="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded text-xs transition-all">
+                                <p class="text-xs text-gray-600 mb-1 md:mb-2" id="private-options-label"></p>
+                                <button id="find-private-distance" class="bg-purple-500 hover:bg-purple-600 text-white font-medium py-1 px-3 md:py-2 md:px-4 rounded text-xs transition-all">
                                     <span id="nearest-private-text"></span>
                                 </button>
                             </div>
@@ -121,19 +121,19 @@
                 </div>
             </section>
 
-            <section id="cost-comparison" class="mb-8 md:mb-12">
-                 <h2 id="cost-title" class="text-2xl md:text-3xl font-bold text-center mb-2"></h2>
-                 <p id="cost-desc" class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base"></p>
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
-                    <div class="text-center mb-6">
-                        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                            <h3 class="text-lg font-semibold mb-3 text-gray-800" id="time-section-title"></h3>
+            <section id="cost-comparison" class="mb-6 md:mb-12">
+                 <h2 id="cost-title" class="text-xl md:text-3xl font-bold text-center mb-2"></h2>
+                 <p id="cost-desc" class="text-center text-gray-600 mb-3 md:mb-8 text-xs md:text-base"></p>
+                <div class="bg-white p-3 md:p-6 rounded-xl shadow-lg">
+                    <div class="text-center mb-4 md:mb-6">
+                        <div class="mb-4 md:mb-6 p-3 md:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                            <h3 class="text-base md:text-lg font-semibold mb-2 md:mb-3 text-gray-800" id="time-section-title"></h3>
                             <div class="flex flex-col md:flex-row items-center justify-center gap-3">
                                 <div class="flex items-center gap-2">
-                                    <label id="time-label" class="font-medium text-gray-700"></label>
-                                    <input type="time" id="time-input" class="border-2 border-blue-300 rounded-lg px-4 py-2 text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+                                    <label id="time-label" class="font-medium text-gray-700 text-xs md:text-sm"></label>
+                                    <input type="time" id="time-input" class="border-2 border-blue-300 rounded-lg px-2 py-1 md:px-4 md:py-2 text-xs md:text-sm font-medium focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
                                 </div>
-                                <button onclick="setCurrentTime()" id="current-time-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+                                <button onclick="setCurrentTime()" id="current-time-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 md:py-2 md:px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg text-xs md:text-sm">
                                     <span class="flex items-center gap-2">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="12" cy="12" r="10"></circle>
@@ -146,27 +146,27 @@
                             <p class="text-xs text-gray-600 mt-2" id="time-helper-text"></p>
                         </div>
                         <div>
-                            <span id="cost-compare-label" class="font-bold mr-4"></span>
-                            <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <span id="cost-compare-label" class="font-bold mr-2 md:mr-4 text-xs md:text-sm"></span>
+                            <button onclick="updateChart('consultation')" id="cost-btn-consult" class="cost-filter-btn active-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button onclick="updateChart('standard')" id="cost-btn-standard" class="cost-filter-btn inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button onclick="updateChart('semi_private')" id="cost-btn-semi" class="cost-filter-btn inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button onclick="updateChart('private')" id="cost-btn-private" class="cost-filter-btn inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
                         </div>
                     </div>
-                    <div class="chart-container h-96 md:h-[500px]">
+                    <div class="chart-container h-64 md:h-[500px]">
                         <canvas id="costChart"></canvas>
                     </div>
                 </div>
             </section>
 
-            <section id="hospital-browser" class="mb-8 md:mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-2" id="browser-title"></h2>
-                <p class="text-center text-gray-600 mb-4 md:mb-8 text-sm md:text-base" id="browser-desc"></p>
+            <section id="hospital-browser" class="mb-6 md:mb-12">
+                <h2 class="text-xl md:text-3xl font-bold text-center mb-2" id="browser-title"></h2>
+                <p class="text-center text-gray-600 mb-3 md:mb-8 text-xs md:text-base" id="browser-desc"></p>
                 
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+                <div class="bg-white p-3 md:p-6 rounded-xl shadow-lg">
                     <!-- Waiting Time Legend -->
-                    <div class="mb-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
-                        <h3 class="text-lg font-semibold mb-3 text-gray-800" id="waiting-legend-title"></h3>
+                    <div class="mb-4 md:mb-6 p-3 md:p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+                        <h3 class="text-base md:text-lg font-semibold mb-2 md:mb-3 text-gray-800" id="waiting-legend-title"></h3>
                         <div class="flex flex-wrap justify-center gap-4 text-sm">
                             <div class="flex items-center gap-2">
                                 <div class="w-4 h-4 rounded-full bg-green-500"></div>
@@ -188,30 +188,30 @@
                         <p class="text-xs text-gray-600 mt-2 text-center" id="legend-update-info"></p>
                         <p class="text-xs text-blue-600 mt-1 text-center font-medium" id="sorted-info">⬇️ <span id="sorted-by-waiting-time"></span></p>
                     </div>
-                    <div class="space-y-4 mb-6">
+                    <div class="space-y-2 md:space-y-4 mb-4 md:mb-6">
                         <div>
-                            <span id="filter-region-label" class="font-bold mr-4"></span>
-                            <button data-filter-group="region" data-filter-value="all" id="filter-region-all" class="filter-btn region-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="region" data-filter-value="HKI" id="filter-region-hki" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="region" data-filter-value="KLN" id="filter-region-kln" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="region" data-filter-value="NT" id="filter-region-nt" class="filter-btn region-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <span id="filter-region-label" class="font-bold mr-2 md:mr-4 text-xs md:text-sm"></span>
+                            <button data-filter-group="region" data-filter-value="all" id="filter-region-all" class="filter-btn region-filter active-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="HKI" id="filter-region-hki" class="filter-btn region-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="KLN" id="filter-region-kln" class="filter-btn region-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="region" data-filter-value="NT" id="filter-region-nt" class="filter-btn region-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
                         </div>
                         <div>
-                            <span id="filter-sector-label" class="font-bold mr-4"></span>
-                            <button data-filter-group="sector" data-filter-value="all" id="filter-sector-all" class="filter-btn sector-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="sector" data-filter-value="public" id="filter-sector-public" class="filter-btn sector-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="sector" data-filter-value="private" id="filter-sector-private" class="filter-btn sector-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <span id="filter-sector-label" class="font-bold mr-2 md:mr-4 text-xs md:text-sm"></span>
+                            <button data-filter-group="sector" data-filter-value="all" id="filter-sector-all" class="filter-btn sector-filter active-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="sector" data-filter-value="public" id="filter-sector-public" class="filter-btn sector-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="sector" data-filter-value="private" id="filter-sector-private" class="filter-btn sector-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
                         </div>
                         <div id="private-tier-filter-container" class="hidden">
-                            <span id="filter-tier-label" class="font-bold mr-4"></span>
-                            <button data-filter-group="privateTier" data-filter-value="all" id="filter-tier-all" class="filter-btn private-tier-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="privateTier" data-filter-value="A" id="filter-tier-a" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="privateTier" data-filter-value="B" id="filter-tier-b" class="filter-btn private-tier-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
+                            <span id="filter-tier-label" class="font-bold mr-2 md:mr-4 text-xs md:text-sm"></span>
+                            <button data-filter-group="privateTier" data-filter-value="all" id="filter-tier-all" class="filter-btn private-tier-filter active-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="privateTier" data-filter-value="A" id="filter-tier-a" class="filter-btn private-tier-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="privateTier" data-filter-value="B" id="filter-tier-b" class="filter-btn private-tier-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
                         </div>
                         <div id="specialist-filter-container">
-                            <span id="filter-specialist-label" class="font-bold mr-4"></span>
-                            <button data-filter-group="specialist" data-filter-value="all" id="filter-specialist-all" class="filter-btn specialist-filter active-filter px-4 py-2 rounded-full text-sm font-medium transition"></button>
-                            <button data-filter-group="specialist" data-filter-value="cardiology" id="filter-specialist-cardiology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <span id="filter-specialist-label" class="font-bold mr-2 md:mr-4 text-xs md:text-sm"></span>
+                            <button data-filter-group="specialist" data-filter-value="all" id="filter-specialist-all" class="filter-btn specialist-filter active-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition"></button>
+                            <button data-filter-group="specialist" data-filter-value="cardiology" id="filter-specialist-cardiology" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
@@ -219,7 +219,7 @@
                                     <span id="filter-cardiology-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="orthopedics" id="filter-specialist-orthopedics" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="orthopedics" id="filter-specialist-orthopedics" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M6 2v6h4m4-6v6m-4-3h4"/>
@@ -229,7 +229,7 @@
                                     <span id="filter-orthopedics-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="neurology" id="filter-specialist-neurology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="neurology" id="filter-specialist-neurology" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 2a3 3 0 0 0-3 3c0 1.5.5 2.5 1.5 3.5L8 16l1.5 1.5c.5.5 1.5 1.5 2.5 1.5s2-.5 2.5-1.5L16 16l-2.5-7.5c1-.5 1.5-1.5 1.5-3.5a3 3 0 0 0-3-3z"/>
@@ -238,7 +238,7 @@
                                     <span id="filter-neurology-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="pediatrics" id="filter-specialist-pediatrics" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="pediatrics" id="filter-specialist-pediatrics" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="9" cy="21" r="1"/>
@@ -249,7 +249,7 @@
                                     <span id="filter-pediatrics-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="gynecology" id="filter-specialist-gynecology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="gynecology" id="filter-specialist-gynecology" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="3"/>
@@ -262,7 +262,7 @@
                                     <span id="filter-gynecology-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="urology" id="filter-specialist-urology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="urology" id="filter-specialist-urology" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M8 2v4l4 4 4-4V2"/>
@@ -273,7 +273,7 @@
                                     <span id="filter-urology-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="gastroenterology" id="filter-specialist-gastroenterology" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="gastroenterology" id="filter-specialist-gastroenterology" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M7 10c0-3.31 2.69-6 6-6s6 2.69 6 6v2c0 3.31-2.69 6-6 6s-6-2.69-6-6v-2z"/>
@@ -283,7 +283,7 @@
                                     <span id="filter-gastroenterology-text"></span>
                                 </span>
                             </button>
-                            <button data-filter-group="specialist" data-filter-value="psychiatry" id="filter-specialist-psychiatry" class="filter-btn specialist-filter inactive-filter px-4 py-2 rounded-full text-sm font-medium transition">
+                            <button data-filter-group="specialist" data-filter-value="psychiatry" id="filter-specialist-psychiatry" class="filter-btn specialist-filter inactive-filter px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition">
                                 <span class="flex items-center gap-1">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 3C7.6 3 4 6.6 4 11c0 2.4 1.1 4.5 2.8 6"/>
@@ -302,25 +302,25 @@
             </section>
 
             <section id="faq">
-                <h2 id="faq-title" class="text-3xl font-bold text-center mb-8"></h2>
+                <h2 id="faq-title" class="text-xl md:text-3xl font-bold text-center mb-4 md:mb-8"></h2>
                 <div class="space-y-4 max-w-4xl mx-auto">
                     <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                        <button class="accordion-header w-full text-left p-3 md:p-4 font-bold text-base md:text-lg flex justify-between items-center hover:bg-gray-100 transition">
                             <span id="faq1-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
                         </button>
-                        <div class="accordion-content"><div id="faq1-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                        <div class="accordion-content"><div id="faq1-a" class="p-3 md:p-4 border-t border-gray-200 text-gray-700 text-sm md:text-base"></div></div>
                     </div>
                      <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                        <button class="accordion-header w-full text-left p-3 md:p-4 font-bold text-base md:text-lg flex justify-between items-center hover:bg-gray-100 transition">
                             <span id="faq2-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
                         </button>
-                        <div class="accordion-content"><div id="faq2-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                        <div class="accordion-content"><div id="faq2-a" class="p-3 md:p-4 border-t border-gray-200 text-gray-700 text-sm md:text-base"></div></div>
                     </div>
                      <div class="accordion-item bg-white rounded-xl shadow-lg overflow-hidden">
-                        <button class="accordion-header w-full text-left p-4 font-bold text-lg flex justify-between items-center hover:bg-gray-100 transition">
+                        <button class="accordion-header w-full text-left p-3 md:p-4 font-bold text-base md:text-lg flex justify-between items-center hover:bg-gray-100 transition">
                             <span id="faq3-q"></span><span class="transform transition-transform duration-300 text-[#5F9EA0] text-2xl">+</span>
                         </button>
-                        <div class="accordion-content"><div id="faq3-a" class="p-4 border-t border-gray-200 text-gray-700"></div></div>
+                        <div class="accordion-content"><div id="faq3-a" class="p-3 md:p-4 border-t border-gray-200 text-gray-700 text-sm md:text-base"></div></div>
                     </div>
                 </div>
             </section>

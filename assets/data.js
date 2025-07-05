@@ -18,9 +18,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -41,9 +41,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -60,9 +60,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -80,9 +80,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -101,9 +101,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -122,9 +122,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -145,9 +145,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -165,9 +165,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -178,9 +178,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving Tai Po district.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -191,9 +191,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving the North District.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -204,9 +204,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving residents of Tung Chung and Lantau Island.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -217,9 +217,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving Yuen Long district.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -241,9 +241,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -254,9 +254,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving residents of Cheung Chau.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -267,9 +267,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving Tin Shui Wai district.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -280,9 +280,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving Tseung Kwan O district.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -302,9 +302,9 @@ const hospitalData = [
         },
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -315,9 +315,9 @@ const hospitalData = [
         details_en: '24-hour public A&E, serving Tsuen Wan district.',
         app: {
             name: 'HA Go',
-            features_zh: '查看即時急症室等候時間',
-            features_en: 'Check live Hong Kong hospital emergency wait times',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1469340861',
+            features_zh: '預約、急症室輪候時間、覆診提示',
+            features_en: 'Book appointments, A&E waiting times, appointment reminders',
+            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -348,8 +348,8 @@ const hospitalData = [
         app: {
             name: 'My Gleneagles SmartHealth',
             features_zh: '查看急症等候時間，預約專科門診',
-            features_en: 'Monitor emergency wait times, urgent care booking',
-            ios: 'https://apps.apple.com/us/app/my-gleneagles-smarthealth/id1531879853',
+            features_en: 'Check A&E wait times, book specialist appointments',
+            ios: 'https://apps.apple.com/hk/app/my-gleneagles-smarthealth/id1531879853',
             android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.onyourside'
         }
     },
@@ -378,10 +378,10 @@ const hospitalData = [
         },
         fees: { consultation: [270, 1300], standard: [500, 950], semi_private: [900, 2000], private: [2500, 8000] },
         app: {
-            name: 'Union Hospital 仁安醫院',
+            name: 'Union Hospital',
             features_zh: '🎫 遙距取籌，查看急症科排隊時間',
-            features_en: '🎫 Skip emergency queues, real-time hospital status',
-            ios: 'https://apps.apple.com/us/app/union-hospital-仁安醫院/id1290033697',
+            features_en: '🎫 Remote queuing, check A&E waiting times',
+            ios: 'https://apps.apple.com/hk/app/union-hospital-仁安醫院/id1290033697',
             android: 'https://play.google.com/store/apps/details?id=org.unionhospital.uh'
         }
     },
@@ -402,7 +402,7 @@ const hospitalData = [
         app: {
             name: 'CUHKMC Patient App',
             features_zh: '預約管理，查看醫療記錄',
-            features_en: 'Emergency appointments, urgent care records',
+            features_en: 'Appointment management, view medical records',
             ios: 'https://apps.apple.com/hk/app/cuhkmc-patient-app/id1623991394',
             android: 'https://play.google.com/store/apps/details?id=hk.cuhkmc.patientapp'
         }
@@ -448,9 +448,9 @@ const hospitalData = [
         costCategory: 'medium',
         fees: { consultation: [400, 700], standard: [1300, 1900], semi_private: [2800, 3800], private: [4600, 6800] },
         app: {
-            name: 'HK Sanatorium & Hospital',
+            name: 'HKSH Mobile',
             features_zh: '預約門診，查看報告',
-            features_en: 'Emergency booking, urgent test results',
+            features_en: 'Book appointments, view test results',
             ios: 'https://apps.apple.com/hk/app/hksh-mobile/id1445234855',
             android: 'https://play.google.com/store/apps/details?id=hk.hksh.mobile'
         }
@@ -472,7 +472,7 @@ const hospitalData = [
         app: {
             name: 'HKBH Mobile',
             features_zh: '預約專科門診，查看醫療記錄',
-            features_en: 'Urgent specialist care, emergency records',
+            features_en: 'Book specialist appointments, view medical records',
             ios: 'https://apps.apple.com/hk/app/hkbh-mobile/id1510975345',
             android: 'https://play.google.com/store/apps/details?id=hk.hkbh.mobile'
         }
@@ -505,14 +505,7 @@ const hospitalData = [
         is24Hour: true,
         emergencyFee: 544,
         costCategory: 'medium',
-        fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] },
-        app: {
-            name: 'Canossa Hospital App',
-            features_zh: '預約門診，查看檢驗結果',
-            features_en: 'Emergency consultations, urgent lab results',
-            ios: 'https://apps.apple.com/hk/app/canossa-hospital/id1234567890',
-            android: 'https://play.google.com/store/apps/details?id=hk.canossa.hospital'
-        }
+        fees: { consultation: [388, 700], standard: [800, 1100], semi_private: [2600, 2600], private: [4200, 10300] }
     },
     {
         id: 'mih', name_en: 'Matilda International Hospital', name_zh: '明德國際醫院', sector: 'private', region: 'HKI', privateTier: 'B',
