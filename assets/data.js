@@ -20,7 +20,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -43,7 +43,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -62,7 +62,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -82,7 +82,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -103,7 +103,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -124,7 +124,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -147,7 +147,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -167,7 +167,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -180,7 +180,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -193,7 +193,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -206,7 +206,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -219,7 +219,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -243,7 +243,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -256,7 +256,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -269,7 +269,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -282,7 +282,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -304,7 +304,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -317,7 +317,7 @@ const hospitalData = [
             name: 'HA Go',
             features_zh: '預約、急症室輪候時間、覆診提示',
             features_en: 'Book appointments, A&E waiting times, appointment reminders',
-            ios: 'https://apps.apple.com/hk/app/ha-go/id1494311355',
+            ios: 'https://apps.apple.com/us/app/ha-go/id1469340861',
             android: 'https://play.google.com/store/apps/details?id=hk.org.ha.hago'
         }
     },
@@ -349,7 +349,7 @@ const hospitalData = [
             name: 'My Gleneagles SmartHealth',
             features_zh: '查看急症等候時間，預約專科門診',
             features_en: 'Check A&E wait times, book specialist appointments',
-            ios: 'https://apps.apple.com/hk/app/my-gleneagles-smarthealth/id1524317135',
+            ios: 'https://apps.apple.com/us/app/my-gleneagles-smarthealth/id1531879853',
             android: 'https://play.google.com/store/apps/details?id=hk.gleneagles.patientapp'
         }
     },
@@ -381,7 +381,7 @@ const hospitalData = [
             name: 'Union Hospital',
             features_zh: '🎫 候診易 - 遙距取籌，查看急症科排隊時間及藥物資訊',
             features_en: '🎫 Advance Ticket Collection, check A&E waiting times & MedCheck features',
-            ios: 'https://apps.apple.com/hk/app/union-hospital-%E4%BB%81%E5%AE%89%E9%86%AB%E9%99%A2/id1454528189',
+            ios: 'https://apps.apple.com/us/app/union-hospital-%E4%BB%81%E5%AE%89%E9%86%AB%E9%99%A2/id1290033697',
             android: 'https://play.google.com/store/apps/details?id=org.unionhospital.uh'
         }
     },
@@ -403,7 +403,7 @@ const hospitalData = [
             name: 'CUHKMC Patient App',
             features_zh: '預約管理，查看醫療記錄',
             features_en: 'Appointment management, view medical records',
-            ios: 'https://apps.apple.com/hk/app/cuhkmc-patient-app/id1623991394',
+            ios: 'https://apps.apple.com/us/app/cuhkmc-patient-app/id1623991394',
             android: 'https://play.google.com/store/apps/details?id=hk.cuhkmc.patientapp'
         }
     },
@@ -425,7 +425,7 @@ const hospitalData = [
             name: '香港港安醫院',
             features_zh: '預約掛號、排隊管理、自助辦理入院手續',
             features_en: 'Booking, queuing, and self check-in features',
-            ios: 'https://apps.apple.com/tw/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998?l=en-GB',
+            ios: 'https://apps.apple.com/us/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998',
             android: 'https://play.google.com/store/apps/details?id=hk.org.hkah.hkah'
         }
     },
@@ -442,7 +442,7 @@ const hospitalData = [
             name: '香港港安醫院',
             features_zh: '預約掛號、排隊管理、自助辦理入院手續',
             features_en: 'Booking, queuing, and self check-in features',
-            ios: 'https://apps.apple.com/tw/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998?l=en-GB',
+            ios: 'https://apps.apple.com/us/app/%E9%A6%99%E6%B8%AF%E6%B8%AF%E5%AE%89%E9%86%AB%E9%99%A2/id1483882998',
             android: 'https://play.google.com/store/apps/details?id=hk.org.hkah.hkah'
         }
     },
@@ -465,7 +465,7 @@ const hospitalData = [
             name: 'HKSH Mobile',
             features_zh: '預約門診，查看報告',
             features_en: 'Book appointments, view test results',
-            ios: 'https://apps.apple.com/hk/app/hksh-mobile/id1445234855',
+            ios: 'https://apps.apple.com/us/app/hksh/id1552326708',
             android: 'https://play.google.com/store/apps/details?id=hk.hksh.mobile'
         }
     },
@@ -487,7 +487,7 @@ const hospitalData = [
             name: 'BH e-Connect Mobile App',
             features_zh: '預約專科門診，查看醫療記錄',
             features_en: 'Book specialist appointments, view medical records',
-            ios: 'https://apps.apple.com/hk/app/bh-e-connect/id1527010469',
+            ios: 'https://apps.apple.com/us/app/bh-e-connect/id1659746258',
             android: 'https://play.google.com/store/apps/details?id=hk.org.hkbh.smartapp'
         }
     },
