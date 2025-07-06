@@ -2,8 +2,8 @@
 
 const langContent = {
     zh: {
-        mainTitle: "香港急症室及緊急醫療服務指南",
-        subTitle: "一個幫助您快速尋找合適醫療服務的互動工具",
+        mainTitle: "香港次緊急及非緊急急症服務指南",
+        subTitle: "即時查看急症室等候時間、收費比較及最近醫院位置",
         criticalTitle: "如遇危及生命的情況，請立即致電 999！",
         criticalDesc: "例如：嚴重胸痛、呼吸困難、中風症狀、大量出血等。",
         call999Btn: "致電 999",
@@ -122,8 +122,8 @@ const langContent = {
         filterPsychiatryText: "精神科"
     },
     en: {
-        mainTitle: "Hong Kong Hospital Emergency Services Guide",
-        subTitle: "An interactive tool to help you quickly find suitable medical services",
+        mainTitle: "HK Semi-urgent and Non-urgent Emergency Service Guide",
+        subTitle: "Real-time A&E waiting times, fee comparison & nearest hospital locator",
         criticalTitle: "For life-threatening situations, call 999 immediately!",
         criticalDesc: "e.g., severe chest pain, difficulty breathing, stroke symptoms, major bleeding.",
         call999Btn: "Call 999",
