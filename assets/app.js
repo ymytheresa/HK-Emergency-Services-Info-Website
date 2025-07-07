@@ -339,6 +339,11 @@ async function setLanguage(lang) {
     document.getElementById('footer-text').textContent = t.footerText;
     document.getElementById('feedback-text').innerHTML = t.feedbackText;
     
+    // Disclaimer section
+    document.getElementById('disclaimer-title').textContent = t.disclaimerTitle;
+    document.getElementById('disclaimer-content').innerHTML = t.disclaimerShort;
+    document.getElementById('disclaimer-toggle').textContent = t.disclaimerToggleShow;
+    
     document.getElementById('nearest-hospital-result').innerHTML = '';
     document.getElementById('geo-error').textContent = '';
 
@@ -860,6 +865,24 @@ function setupAccordions() {
                 icon.classList.add('rotate-45');
             }
         });
+    });
+    
+    // Setup disclaimer toggle
+    const disclaimerToggle = document.getElementById('disclaimer-toggle');
+    const disclaimerContent = document.getElementById('disclaimer-content');
+    let isFullDisclaimer = false;
+    
+    disclaimerToggle.addEventListener('click', () => {
+        const t = langContent[currentLanguage];
+        isFullDisclaimer = !isFullDisclaimer;
+        
+        if (isFullDisclaimer) {
+            disclaimerContent.innerHTML = t.disclaimerFull;
+            disclaimerToggle.textContent = t.disclaimerToggleHide;
+        } else {
+            disclaimerContent.innerHTML = t.disclaimerShort;
+            disclaimerToggle.textContent = t.disclaimerToggleShow;
+        }
     });
 }
 

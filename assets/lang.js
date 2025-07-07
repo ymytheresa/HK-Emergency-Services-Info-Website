@@ -119,7 +119,40 @@ const langContent = {
         filterGynecologyText: "婦科",
         filterUrologyText: "泌尿科",
         filterGastroenterologyText: "腸胃科",
-        filterPsychiatryText: "精神科"
+        filterPsychiatryText: "精神科",
+        disclaimerTitle: "免責聲明及服務條款",
+        disclaimerShort: "本網站資料僅供參考。如遇緊急情況，請立即致電 999。使用本網站即表示您接受我們的條款。",
+        disclaimerToggleShow: "顯示完整條款",
+        disclaimerToggleHide: "隱藏完整條款",
+        disclaimerFull: `<h3 class="font-bold mb-2">香港次緊急及非緊急急症服務指南 – 網站免責聲明及服務條款</h3>
+<p class="text-xs text-gray-600 mb-3">最後更新：2025年7月7日</p>
+
+<h4 class="font-semibold mt-3">1. 免責聲明 – 僅供一般參考 / 風險自負</h4>
+<p>本網站（香港次緊急及非緊急急症服務指南 – <a href="https://hkemergencyservices.help/" class="text-blue-600 hover:underline">https://hkemergencyservices.help/</a>）所載資料僅供一般參考之用。資料由網站營運者提供（聯絡：<a href="mailto:ymy.theresa@gmail.com" class="text-blue-600 hover:underline">ymy.theresa@gmail.com</a>）。雖然我們致力保持資料最新及正確，但對於本網站或其所載資料、輪候時間估算、地圖、聯絡資料或相關圖像的完整性、準確性、可靠性、適用性或可用性，無論明示或暗示，均不作任何陳述或保證。營運者不會獨立核實第三方資料。閣下對該等資料的任何依賴，均須自行承擔風險。</p>
+
+<h4 class="font-semibold mt-3">2. 非專業意見</h4>
+<p>本網站所載內容並不構成任何醫療、法律或其他專業意見。如需專業協助，請諮詢合資格專家。</p>
+
+<h4 class="font-semibold mt-3">3. 緊急情況優先</h4>
+<p class="font-bold text-red-600">如遇緊急情況，請立即致電 999。切勿依賴本網站作緊急求助用途。</p>
+
+<h4 class="font-semibold mt-3">4. 責任限制</h4>
+<p>在香港法律允許的最大範圍內，營運者對因使用本網站或依賴其內容而引致的任何損失或損害（包括但不限於間接或後果性損失或損害，或任何因資料或利潤損失而產生的損失或損害）概不負責。</p>
+
+<h4 class="font-semibold mt-3">5. 條款接受</h4>
+<p>閣下進入或使用本網站，即無條件接受本免責聲明及服務條款。本條款可隨時更改，恕不另行通知。</p>
+
+<h4 class="font-semibold mt-3">6. 外部連結</h4>
+<p>本網站包含指向外部網站的連結，該等網站不受我們控制。我們對其內容、性質或可用性概不負責。任何連結的出現，並不表示我們推薦或認同其所表達的觀點。</p>
+
+<h4 class="font-semibold mt-3">7. 語言版本</h4>
+<p>本免責聲明及服務條款備有英文及繁體中文版本。如有歧義，以英文版本為準。</p>
+
+<h4 class="font-semibold mt-3">8. 管轄法律及司法管轄權</h4>
+<p>本條款受香港特別行政區法律管轄，香港法院擁有專屬司法管轄權。</p>
+
+<h4 class="font-semibold mt-3">9. 私隱聲明</h4>
+<p>本網站現時不收集個人資料。如日後開始收集個人資料，將會公佈私隱政策。我們只使用不具識別性的流量統計以改進本站。</p>`
     },
     en: {
         mainTitle: "HK Semi-urgent and Non-urgent Emergency Service Guide",
@@ -239,6 +272,39 @@ const langContent = {
         filterGynecologyText: "Gynecology",
         filterUrologyText: "Urology",
         filterGastroenterologyText: "Gastroenterology",
-        filterPsychiatryText: "Psychiatry"
+        filterPsychiatryText: "Psychiatry",
+        disclaimerTitle: "Disclaimer and Terms of Service",
+        disclaimerShort: "Information is for reference only. In an emergency, call 999 immediately. Using this website means you accept our terms.",
+        disclaimerToggleShow: "Show full terms",
+        disclaimerToggleHide: "Hide full terms",
+        disclaimerFull: `<h3 class="font-bold mb-2">HK Semi-urgent and Non-urgent Emergency Service Guide – Website Disclaimer and Terms of Service</h3>
+<p class="text-xs text-gray-600 mb-3">Last updated: 7 July 2025</p>
+
+<h4 class="font-semibold mt-3">1. Disclaimer – General Information Only / Use at Your Own Risk</h4>
+<p>The information contained on this website (HK Semi-urgent and Non-urgent Emergency Service Guide – <a href="https://hkemergencyservices.help/" class="text-blue-600 hover:underline">https://hkemergencyservices.help/</a>) is for general reference purposes only. The information is provided by the site operator (contact: <a href="mailto:ymy.theresa@gmail.com" class="text-blue-600 hover:underline">ymy.theresa@gmail.com</a>). While we endeavour to keep the information up to date and correct, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, queue-time estimates, maps, contact details, or related graphics contained on the website for any purpose. The operator does not independently verify third-party data. Any reliance you place on such information is strictly at your own risk.</p>
+
+<h4 class="font-semibold mt-3">2. No Professional Advice</h4>
+<p>Nothing on this website constitutes medical, legal, or other professional advice. For professional assistance, please consult a qualified expert.</p>
+
+<h4 class="font-semibold mt-3">3. Emergency Override</h4>
+<p class="font-bold text-red-600">If you have a medical emergency, dial 999 immediately. Do not rely on this website for emergency assistance.</p>
+
+<h4 class="font-semibold mt-3">4. Limitation of Liability</h4>
+<p>To the maximum extent permitted under Hong Kong law, the operator is not liable for any loss or damage of any kind, including without limitation indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits, arising out of or in connection with the use of this website or reliance on its content.</p>
+
+<h4 class="font-semibold mt-3">5. Acceptance of Terms</h4>
+<p>By accessing or using this website, you accept this disclaimer and the terms of service unconditionally. These terms may be updated at any time without prior notice.</p>
+
+<h4 class="font-semibold mt-3">6. External Links</h4>
+<p>This website contains links to external websites which are not under our control. We are not responsible for the content, nature, or availability of those sites. The inclusion of any links does not imply recommendation or endorsement of the views expressed within them.</p>
+
+<h4 class="font-semibold mt-3">7. Language Control</h4>
+<p>This disclaimer and terms of service are provided in both English and Traditional Chinese. In case of inconsistency, the English version shall prevail.</p>
+
+<h4 class="font-semibold mt-3">8. Governing Law & Jurisdiction</h4>
+<p>These terms are governed by the laws of the Hong Kong Special Administrative Region. The courts of Hong Kong have exclusive jurisdiction.</p>
+
+<h4 class="font-semibold mt-3">9. Privacy Notice</h4>
+<p>This website does not collect personal data. If personal data collection begins in the future, a privacy policy will be posted. We use non-identifying traffic statistics to improve the site.</p>`
     }
 };
