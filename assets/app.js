@@ -135,7 +135,12 @@ function getSpecialtyName(specialty) {
         emergency: t.specialistEmergency,
         cardiology: t.specialistCardiology,
         orthopedics: t.specialistOrthopedics,
-        neurology: t.specialistNeurology
+        neurology: t.specialistNeurology,
+        pediatrics: t.specialistPediatrics,
+        gynecology: t.specialistGynecology,
+        urology: t.specialistUrology,
+        gastroenterology: t.specialistGastroenterology,
+        psychiatry: t.specialistPsychiatry
     };
     return specialtyMap[specialty] || specialty;
 }
