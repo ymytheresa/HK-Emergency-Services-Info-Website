@@ -251,9 +251,6 @@ async function setLanguage(lang) {
 
     document.getElementById('main-title').textContent = t.mainTitle;
     document.getElementById('sub-title').textContent = t.subTitle;
-    document.getElementById('critical-title').textContent = t.criticalTitle;
-    document.getElementById('critical-desc').textContent = t.criticalDesc;
-    document.getElementById('call-999-btn').textContent = t.call999Btn;
     // Removed finder-title element
     document.getElementById('finder-desc').textContent = t.finderDesc;
     document.getElementById('browser-title').textContent = t.browserTitle;
@@ -321,6 +318,7 @@ async function setLanguage(lang) {
 
     document.getElementById('cost-title').textContent = t.costTitle;
     document.getElementById('cost-desc').textContent = t.costDesc;
+    document.getElementById('insurance-reminder').textContent = t.insuranceReminder;
     document.getElementById('time-section-title').textContent = t.timeSectionTitle;
     document.getElementById('time-label').textContent = t.timeLabel;
     document.getElementById('current-time-btn-text').textContent = t.currentTimeBtnText;
@@ -364,6 +362,11 @@ async function setLanguage(lang) {
     // Update emergency 999 elements if they exist
     if (document.getElementById('emergency-999-banner-text')) {
         updateEmergency999Language();
+    }
+    
+    // Update price chart toggle if it exists
+    if (document.getElementById('cost-toggle-text')) {
+        initializePriceChartToggle();
     }
 }
 
@@ -1435,6 +1438,48 @@ function updateEmergency999Language() {
     setupEmergency999Elements();
 }
 
+// Price chart toggle function
+function togglePriceChart() {
+    const content = document.getElementById('cost-chart-content');
+    const toggleText = document.getElementById('cost-toggle-text');
+    const arrow = document.getElementById('cost-arrow');
+    const t = langContent[currentLanguage];
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        toggleText.textContent = t.costToggleHide;
+        arrow.textContent = '▲';
+        // Save preference
+        localStorage.setItem('priceChartExpanded', 'true');
+    } else {
+        content.classList.add('hidden');
+        toggleText.textContent = t.costToggleShow;
+        arrow.textContent = '▼';
+        // Save preference
+        localStorage.setItem('priceChartExpanded', 'false');
+    }
+}
+
+function initializePriceChartToggle() {
+    const t = langContent[currentLanguage];
+    const toggleText = document.getElementById('cost-toggle-text');
+    const arrow = document.getElementById('cost-arrow');
+    const content = document.getElementById('cost-chart-content');
+    
+    // Check saved preference (default to expanded)
+    const isExpanded = localStorage.getItem('priceChartExpanded') !== 'false';
+    
+    if (isExpanded) {
+        content.classList.remove('hidden');
+        toggleText.textContent = t.costToggleHide;
+        arrow.textContent = '▲';
+    } else {
+        content.classList.add('hidden');
+        toggleText.textContent = t.costToggleShow;
+        arrow.textContent = '▼';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded, starting initialization...');
     console.log('langContent available:', typeof langContent !== 'undefined');
@@ -1455,6 +1500,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupAccordions();
         setupGeolocation();
         setupEmergency999Elements();
+        initializePriceChartToggle();
         
         // Start waiting time updates
         console.log('Starting waiting time updates...');
