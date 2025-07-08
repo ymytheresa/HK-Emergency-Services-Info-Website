@@ -536,7 +536,7 @@ async function createHospitalCard(h, distance = null) {
                     <span class="specialist-arrow ml-1">▼</span>
                 </button>
                 <div id="${cardId}" class="specialist-content hidden mt-1">
-                    <div class="text-xs mb-1 font-medium text-gray-700">${currentLanguage === 'zh' ? '專科服務' : 'Specialists'}:</div>
+                    <div class="text-xs mb-1 font-medium text-gray-700">${currentLanguage === 'zh' ? '急症專科服務' : 'Emergency Specialists'}:</div>
                     <div class="flex flex-wrap">${specialistsList}</div>
                 </div>
             </div>
