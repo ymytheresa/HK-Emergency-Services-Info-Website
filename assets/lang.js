@@ -124,6 +124,14 @@ const langContent = {
         disclaimerShort: "本網站資料僅供參考。如遇緊急情況，請立即致電 999。使用本網站即表示您接受我們的條款。",
         disclaimerToggleShow: "顯示完整條款",
         disclaimerToggleHide: "隱藏完整條款",
+        emergency999Banner: "🚨 如遇危急情況，請立即致電 999 - 切勿延誤！",
+        emergency999BannerSub: "本網站僅供非緊急情況參考使用",
+        emergency999BeforeList: "⚠️ 重要提醒：如情況危急，請立即致電 999，不要花時間比較醫院",
+        emergency999Location: "📍 使用位置服務前，請確認這不是緊急情況",
+        emergency999ModalTitle: "重要安全提醒",
+        emergency999ModalContent: "本網站是為<strong>非緊急</strong>情況設計的。如果您或他人有以下情況，請立即致電 <strong class='text-red-600'>999</strong>：<br><br>• 嚴重胸痛或呼吸困難<br>• 中風症狀（面部下垂、手臂無力、言語不清）<br>• 大量出血或嚴重創傷<br>• 失去意識或嚴重頭部創傷<br>• 嚴重過敏反應<br><br>對於輕微急症，您可以繼續使用本網站尋找合適的醫療服務。",
+        emergency999ModalConfirm: "我明白，繼續使用",
+        emergency999ModalCall: "立即致電 999",
         disclaimerFull: `<h3 class="font-bold mb-2">香港次緊急及非緊急急症服務指南 – 網站免責聲明及服務條款</h3>
 <p class="text-xs text-gray-600 mb-3">最後更新：2025年7月7日</p>
 
@@ -277,6 +285,14 @@ const langContent = {
         disclaimerShort: "Information is for reference only. In an emergency, call 999 immediately. Using this website means you accept our terms.",
         disclaimerToggleShow: "Show full terms",
         disclaimerToggleHide: "Hide full terms",
+        emergency999Banner: "🚨 For life-threatening emergencies, call 999 immediately - do not delay!",
+        emergency999BannerSub: "This website is for non-emergency reference only",
+        emergency999BeforeList: "⚠️ Important reminder: If this is an emergency, call 999 immediately - don't waste time comparing hospitals",
+        emergency999Location: "📍 Before using location services, confirm this is not an emergency",
+        emergency999ModalTitle: "Important Safety Reminder",
+        emergency999ModalContent: "This website is designed for <strong>non-emergency</strong> situations. If you or someone else has any of the following, call <strong class='text-red-600'>999</strong> immediately:<br><br>• Severe chest pain or difficulty breathing<br>• Stroke symptoms (facial drooping, arm weakness, speech difficulty)<br>• Major bleeding or severe trauma<br>• Loss of consciousness or severe head injury<br>• Severe allergic reaction<br><br>For minor urgent conditions, you may continue using this website to find appropriate medical services.",
+        emergency999ModalConfirm: "I understand, continue",
+        emergency999ModalCall: "Call 999 now",
         disclaimerFull: `<h3 class="font-bold mb-2">HK Semi-urgent and Non-urgent Emergency Service Guide – Website Disclaimer and Terms of Service</h3>
 <p class="text-xs text-gray-600 mb-3">Last updated: 7 July 2025</p>
 

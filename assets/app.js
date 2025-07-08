@@ -360,6 +360,11 @@ async function setLanguage(lang) {
 
     await renderHospitalCards();
     updateChart(costChart.data.costType || 'consultation');
+    
+    // Update emergency 999 elements if they exist
+    if (document.getElementById('emergency-999-banner-text')) {
+        updateEmergency999Language();
+    }
 }
 
 async function getServiceType(hospital) {
@@ -1382,6 +1387,54 @@ function startWaitingTimeUpdates() {
     }, 60000); // 60 seconds
 }
 
+// Emergency 999 functions
+function setupEmergency999Elements() {
+    const t = langContent[currentLanguage];
+    
+    // Setup banner
+    document.getElementById('emergency-999-banner-text').textContent = t.emergency999Banner;
+    document.getElementById('emergency-999-banner-sub').textContent = t.emergency999BannerSub;
+    
+    // Setup before list reminder
+    document.getElementById('emergency-999-before-list-text').textContent = t.emergency999BeforeList;
+    
+    // Setup location reminder
+    document.getElementById('emergency-999-location-text').textContent = t.emergency999Location;
+    
+    // Setup modal
+    document.getElementById('emergency-999-modal-title').textContent = t.emergency999ModalTitle;
+    document.getElementById('emergency-999-modal-content').innerHTML = t.emergency999ModalContent;
+    document.getElementById('emergency-999-modal-call-text').textContent = t.emergency999ModalCall;
+    document.getElementById('emergency-999-modal-continue-text').textContent = t.emergency999ModalConfirm;
+    
+    // Setup modal event listeners
+    document.getElementById('emergency-999-modal-call').onclick = () => {
+        window.open('tel:999', '_self');
+    };
+    
+    document.getElementById('emergency-999-modal-continue').onclick = () => {
+        localStorage.setItem('emergency999Acknowledged', 'true');
+        hideEmergency999Modal();
+    };
+    
+    // Show modal for first-time visitors
+    if (!localStorage.getItem('emergency999Acknowledged')) {
+        showEmergency999Modal();
+    }
+}
+
+function showEmergency999Modal() {
+    document.getElementById('emergency-999-modal').classList.remove('hidden');
+}
+
+function hideEmergency999Modal() {
+    document.getElementById('emergency-999-modal').classList.add('hidden');
+}
+
+function updateEmergency999Language() {
+    setupEmergency999Elements();
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded, starting initialization...');
     console.log('langContent available:', typeof langContent !== 'undefined');
@@ -1401,6 +1454,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         setupFilters();
         setupAccordions();
         setupGeolocation();
+        setupEmergency999Elements();
         
         // Start waiting time updates
         console.log('Starting waiting time updates...');
