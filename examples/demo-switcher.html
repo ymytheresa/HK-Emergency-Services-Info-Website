@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template System Demo - Switch Between Domains</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Template System Demo</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Choose a Domain Configuration:</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Emergency Services -->
+                <button onclick="loadConfig('emergency')" class="p-4 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                    <h3 class="font-bold text-lg mb-2">🏥 Emergency Services</h3>
+                    <p class="text-sm text-gray-600">Hospitals, waiting times, emergency fees</p>
+                </button>
+                
+                <!-- Restaurant Guide -->
+                <button onclick="loadConfig('restaurant')" class="p-4 border-2 border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition">
+                    <h3 class="font-bold text-lg mb-2">🍜 Restaurant Guide</h3>
+                    <p class="text-sm text-gray-600">Restaurants, cuisines, ratings, prices</p>
+                </button>
+                
+                <!-- Shopping Directory -->
+                <button onclick="loadConfig('shopping')" class="p-4 border-2 border-gray-300 rounded-lg hover:border-pink-500 hover:bg-pink-50 transition">
+                    <h3 class="font-bold text-lg mb-2">🛍️ Shopping Directory</h3>
+                    <p class="text-sm text-gray-600">Stores, malls, brands, sales</p>
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Current Configuration:</h2>
+            <pre id="config-display" class="bg-gray-100 p-4 rounded overflow-x-auto text-sm"></pre>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <p class="text-gray-600 mb-4">This demonstrates how the same template can be configured for different domains.</p>
+            <a href="../index.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                View Live Site →
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Demo configurations
+        const configs = {
+            emergency: {
+                domain: 'emergency-services',
+                itemType: {
+                    singular: 'hospital',
+                    plural: 'hospitals',
+                    singular_zh: '醫院',
+                    plural_zh: '醫院'
+                },
+                features: {
+                    locationFinder: true,
+                    priceComparison: true,
+                    waitingTimes: true,
+                    emergencyBanner: true,
+                    specialistFiltering: true
+                },
+                branding: {
+                    primaryColor: '#5F9EA0',
+                    accentColor: '#434242'
+                }
+            },
+            restaurant: {
+                domain: 'restaurants',
+                itemType: {
+                    singular: 'restaurant',
+                    plural: 'restaurants',
+                    singular_zh: '餐廳',
+                    plural_zh: '餐廳'
+                },
+                features: {
+                    locationFinder: true,
+                    priceComparison: true,
+                    waitingTimes: false,
+                    emergencyBanner: false,
+                    ratings: true,
+                    openingHours: true
+                },
+                branding: {
+                    primaryColor: '#F97316',
+                    accentColor: '#7C3AED'
+                }
+            },
+            shopping: {
+                domain: 'shopping',
+                itemType: {
+                    singular: 'store',
+                    plural: 'stores',
+                    singular_zh: '商店',
+                    plural_zh: '商店'
+                },
+                features: {
+                    locationFinder: true,
+                    priceComparison: true,
+                    waitingTimes: false,
+                    emergencyBanner: false,
+                    salesAlerts: true,
+                    membershipPrograms: true
+                },
+                branding: {
+                    primaryColor: '#EC4899',
+                    accentColor: '#8B5CF6'
+                }
+            }
+        };
+        
+        function loadConfig(type) {
+            const config = configs[type];
+            document.getElementById('config-display').textContent = JSON.stringify(config, null, 2);
+            
+            // In a real implementation, this would:
+            // 1. Load the appropriate config file
+            // 2. Reload the site with new configuration
+            // 3. Update all terminology and features
+            
+            // For demo, just show the config
+            alert(`In production, this would load the ${type} configuration and transform the entire site!`);
+        }
+        
+        // Load emergency config by default
+        loadConfig('emergency');
+    </script>
+</body>
+</html>

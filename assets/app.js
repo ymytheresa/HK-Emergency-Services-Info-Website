@@ -1,4 +1,18 @@
-/* Main application logic for HK Emergency Services Info Website */
+/* Main application logic - Template System Version */
+
+// Load site configuration
+const config = typeof siteConfig !== 'undefined' ? siteConfig : {
+    // Fallback config for backwards compatibility
+    features: {
+        waitingTimes: true,
+        emergencyBanner: true,
+        timePricing: true
+    },
+    itemType: {
+        singular: 'hospital',
+        plural: 'hospitals'
+    }
+};
 
 let currentLanguage = 'zh';
 let appState = { region: 'all', sector: 'all', privateTier: 'all', specialist: 'all' };
@@ -12,8 +26,8 @@ let waitingTimeCache = {
     isLoading: false
 };
 
-// Hospital name mapping for API matching
-const hospitalNameMapping = {
+// Item name mapping for API matching (only used if waiting times feature is enabled)
+const hospitalNameMapping = config.features.waitingTimes ? {
     'Alice Ho Miu Ling Nethersole Hospital': 'ahnh',
     'Caritas Medical Centre': 'cmc', 
     'Kwong Wah Hospital': 'kwh',
@@ -32,10 +46,13 @@ const hospitalNameMapping = {
     'Tuen Mun Hospital': 'tmh',
     'United Christian Hospital': 'uch',
     'Yan Chai Hospital': 'ych'
-};
+} : {};
 
-// Waiting time functions
+// Waiting time functions (only available if feature is enabled)
 async function fetchWaitingTimes() {
+    if (!config.features.waitingTimes) {
+        return {};
+    }
     if (waitingTimeCache.isLoading) return waitingTimeCache.data;
     
     // Check if cache is still valid (less than 1 minute old)
@@ -88,7 +105,7 @@ async function fetchWaitingTimes() {
 }
 
 function getWaitingTimeColor(waitTime) {
-    if (!waitTime) return '#3B82F6'; // Blue for no data (private hospitals)
+    if (!waitTime || !config.features.waitingTimes) return '#3B82F6'; // Blue for no data
     
     switch(waitTime) {
         case 'Around 1 hour':
@@ -1186,36 +1203,167 @@ async function searchByAddress() {
 
 // Comprehensive Hong Kong locations database
 const hkLocationsDB = [
-    // Hong Kong Island
-    { zh: '中環', en: 'Central', coords: { latitude: 22.2783, longitude: 114.1747 }, keywords: ['central', 'admiralty', '中環', '金鐘'] },
-    { zh: '銅鑼灣', en: 'Causeway Bay', coords: { latitude: 22.2800, longitude: 114.1860 }, keywords: ['causeway bay', 'cwb', '銅鑼灣', '時代廣場'] },
-    { zh: '灣仔', en: 'Wan Chai', coords: { latitude: 22.2747, longitude: 114.1733 }, keywords: ['wan chai', 'wanchai', '灣仔', '會展'] },
-    { zh: '北角', en: 'North Point', coords: { latitude: 22.2925, longitude: 114.2000 }, keywords: ['north point', '北角', '炮台山'] },
-    { zh: '太古', en: 'Taikoo', coords: { latitude: 22.2850, longitude: 114.2200 }, keywords: ['taikoo', 'tai koo', '太古', '康怡'] },
-    { zh: '西環', en: 'Sai Ying Pun', coords: { latitude: 22.2850, longitude: 114.1450 }, keywords: ['sai ying pun', 'syp', '西環', '上環'] },
-    { zh: '薄扶林', en: 'Pok Fu Lam', coords: { latitude: 22.2710, longitude: 114.1292 }, keywords: ['pok fu lam', '薄扶林', '港大'] },
-    { zh: '香港仔', en: 'Aberdeen', coords: { latitude: 22.2480, longitude: 114.1550 }, keywords: ['aberdeen', '香港仔', '黃竹坑'] },
+    // Hong Kong Island - Central & Western District
+    { zh: '中環', en: 'Central', coords: { latitude: 22.2783, longitude: 114.1747 }, keywords: ['central', '中環', 'ifc', '國際金融中心', 'central station'] },
+    { zh: '金鐘', en: 'Admiralty', coords: { latitude: 22.2779, longitude: 114.1652 }, keywords: ['admiralty', '金鐘', 'pacific place', '太古廣場'] },
+    { zh: '上環', en: 'Sheung Wan', coords: { latitude: 22.2864, longitude: 114.1501 }, keywords: ['sheung wan', '上環', '信德中心', 'shun tak', 'macau ferry'] },
+    { zh: '西環', en: 'Sai Ying Pun', coords: { latitude: 22.2850, longitude: 114.1450 }, keywords: ['sai ying pun', 'syp', '西環', '西營盤'] },
+    { zh: '堅尼地城', en: 'Kennedy Town', coords: { latitude: 22.2816, longitude: 114.1289 }, keywords: ['kennedy town', '堅尼地城', 'kennedy town station'] },
+    { zh: '石塘咀', en: 'Shek Tong Tsui', coords: { latitude: 22.2836, longitude: 114.1374 }, keywords: ['shek tong tsui', '石塘咀', 'hku station'] },
+    { zh: '薄扶林', en: 'Pok Fu Lam', coords: { latitude: 22.2710, longitude: 114.1292 }, keywords: ['pok fu lam', '薄扶林', '港大', 'hku', 'university of hong kong'] },
     
-    // Kowloon
-    { zh: '旺角', en: 'Mong Kok', coords: { latitude: 22.3193, longitude: 114.1694 }, keywords: ['mong kok', 'mongkok', '旺角', '花園街'] },
-    { zh: '尖沙咀', en: 'Tsim Sha Tsui', coords: { latitude: 22.2976, longitude: 114.1722 }, keywords: ['tsim sha tsui', 'tst', '尖沙咀', '海港城'] },
-    { zh: '油麻地', en: 'Yau Ma Tei', coords: { latitude: 22.3088, longitude: 114.1700 }, keywords: ['yau ma tei', 'ymt', '油麻地', '廟街'] },
-    { zh: '深水埗', en: 'Sham Shui Po', coords: { latitude: 22.3320, longitude: 114.1620 }, keywords: ['sham shui po', 'ssp', '深水埗', '長沙灣'] },
-    { zh: '九龍城', en: 'Kowloon City', coords: { latitude: 22.3276, longitude: 114.1848 }, keywords: ['kowloon city', '九龍城', '土瓜灣'] },
-    { zh: '觀塘', en: 'Kwun Tong', coords: { latitude: 22.3149, longitude: 114.2259 }, keywords: ['kwun tong', '觀塘', '牛頭角', '藍田'] },
-    { zh: '黃大仙', en: 'Wong Tai Sin', coords: { latitude: 22.3420, longitude: 114.1950 }, keywords: ['wong tai sin', 'wts', '黃大仙', '彩虹'] },
-    { zh: '九龍塘', en: 'Kowloon Tong', coords: { latitude: 22.3370, longitude: 114.1760 }, keywords: ['kowloon tong', '九龍塘', 'festival walk'] },
+    // Hong Kong Island - Wan Chai District
+    { zh: '灣仔', en: 'Wan Chai', coords: { latitude: 22.2747, longitude: 114.1733 }, keywords: ['wan chai', 'wanchai', '灣仔', '會展', 'convention centre'] },
+    { zh: '跑馬地', en: 'Happy Valley', coords: { latitude: 22.2716, longitude: 114.1831 }, keywords: ['happy valley', '跑馬地', 'racecourse', '馬場'] },
+    { zh: '銅鑼灣', en: 'Causeway Bay', coords: { latitude: 22.2800, longitude: 114.1860 }, keywords: ['causeway bay', 'cwb', '銅鑼灣', '時代廣場', 'times square', 'sogo'] },
+    { zh: '天后', en: 'Tin Hau', coords: { latitude: 22.2832, longitude: 114.1913 }, keywords: ['tin hau', '天后', 'tin hau station'] },
+    { zh: '炮台山', en: 'Fortress Hill', coords: { latitude: 22.2886, longitude: 114.1944 }, keywords: ['fortress hill', '炮台山', 'fortress hill station'] },
+    { zh: '北角', en: 'North Point', coords: { latitude: 22.2925, longitude: 114.2000 }, keywords: ['north point', '北角', 'north point station', 'cityplaza'] },
+    { zh: '鰂魚涌', en: 'Quarry Bay', coords: { latitude: 22.2880, longitude: 114.2139 }, keywords: ['quarry bay', '鰂魚涌', 'taikoo place', '太古坊'] },
+    { zh: '太古', en: 'Taikoo', coords: { latitude: 22.2850, longitude: 114.2200 }, keywords: ['taikoo', 'tai koo', '太古', '康怡', 'kornhill'] },
+    { zh: '西灣河', en: 'Sai Wan Ho', coords: { latitude: 22.2816, longitude: 114.2254 }, keywords: ['sai wan ho', '西灣河', 'sai wan ho station'] },
+    { zh: '筲箕灣', en: 'Shau Kei Wan', coords: { latitude: 22.2789, longitude: 114.2304 }, keywords: ['shau kei wan', '筲箕灣', 'shau kei wan station'] },
+    { zh: '柴灣', en: 'Chai Wan', coords: { latitude: 22.2669, longitude: 114.2366 }, keywords: ['chai wan', '柴灣', 'chai wan station'] },
     
-    // New Territories
-    { zh: '荃灣', en: 'Tsuen Wan', coords: { latitude: 22.3742, longitude: 114.1192 }, keywords: ['tsuen wan', '荃灣', '葵涌', '青衣'] },
-    { zh: '沙田', en: 'Sha Tin', coords: { latitude: 22.3794, longitude: 114.2022 }, keywords: ['sha tin', 'shatin', '沙田', '大圍', '火炭'] },
-    { zh: '大埔', en: 'Tai Po', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po', '大埔', '大埔墟'] },
-    { zh: '上水', en: 'Sheung Shui', coords: { latitude: 22.5005, longitude: 114.1245 }, keywords: ['sheung shui', '上水', '粉嶺'] },
-    { zh: '元朗', en: 'Yuen Long', coords: { latitude: 22.4385, longitude: 114.0322 }, keywords: ['yuen long', '元朗', '天水圍'] },
-    { zh: '屯門', en: 'Tuen Mun', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['tuen mun', '屯門', '兆康'] },
-    { zh: '將軍澳', en: 'Tseung Kwan O', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['tseung kwan o', 'tko', '將軍澳', '坑口'] },
-    { zh: '馬鞍山', en: 'Ma On Shan', coords: { latitude: 22.4250, longitude: 114.2350 }, keywords: ['ma on shan', 'mos', '馬鞍山'] },
-    { zh: '東涌', en: 'Tung Chung', coords: { latitude: 22.2868, longitude: 113.9422 }, keywords: ['tung chung', '東涌', '機場'] }
+    // Hong Kong Island - Southern District
+    { zh: '香港仔', en: 'Aberdeen', coords: { latitude: 22.2480, longitude: 114.1550 }, keywords: ['aberdeen', '香港仔', 'aberdeen centre'] },
+    { zh: '黃竹坑', en: 'Wong Chuk Hang', coords: { latitude: 22.2464, longitude: 114.1694 }, keywords: ['wong chuk hang', '黃竹坑', 'ocean park'] },
+    { zh: '海洋公園', en: 'Ocean Park', coords: { latitude: 22.2464, longitude: 114.1694 }, keywords: ['ocean park', '海洋公園', 'ocean park station'] },
+    { zh: '深水灣', en: 'Deep Water Bay', coords: { latitude: 22.2372, longitude: 114.1978 }, keywords: ['deep water bay', '深水灣', 'repulse bay'] },
+    { zh: '淺水灣', en: 'Repulse Bay', coords: { latitude: 22.2372, longitude: 114.1978 }, keywords: ['repulse bay', '淺水灣', 'repulse bay beach'] },
+    { zh: '赤柱', en: 'Stanley', coords: { latitude: 22.2194, longitude: 114.2086 }, keywords: ['stanley', '赤柱', 'stanley market', 'stanley beach'] },
+    { zh: '鴨脷洲', en: 'Ap Lei Chau', coords: { latitude: 22.2417, longitude: 114.1528 }, keywords: ['ap lei chau', '鴨脷洲', 'lei tung', '利東'] },
+    { zh: '利東', en: 'Lei Tung', coords: { latitude: 22.2417, longitude: 114.1528 }, keywords: ['lei tung', '利東', 'lei tung station'] },
+    { zh: '海怡半島', en: 'South Horizons', coords: { latitude: 22.2400, longitude: 114.1528 }, keywords: ['south horizons', '海怡半島', 'south horizons station'] },
+    
+    // Kowloon - Yau Tsim Mong District
+    { zh: '尖沙咀', en: 'Tsim Sha Tsui', coords: { latitude: 22.2976, longitude: 114.1722 }, keywords: ['tsim sha tsui', 'tst', '尖沙咀', '海港城', 'harbour city', 'star ferry'] },
+    { zh: '尖沙咀東', en: 'Tsim Sha Tsui East', coords: { latitude: 22.2984, longitude: 114.1777 }, keywords: ['tsim sha tsui east', 'tst east', '尖沙咀東', 'space museum'] },
+    { zh: '尖東', en: 'East Tsim Sha Tsui', coords: { latitude: 22.2984, longitude: 114.1777 }, keywords: ['east tsim sha tsui', '尖東', 'east tst', 'east tsim sha tsui station'] },
+    { zh: '佐敦', en: 'Jordan', coords: { latitude: 22.3048, longitude: 114.1708 }, keywords: ['jordan', '佐敦', 'jordan station', 'austin'] },
+    { zh: '油麻地', en: 'Yau Ma Tei', coords: { latitude: 22.3088, longitude: 114.1700 }, keywords: ['yau ma tei', 'ymt', '油麻地', '廟街', 'temple street'] },
+    { zh: '旺角', en: 'Mong Kok', coords: { latitude: 22.3193, longitude: 114.1694 }, keywords: ['mong kok', 'mongkok', '旺角', '花園街', 'fa yuen street', 'ladies market'] },
+    { zh: '旺角東', en: 'Mong Kok East', coords: { latitude: 22.3220, longitude: 114.1726 }, keywords: ['mong kok east', '旺角東', 'mong kok east station'] },
+    { zh: '大角咀', en: 'Tai Kok Tsui', coords: { latitude: 22.3167, longitude: 114.1636 }, keywords: ['tai kok tsui', '大角咀', 'olympic station'] },
+    { zh: '奧運', en: 'Olympic', coords: { latitude: 22.3167, longitude: 114.1636 }, keywords: ['olympic', '奧運', 'olympic station'] },
+    
+    // Kowloon - Sham Shui Po District
+    { zh: '深水埗', en: 'Sham Shui Po', coords: { latitude: 22.3320, longitude: 114.1620 }, keywords: ['sham shui po', 'ssp', '深水埗', '鴨寮街', 'ap liu street'] },
+    { zh: '長沙灣', en: 'Cheung Sha Wan', coords: { latitude: 22.3373, longitude: 114.1556 }, keywords: ['cheung sha wan', '長沙灣', 'cheung sha wan station'] },
+    { zh: '荔枝角', en: 'Lai Chi Kok', coords: { latitude: 22.3378, longitude: 114.1448 }, keywords: ['lai chi kok', '荔枝角', 'lai chi kok station'] },
+    { zh: '美孚', en: 'Mei Foo', coords: { latitude: 22.3378, longitude: 114.1369 }, keywords: ['mei foo', '美孚', 'mei foo station'] },
+    { zh: '石硤尾', en: 'Shek Kip Mei', coords: { latitude: 22.3378, longitude: 114.1697 }, keywords: ['shek kip mei', '石硤尾', 'shek kip mei station'] },
+    
+    // Kowloon - Kowloon City District
+    { zh: '九龍城', en: 'Kowloon City', coords: { latitude: 22.3276, longitude: 114.1848 }, keywords: ['kowloon city', '九龍城', 'kai tak', '啟德'] },
+    { zh: '土瓜灣', en: 'To Kwa Wan', coords: { latitude: 22.3165, longitude: 114.1882 }, keywords: ['to kwa wan', '土瓜灣', 'to kwa wan station'] },
+    { zh: '馬頭圍', en: 'Ma Tau Wai', coords: { latitude: 22.3165, longitude: 114.1882 }, keywords: ['ma tau wai', '馬頭圍', 'ma tau wai station'] },
+    { zh: '紅磡', en: 'Hung Hom', coords: { latitude: 22.3028, longitude: 114.1825 }, keywords: ['hung hom', '紅磡', 'hung hom station', 'whampoa'] },
+    { zh: '黃埔', en: 'Whampoa', coords: { latitude: 22.3028, longitude: 114.1825 }, keywords: ['whampoa', '黃埔', 'whampoa station'] },
+    { zh: '何文田', en: 'Ho Man Tin', coords: { latitude: 22.3084, longitude: 114.1826 }, keywords: ['ho man tin', '何文田', 'ho man tin station'] },
+    { zh: '啟德', en: 'Kai Tak', coords: { latitude: 22.3276, longitude: 114.1950 }, keywords: ['kai tak', '啟德', 'kai tak station'] },
+    
+    // Kowloon - Wong Tai Sin District
+    { zh: '黃大仙', en: 'Wong Tai Sin', coords: { latitude: 22.3420, longitude: 114.1950 }, keywords: ['wong tai sin', 'wts', '黃大仙', 'wong tai sin temple'] },
+    { zh: '彩虹', en: 'Choi Hung', coords: { latitude: 22.3356, longitude: 114.2089 }, keywords: ['choi hung', '彩虹', 'choi hung station'] },
+    { zh: '九龍灣', en: 'Kowloon Bay', coords: { latitude: 22.3224, longitude: 114.2133 }, keywords: ['kowloon bay', '九龍灣', 'kowloon bay station', 'telford plaza'] },
+    { zh: '牛頭角', en: 'Ngau Tau Kok', coords: { latitude: 22.3149, longitude: 114.2259 }, keywords: ['ngau tau kok', '牛頭角', 'ngau tau kok station'] },
+    { zh: '鑽石山', en: 'Diamond Hill', coords: { latitude: 22.3407, longitude: 114.2020 }, keywords: ['diamond hill', '鑽石山', 'diamond hill station'] },
+    { zh: '樂富', en: 'Lok Fu', coords: { latitude: 22.3372, longitude: 114.1849 }, keywords: ['lok fu', '樂富', 'lok fu station'] },
+    { zh: '九龍塘', en: 'Kowloon Tong', coords: { latitude: 22.3370, longitude: 114.1760 }, keywords: ['kowloon tong', '九龍塘', 'festival walk', 'kowloon tong station'] },
+    
+    // Kowloon - Kwun Tong District  
+    { zh: '觀塘', en: 'Kwun Tong', coords: { latitude: 22.3149, longitude: 114.2259 }, keywords: ['kwun tong', '觀塘', 'kwun tong station', 'apm'] },
+    { zh: '藍田', en: 'Lam Tin', coords: { latitude: 22.3066, longitude: 114.2378 }, keywords: ['lam tin', '藍田', 'lam tin station'] },
+    { zh: '油塘', en: 'Yau Tong', coords: { latitude: 22.3019, longitude: 114.2373 }, keywords: ['yau tong', '油塘', 'yau tong station'] },
+    { zh: '調景嶺', en: 'Tiu Keng Leng', coords: { latitude: 22.3018, longitude: 114.2531 }, keywords: ['tiu keng leng', '調景嶺', 'tiu keng leng station'] },
+    
+    // New Territories - Tsuen Wan District
+    { zh: '荃灣', en: 'Tsuen Wan', coords: { latitude: 22.3742, longitude: 114.1192 }, keywords: ['tsuen wan', '荃灣', 'tsuen wan station', 'nina tower'] },
+    { zh: '荃灣西', en: 'Tsuen Wan West', coords: { latitude: 22.3742, longitude: 114.1192 }, keywords: ['tsuen wan west', '荃灣西', 'tsuen wan west station'] },
+    { zh: '深井', en: 'Sham Tseng', coords: { latitude: 22.3742, longitude: 114.1019 }, keywords: ['sham tseng', '深井', 'sham tseng station'] },
+    { zh: '汀九', en: 'Ting Kau', coords: { latitude: 22.3742, longitude: 114.1019 }, keywords: ['ting kau', '汀九', 'ting kau bridge'] },
+    { zh: '青衣', en: 'Tsing Yi', coords: { latitude: 22.3572, longitude: 114.1078 }, keywords: ['tsing yi', '青衣', 'tsing yi station'] },
+    { zh: '葵涌', en: 'Kwai Chung', coords: { latitude: 22.3572, longitude: 114.1331 }, keywords: ['kwai chung', '葵涌', 'kwai hing', '葵興'] },
+    { zh: '葵興', en: 'Kwai Hing', coords: { latitude: 22.3619, longitude: 114.1331 }, keywords: ['kwai hing', '葵興', 'kwai hing station'] },
+    { zh: '葵芳', en: 'Kwai Fong', coords: { latitude: 22.3572, longitude: 114.1331 }, keywords: ['kwai fong', '葵芳', 'kwai fong station'] },
+    { zh: '大窩口', en: 'Tai Wo Hau', coords: { latitude: 22.3721, longitude: 114.1239 }, keywords: ['tai wo hau', '大窩口', 'tai wo hau station'] },
+    
+    // New Territories - Sha Tin District
+    { zh: '沙田', en: 'Sha Tin', coords: { latitude: 22.3794, longitude: 114.2022 }, keywords: ['sha tin', 'shatin', '沙田', 'new town plaza', '新城市廣場'] },
+    { zh: '沙田市中心', en: 'Sha Tin Town Centre', coords: { latitude: 22.3794, longitude: 114.2022 }, keywords: ['sha tin town centre', '沙田市中心', 'sha tin station'] },
+    { zh: '大圍', en: 'Tai Wai', coords: { latitude: 22.3728, longitude: 114.1789 }, keywords: ['tai wai', '大圍', 'tai wai station'] },
+    { zh: '車公廟', en: 'Che Kung Temple', coords: { latitude: 22.3728, longitude: 114.1789 }, keywords: ['che kung temple', '車公廟', 'che kung temple station'] },
+    { zh: '沙田圍', en: 'Sha Tin Wai', coords: { latitude: 22.3728, longitude: 114.1866 }, keywords: ['sha tin wai', '沙田圍', 'sha tin wai station'] },
+    { zh: '城門河', en: 'Shing Mun River', coords: { latitude: 22.3728, longitude: 114.1866 }, keywords: ['shing mun river', '城門河', 'shing mun river station'] },
+    { zh: '石門', en: 'Shek Mun', coords: { latitude: 22.3889, longitude: 114.2056 }, keywords: ['shek mun', '石門', 'shek mun station'] },
+    { zh: '第一城', en: 'City One', coords: { latitude: 22.3889, longitude: 114.2056 }, keywords: ['city one', '第一城', 'city one shatin'] },
+    { zh: '火炭', en: 'Fo Tan', coords: { latitude: 22.3972, longitude: 114.2081 }, keywords: ['fo tan', '火炭', 'fo tan station'] },
+    { zh: '馬料水', en: 'Ma Liu Shui', coords: { latitude: 22.4194, longitude: 114.2083 }, keywords: ['ma liu shui', '馬料水', 'university station', 'cuhk'] },
+    { zh: '大學', en: 'University', coords: { latitude: 22.4194, longitude: 114.2083 }, keywords: ['university', '大學', 'university station', 'cuhk'] },
+    { zh: '馬鞍山', en: 'Ma On Shan', coords: { latitude: 22.4250, longitude: 114.2350 }, keywords: ['ma on shan', 'mos', '馬鞍山', 'ma on shan station'] },
+    { zh: '烏溪沙', en: 'Wu Kai Sha', coords: { latitude: 22.4250, longitude: 114.2556 }, keywords: ['wu kai sha', '烏溪沙', 'wu kai sha station'] },
+    { zh: '恒安', en: 'Heng On', coords: { latitude: 22.4250, longitude: 114.2350 }, keywords: ['heng on', '恒安', 'heng on station'] },
+    
+    // New Territories - Tai Po District
+    { zh: '大埔', en: 'Tai Po', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po', '大埔', 'tai po market', '大埔墟'] },
+    { zh: '大埔墟', en: 'Tai Po Market', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po market', '大埔墟', 'tai po market station'] },
+    { zh: '大埔中心', en: 'Tai Po Centre', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po centre', '大埔中心', 'tai po central'] },
+    { zh: '大埔滘', en: 'Tai Po Kau', coords: { latitude: 22.4556, longitude: 114.1761 }, keywords: ['tai po kau', '大埔滘', 'tai po kau station'] },
+    { zh: '太和', en: 'Tai Wo', coords: { latitude: 22.4722, longitude: 114.1653 }, keywords: ['tai wo', '太和', 'tai wo station'] },
+    { zh: '元朗公路', en: 'Yuen Long Highway', coords: { latitude: 22.4722, longitude: 114.1653 }, keywords: ['yuen long highway', '元朗公路'] },
+    
+    // New Territories - North District
+    { zh: '粉嶺', en: 'Fanling', coords: { latitude: 22.4942, longitude: 114.1386 }, keywords: ['fanling', '粉嶺', 'fanling station'] },
+    { zh: '上水', en: 'Sheung Shui', coords: { latitude: 22.5005, longitude: 114.1245 }, keywords: ['sheung shui', '上水', 'sheung shui station'] },
+    { zh: '羅湖', en: 'Lo Wu', coords: { latitude: 22.5281, longitude: 114.1133 }, keywords: ['lo wu', '羅湖', 'lo wu station', 'border'] },
+    { zh: '落馬洲', en: 'Lok Ma Chau', coords: { latitude: 22.5281, longitude: 114.0653 }, keywords: ['lok ma chau', '落馬洲', 'lok ma chau station'] },
+    
+    // New Territories - Yuen Long District
+    { zh: '元朗', en: 'Yuen Long', coords: { latitude: 22.4385, longitude: 114.0322 }, keywords: ['yuen long', '元朗', 'yuen long station', 'yoho mall'] },
+    { zh: '朗屏', en: 'Long Ping', coords: { latitude: 22.4385, longitude: 114.0322 }, keywords: ['long ping', '朗屏', 'long ping station'] },
+    { zh: '天水圍', en: 'Tin Shui Wai', coords: { latitude: 22.4681, longitude: 114.0011 }, keywords: ['tin shui wai', '天水圍', 'tin shui wai station'] },
+    { zh: '兆康', en: 'Siu Hong', coords: { latitude: 22.4681, longitude: 114.0011 }, keywords: ['siu hong', '兆康', 'siu hong station'] },
+    { zh: '天逸', en: 'Tin Yat', coords: { latitude: 22.4681, longitude: 114.0011 }, keywords: ['tin yat', '天逸', 'tin yat estate'] },
+    { zh: '錦上路', en: 'Kam Sheung Road', coords: { latitude: 22.4264, longitude: 114.0636 }, keywords: ['kam sheung road', '錦上路', 'kam sheung road station'] },
+    
+    // New Territories - Tuen Mun District
+    { zh: '屯門', en: 'Tuen Mun', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['tuen mun', '屯門', 'tuen mun station', 'town plaza'] },
+    { zh: '屯門市中心', en: 'Tuen Mun Town Centre', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['tuen mun town centre', '屯門市中心', 'tuen mun central'] },
+    { zh: '兆康', en: 'Siu Hong', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['siu hong', '兆康', 'siu hong station'] },
+    { zh: '天水圍', en: 'Tin Shui Wai', coords: { latitude: 22.4681, longitude: 114.0011 }, keywords: ['tin shui wai', '天水圍', 'tin shui wai station'] },
+    { zh: '輕鐵', en: 'Light Rail', coords: { latitude: 22.4042, longitude: 113.9762 }, keywords: ['light rail', '輕鐵', 'lrt'] },
+    
+    // New Territories - Sai Kung District
+    { zh: '將軍澳', en: 'Tseung Kwan O', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['tseung kwan o', 'tko', '將軍澳', 'tko station'] },
+    { zh: '寶琳', en: 'Po Lam', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['po lam', '寶琳', 'po lam station'] },
+    { zh: '坑口', en: 'Hang Hau', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['hang hau', '坑口', 'hang hau station'] },
+    { zh: '將軍澳市中心', en: 'Tseung Kwan O Town Centre', coords: { latitude: 22.3146, longitude: 114.2631 }, keywords: ['tseung kwan o town centre', '將軍澳市中心', 'tko town centre'] },
+    { zh: '康城', en: 'Lohas Park', coords: { latitude: 22.3146, longitude: 114.2756 }, keywords: ['lohas park', '康城', 'lohas park station'] },
+    { zh: '西貢', en: 'Sai Kung', coords: { latitude: 22.3817, longitude: 114.2747 }, keywords: ['sai kung', '西貢', 'sai kung town'] },
+    { zh: '清水灣', en: 'Clear Water Bay', coords: { latitude: 22.3146, longitude: 114.2756 }, keywords: ['clear water bay', '清水灣', 'clearwater bay'] },
+    
+    // New Territories - Islands District
+    { zh: '東涌', en: 'Tung Chung', coords: { latitude: 22.2868, longitude: 113.9422 }, keywords: ['tung chung', '東涌', 'tung chung station', '機場', 'airport'] },
+    { zh: '機場', en: 'Airport', coords: { latitude: 22.3080, longitude: 113.9185 }, keywords: ['airport', '機場', 'hkia', 'hong kong international airport'] },
+    { zh: '博覽館', en: 'AsiaWorld-Expo', coords: { latitude: 22.3223, longitude: 113.9424 }, keywords: ['asiaworld-expo', '博覽館', 'asiaworld expo station'] },
+    { zh: '中環碼頭', en: 'Central Pier', coords: { latitude: 22.2876, longitude: 114.1603 }, keywords: ['central pier', '中環碼頭', 'star ferry pier'] },
+    { zh: '迪士尼', en: 'Disneyland', coords: { latitude: 22.3129, longitude: 114.0434 }, keywords: ['disneyland', '迪士尼', 'disneyland resort station', 'disney'] },
+    { zh: '愉景灣', en: 'Discovery Bay', coords: { latitude: 22.2868, longitude: 114.0422 }, keywords: ['discovery bay', '愉景灣', 'db'] },
+    { zh: '長洲', en: 'Cheung Chau', coords: { latitude: 22.2086, longitude: 114.0289 }, keywords: ['cheung chau', '長洲', 'cheung chau ferry'] },
+    { zh: '南丫島', en: 'Lamma Island', coords: { latitude: 22.2086, longitude: 114.1289 }, keywords: ['lamma island', '南丫島', 'lamma'] },
+    { zh: '梅窩', en: 'Mui Wo', coords: { latitude: 22.2586, longitude: 113.9889 }, keywords: ['mui wo', '梅窩', 'silvermine bay'] },
+    { zh: '大嶼山', en: 'Lantau Island', coords: { latitude: 22.2586, longitude: 113.9889 }, keywords: ['lantau island', '大嶼山', 'lantau'] },
+    
+    // Additional Major Shopping Areas and Landmarks
+    { zh: '海港城', en: 'Harbour City', coords: { latitude: 22.2976, longitude: 114.1722 }, keywords: ['harbour city', '海港城', 'canton road'] },
+    { zh: '時代廣場', en: 'Times Square', coords: { latitude: 22.2800, longitude: 114.1860 }, keywords: ['times square', '時代廣場', 'causeway bay'] },
+    { zh: '太古廣場', en: 'Pacific Place', coords: { latitude: 22.2779, longitude: 114.1652 }, keywords: ['pacific place', '太古廣場', 'admiralty'] },
+    { zh: '國際金融中心', en: 'IFC', coords: { latitude: 22.2783, longitude: 114.1747 }, keywords: ['ifc', '國際金融中心', 'international finance centre'] },
+    { zh: '朗豪坊', en: 'Langham Place', coords: { latitude: 22.3193, longitude: 114.1694 }, keywords: ['langham place', '朗豪坊', 'mong kok'] },
+    { zh: '新城市廣場', en: 'New Town Plaza', coords: { latitude: 22.3794, longitude: 114.2022 }, keywords: ['new town plaza', '新城市廣場', 'sha tin'] },
+    { zh: '圓方', en: 'Elements', coords: { latitude: 22.3028, longitude: 114.1613 }, keywords: ['elements', '圓方', 'kowloon station'] },
+    { zh: '又一城', en: 'Festival Walk', coords: { latitude: 22.3370, longitude: 114.1760 }, keywords: ['festival walk', '又一城', 'kowloon tong'] }
 ];
 
 function showAddressSuggestions(query) {
@@ -1390,8 +1538,15 @@ function startWaitingTimeUpdates() {
     }, 60000); // 60 seconds
 }
 
-// Emergency 999 functions
+// Emergency 999 functions (only if feature is enabled)
 function setupEmergency999Elements() {
+    if (!config.features.emergencyBanner) {
+        // Hide emergency elements if feature is disabled
+        document.getElementById('emergency-999-banner').style.display = 'none';
+        document.getElementById('emergency-999-location').style.display = 'none';
+        document.getElementById('emergency-999-before-list').style.display = 'none';
+        return;
+    }
     const t = langContent[currentLanguage];
     
     // Setup banner
@@ -1420,14 +1575,16 @@ function setupEmergency999Elements() {
         hideEmergency999Modal();
     };
     
-    // Show modal for first-time visitors
-    if (!localStorage.getItem('emergency999Acknowledged')) {
+    // Show modal for first-time visitors (only if feature enabled)
+    if (config.features.emergencyBanner && !localStorage.getItem('emergency999Acknowledged')) {
         showEmergency999Modal();
     }
 }
 
 function showEmergency999Modal() {
-    document.getElementById('emergency-999-modal').classList.remove('hidden');
+    if (config.features.emergencyBanner) {
+        document.getElementById('emergency-999-modal').classList.remove('hidden');
+    }
 }
 
 function hideEmergency999Modal() {
