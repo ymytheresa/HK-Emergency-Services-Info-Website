@@ -6,14 +6,12 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/assets/styles.css',
-  '/assets/app.js',
-  '/assets/data.js',
-  '/assets/lang.js',
-  '/assets/site-config.js',
   '/assets/icon.png',
+  '/manifest.json',
   '/hospitals/queen-mary-hospital.html',
   '/hospitals/gleneagles-hospital.html',
-  // Add key hospital pages for offline access
+  '/hospitals/princess-margaret-hospital.html',
+  '/hospitals/union-hospital.html',
   'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap'
 ];
 
@@ -23,7 +21,14 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        // Cache files individually to avoid failures if some don't exist
+        return Promise.all(
+          urlsToCache.map(url => {
+            return cache.add(url).catch(err => {
+              console.log('Failed to cache:', url, err);
+            });
+          })
+        );
       })
   );
 });
@@ -34,7 +39,19 @@ self.addEventListener('fetch', event => {
     caches.match(event.request)
       .then(response => {
         // Return cached version or fetch from network
-        return response || fetch(event.request);
+        if (response) {
+          return response;
+        }
+        // Only fetch if it's a valid HTTP/HTTPS request
+        if (event.request.url.startsWith('http')) {
+          return fetch(event.request).catch(() => {
+            // Return a basic response for failed fetches
+            return new Response('Offline - Content not available', {
+              status: 503,
+              statusText: 'Service Unavailable'
+            });
+          });
+        }
       })
   );
 });
