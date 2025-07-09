@@ -4,62 +4,62 @@
     
     <!-- Main page -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/</loc>
+        <loc>https://hkemergencyservices.help/</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
-        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/"/>
-        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/"/>
+        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hkemergencyservices.help/"/>
+        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hkemergencyservices.help/"/>
     </url>
     
     <!-- Major Public Hospitals -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/queen-mary-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/queen-mary-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/queen-mary-hospital.html"/>
-        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/queen-mary-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hkemergencyservices.help/hospitals/queen-mary-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hkemergencyservices.help/hospitals/queen-mary-hospital.html"/>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/princess-margaret-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/princess-margaret-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/princess-margaret-hospital.html"/>
-        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/princess-margaret-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hkemergencyservices.help/hospitals/princess-margaret-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hkemergencyservices.help/hospitals/princess-margaret-hospital.html"/>
     </url>
     
     <!-- Major Private Hospitals -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/gleneagles-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/gleneagles-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/gleneagles-hospital.html"/>
-        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/gleneagles-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hkemergencyservices.help/hospitals/gleneagles-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hkemergencyservices.help/hospitals/gleneagles-hospital.html"/>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/union-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/union-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
-        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/union-hospital.html"/>
-        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/hospitals/union-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="zh-hk" href="https://hkemergencyservices.help/hospitals/union-hospital.html"/>
+        <xhtml:link rel="alternate" hreflang="en-hk" href="https://hkemergencyservices.help/hospitals/union-hospital.html"/>
     </url>
     
     <!-- Public Hospitals - Hong Kong Island -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/pamela-youde-nethersole-eastern-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/pamela-youde-nethersole-eastern-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/ruttonjee-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/ruttonjee-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -67,35 +67,35 @@
     
     <!-- Public Hospitals - Kowloon -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/queen-elizabeth-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/queen-elizabeth-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/princess-margaret-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/princess-margaret-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/caritas-medical-centre.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/caritas-medical-centre.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/kwong-wah-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/kwong-wah-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/united-christian-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/united-christian-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -103,70 +103,70 @@
     
     <!-- Public Hospitals - New Territories -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/prince-of-wales-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/prince-of-wales-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/tuen-mun-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/tuen-mun-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/alice-ho-miu-ling-nethersole-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/alice-ho-miu-ling-nethersole-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/north-district-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/north-district-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/pok-oi-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/pok-oi-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/yan-chai-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/yan-chai-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/tseung-kwan-o-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/tseung-kwan-o-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/tin-shui-wai-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/tin-shui-wai-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/north-lantau-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/north-lantau-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/st-john-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/st-john-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -174,42 +174,42 @@
     
     <!-- Private Hospitals -->
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/union-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/union-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/cuhk-medical-centre.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/cuhk-medical-centre.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/hong-kong-adventist-hospital-stubbs-road.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/hong-kong-adventist-hospital-stubbs-road.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/hong-kong-adventist-hospital-tsuen-wan.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/hong-kong-adventist-hospital-tsuen-wan.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/hong-kong-sanatorium-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/hong-kong-sanatorium-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://hk-emergency-services-info-website.pages.dev/hospitals/hong-kong-baptist-hospital.html</loc>
+        <loc>https://hkemergencyservices.help/hospitals/hong-kong-baptist-hospital.html</loc>
         <lastmod>2025-07-09</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>

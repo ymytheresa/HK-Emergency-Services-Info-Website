@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://hk-emergency-services-info-website.pages.dev/sitemap.xml
+Sitemap: https://hkemergencyservices.help/sitemap.xml
 
 # Disallow potentially sensitive paths
 Disallow: /assets/data.js
