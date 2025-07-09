@@ -4,6 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>香港次緊急及非緊急急症服務指南 | HK Semi-urgent and Non-urgent Emergency Service Guide</title>
+    <meta name="description" content="香港急症服務指南：快速尋找最近的醫院、比較等候時間及收費。包括公立及私家醫院急症室資訊。Hong Kong emergency services guide: find nearest hospitals, compare waiting times and costs for public and private emergency departments.">
+    <meta name="keywords" content="香港急症室,香港醫院,急症服務,等候時間,醫院收費,Hong Kong emergency,hospital finder,emergency department,waiting time,medical costs">
+    <meta name="author" content="HK Emergency Services Guide">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hk-emergency-services-info-website.pages.dev/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hk-emergency-services-info-website.pages.dev/">
+    <meta property="og:title" content="香港急症服務指南 | Hong Kong Emergency Services Guide">
+    <meta property="og:description" content="快速尋找最近的醫院、比較等候時間及收費。包括公立及私家醫院急症室資訊。Find nearest hospitals, compare waiting times and costs.">
+    <meta property="og:image" content="https://hk-emergency-services-info-website.pages.dev/assets/icon.png">
+    <meta property="og:locale" content="zh_HK">
+    <meta property="og:locale:alternate" content="en_HK">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://hk-emergency-services-info-website.pages.dev/">
+    <meta property="twitter:title" content="香港急症服務指南 | Hong Kong Emergency Services Guide">
+    <meta property="twitter:description" content="快速尋找最近的醫院、比較等候時間及收費。包括公立及私家醫院急症室資訊。">
+    <meta property="twitter:image" content="https://hk-emergency-services-info-website.pages.dev/assets/icon.png">
+    
+    <!-- Hreflang tags -->
+    <link rel="alternate" hreflang="zh-hk" href="https://hk-emergency-services-info-website.pages.dev/">
+    <link rel="alternate" hreflang="en-hk" href="https://hk-emergency-services-info-website.pages.dev/">
+    <link rel="alternate" hreflang="x-default" href="https://hk-emergency-services-info-website.pages.dev/">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "香港急症服務指南",
+        "alternateName": "Hong Kong Emergency Services Guide",
+        "url": "https://hk-emergency-services-info-website.pages.dev/",
+        "description": "香港急症服務指南：快速尋找最近的醫院、比較等候時間及收費。包括公立及私家醫院急症室資訊。",
+        "inLanguage": ["zh-HK", "en-HK"],
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hk-emergency-services-info-website.pages.dev/#location-finder",
+            "query-input": "required name=search_term_string"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "HK Emergency Services Guide",
+            "url": "https://hk-emergency-services-info-website.pages.dev/"
+        }
+    }
+    </script>
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "什麼情況下應該去急症室？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "出現危及生命的緊急情況時應立即前往急症室，包括：嚴重胸痛、呼吸困難、意識不清、大量出血、嚴重創傷等。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "公立醫院和私家醫院急症室有什麼分別？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "公立醫院急症室按醫療需要分流，費用較低但等候時間較長。私家醫院急症室收費較高但等候時間較短，服務環境較佳。"
+                }
+            }
+        ]
+    }
+    </script>
     
     <!-- Favicon and Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icon.png">
@@ -11,7 +86,29 @@
     <link rel="apple-touch-icon" href="assets/icon.png">
     <link rel="shortcut icon" href="assets/icon.png">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#dc2626">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="HK Emergency">
+    
+    <!-- Optimized CSS Loading -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

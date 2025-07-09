@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://hk-emergency-services-info-website.pages.dev/sitemap.xml
+
+# Disallow potentially sensitive paths
+Disallow: /assets/data.js
+Disallow: /assets/app.js
+Disallow: /assets/lang.js
+Disallow: /assets/site-config.js
+
+# Allow important assets
+Allow: /assets/icon.png
+Allow: /assets/styles.css
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

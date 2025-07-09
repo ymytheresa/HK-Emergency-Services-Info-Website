@@ -1,0 +1,66 @@
+{
+  "name": "香港急症服務指南",
+  "short_name": "HK Emergency",
+  "description": "香港急症服務指南：快速尋找最近的醫院、比較等候時間及收費",
+  "lang": "zh-HK",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#dc2626",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["health", "medical", "emergency"],
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find Nearest Hospital",
+      "short_name": "Find Hospital",
+      "description": "Quick access to hospital finder",
+      "url": "/#location-finder",
+      "icons": [
+        {
+          "src": "assets/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Emergency Call 999",
+      "short_name": "Call 999",
+      "description": "Emergency services contact",
+      "url": "tel:999",
+      "icons": [
+        {
+          "src": "assets/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://hk-emergency-services-info-website.pages.dev/"
+    }
+  ]
+}

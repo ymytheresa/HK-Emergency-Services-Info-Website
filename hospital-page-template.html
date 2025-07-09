@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{HOSPITAL_NAME_ZH}}急症室 | {{HOSPITAL_NAME_EN}} A&E - {{REGION_DESCRIPTION}}</title>
+    <meta name="description" content="{{HOSPITAL_NAME_ZH}}24小時急症室資訊：地址、電話、等候時間、專科服務。{{DESCRIPTION_ZH}}。{{HOSPITAL_NAME_EN}} {{DESCRIPTION_EN}}.">
+    <meta name="keywords" content="{{HOSPITAL_NAME_ZH}},{{HOSPITAL_NAME_EN}},急症室,A&E,{{REGION_ZH}},{{REGION_EN}},{{ADDITIONAL_KEYWORDS}}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html">
+    
+    <!-- Hreflang tags -->
+    <link rel="alternate" hreflang="zh-hk" href="https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html">
+    <link rel="alternate" hreflang="en-hk" href="https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html">
+    <link rel="alternate" hreflang="x-default" href="https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Hospital",
+        "name": "{{HOSPITAL_NAME_EN}}",
+        "alternateName": "{{HOSPITAL_NAME_ZH}}",
+        "url": "https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html",
+        "telephone": "+852-{{PHONE}}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ADDRESS_EN}}",
+            "addressLocality": "{{LOCALITY}}",
+            "addressRegion": "{{REGION_EN}}",
+            "addressCountry": "HK"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": {{LATITUDE}},
+            "longitude": {{LONGITUDE}}
+        },
+        "openingHours": "{{OPENING_HOURS}}",
+        {{PRICE_RANGE}}
+        "medicalSpecialty": [{{SPECIALTIES}}],
+        {{PAYMENT_METHODS}}
+        "department": {
+            "@type": "MedicalOrganization",
+            "name": "{{DEPARTMENT_TYPE}}",
+            "alternateName": "{{DEPARTMENT_TYPE_ZH}}"
+        }
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "香港急症服務指南",
+                "item": "https://{{DOMAIN}}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "醫院",
+                "item": "https://{{DOMAIN}}/#hospital-browser"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{HOSPITAL_NAME_ZH}}",
+                "item": "https://{{DOMAIN}}/hospitals/{{HOSPITAL_ID}}.html"
+            }
+        ]
+    }
+    </script>
+    
+    <link rel="icon" type="image/png" href="../assets/icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#dc2626">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body class="antialiased">
+    <nav class="bg-gray-100 p-4 text-sm">
+        <div class="container mx-auto">
+            <a href="../index.html" class="text-blue-600 hover:text-blue-800">← 返回主頁 Back to Home</a>
+            <span class="mx-2">|</span>
+            <a href="../index.html#hospital-browser" class="text-blue-600 hover:text-blue-800">所有醫院 All Hospitals</a>
+        </div>
+    </nav>
+
+    <header class="bg-gradient-to-r {{HEADER_GRADIENT}} text-white py-6">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl md:text-4xl font-bold">{{HOSPITAL_NAME_ZH}}急症室</h1>
+            <p class="text-lg mt-2">{{HOSPITAL_NAME_EN}} A&E</p>
+            <p class="text-sm mt-1 opacity-90">{{SUBTITLE_ZH}} | {{SUBTITLE_EN}}</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Emergency 999 Banner -->
+        <div class="bg-red-600 text-white p-4 rounded-lg mb-8 text-center">
+            <p class="font-bold">🚨 緊急情況請致電 999 | For Life-threatening Emergencies Call 999</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Hospital Information -->
+            <div class="lg:col-span-2">
+                <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">醫院資訊 | Hospital Information</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">地址 | Address</h3>
+                            <p class="text-gray-600">{{ADDRESS_ZH}}</p>
+                            <p class="text-gray-600">{{ADDRESS_EN}}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">電話 | Phone</h3>
+                            <p class="text-blue-600 font-medium">{{PHONE_FORMATTED}}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">服務時間 | Hours</h3>
+                            <p class="text-green-600 font-medium">{{HOURS_ZH}}</p>
+                            <p class="text-green-600 font-medium">{{HOURS_EN}}</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">醫院類別 | Type</h3>
+                            <p class="{{SECTOR_COLOR}}">{{SECTOR_ZH}} {{SECTOR_EN}}</p>
+                            {{TIER_INFO}}
+                        </div>
+                    </div>
+                </section>
+
+                {{PRICING_SECTION}}
+
+                <section class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">專科服務 | Specialist Services</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {{SPECIALIST_SERVICES}}
+                    </div>
+                </section>
+
+                <section class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">醫院詳情 | Hospital Details</h2>
+                    <p class="text-gray-600 mb-4">{{DETAILS_ZH}}</p>
+                    <p class="text-gray-600">{{DETAILS_EN}}</p>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                {{APP_SECTION}}
+
+                <section class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4">相關連結 | Related Links</h2>
+                    <div class="space-y-2">
+                        <a href="../index.html" class="block text-blue-600 hover:text-blue-800 text-sm">
+                            🏠 主頁 Home Page
+                        </a>
+                        <a href="../index.html#location-finder" class="block text-blue-600 hover:text-blue-800 text-sm">
+                            📍 尋找最近醫院 Find Nearest Hospital
+                        </a>
+                        <a href="../index.html#cost-comparison" class="block text-blue-600 hover:text-blue-800 text-sm">
+                            💰 費用比較 Cost Comparison
+                        </a>
+                        <a href="../index.html#hospital-browser" class="block text-blue-600 hover:text-blue-800 text-sm">
+                            🏥 所有醫院 All Hospitals
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-100 text-center py-6 mt-12">
+        <p class="text-sm text-gray-600">
+            資料僅供參考，緊急情況請致電999 | Information for reference only, call 999 for emergencies
+        </p>
+        <p class="text-xs text-gray-500 mt-2">
+            © 2025 香港急症服務指南 | HK Emergency Services Guide
+        </p>
+    </footer>
+</body>
+</html>
